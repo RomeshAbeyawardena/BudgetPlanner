@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DNI.Shared.Services" Version="1.0.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetPlanner.Data\BudgetPlanner.Data.csproj" />
+    <ProjectReference Include="..\BudgetPlanner.Services\BudgetPlanner.Services.csproj" />
+  </ItemGroup>
+
+</Project>

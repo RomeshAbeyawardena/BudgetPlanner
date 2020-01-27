@@ -1,0 +1,7 @@
+﻿@model BudgetPanelDashboardViewModel
+
+
+@foreach (var budgetPlanner in Model.BudgetPlanners)
+{
+    await Component.InvokeAsync<BudgetPlannerViewComponent>(budgetPlanner);
+}

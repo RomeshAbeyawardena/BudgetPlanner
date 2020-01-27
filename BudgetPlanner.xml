@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<installation installDirectory="C:/source/repos" projectName="BudgetPlanner">
+  <projects>
+    <project name="BudgetPlanner.Web" path="C:/source/repos\BudgetPlanner\BudgetPlanner.Web" />
+    <project name="BudgetPlanner.Broker" path="C:/source/repos\BudgetPlanner\BudgetPlanner.Broker" />
+    <project name="BudgetPlanner.Contracts" path="C:/source/repos\BudgetPlanner\BudgetPlanner.Contracts" />
+    <project name="BudgetPlanner.Data" path="C:/source/repos\BudgetPlanner\BudgetPlanner.Data" />
+    <project name="BudgetPlanner.Domains" path="C:/source/repos\BudgetPlanner\BudgetPlanner.Domains" />
+    <project name="BudgetPlanner.Services" path="C:/source/repos\BudgetPlanner\BudgetPlanner.Services" />
+    <project name="BudgetPlanner.Shared" path="C:/source/repos\BudgetPlanner\BudgetPlanner.Shared" />
+  </projects>
+</installation>
