@@ -1,0 +1,22 @@
+﻿@model CreateBudgetPlannerViewModel
+
+@section headSection {
+
+}
+
+@using (Html.BeginForm("Create", "Budget", FormMethod.Post))
+{
+    
+    @Html.HiddenFor(model => model.Id)
+
+    @Html.LabelFor(model => model.Reference)
+    @Html.TextBoxFor(model => model.Reference)
+
+    @Html.LabelFor(model => model.Active)
+    @Html.CheckBoxFor(model => model.Active)
+
+    @Html.HiddenFor(model => model.Created)
+    @Html.HiddenFor(model => model.LastUpdated)
+
+    <button type="submit" value="Create" />
+}

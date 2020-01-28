@@ -1,7 +1,13 @@
 ﻿@model BudgetPanelDashboardViewModel
 
-
-@foreach (var budgetPlanner in Model.BudgetPlanners)
+@if(Model.BudgetPlanners.Any())
+{ 
+    @foreach (var budgetPlanner in Model.BudgetPlanners)
+    {
+        await Component.InvokeAsync<BudgetPlannerViewComponent>(budgetPlanner);
+    }
+}
+else
 {
-    await Component.InvokeAsync<BudgetPlannerViewComponent>(budgetPlanner);
+    <p>No Budget Planners available @Html.ActionLink("Create one", "Create", "Budget")</p>
 }

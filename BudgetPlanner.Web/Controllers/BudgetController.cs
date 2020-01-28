@@ -23,5 +23,20 @@ namespace BudgetPlanner.Web.Controllers
             var budgetPlannerDetailsViewModel = Map<Budget, BudgetPlannerDetailsViewModel>(response.BudgetPlanner);
             return View(budgetPlannerDetailsViewModel);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Create()
+        {
+            return View(new CreateBudgetPlannerViewModel());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(CreateBudgetPlannerViewModel createBudgetPlannerViewModel)
+        {
+            var response = await MediatorService
+                .Send<ValidateBudgetPlannerReferenceResponse, ValidateBudgetPlannerReferenceRequest>(
+                    new ValidateBudgetPlannerReferenceRequest { UniqueReference = createBudgetPlannerViewModel.Reference } );
+            return View();
+        }
     }
 }
