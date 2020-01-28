@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
 using DNI.Shared.Contracts;
 using MediatR;
@@ -17,6 +18,9 @@ namespace BudgetPlanner.Services
         public void RegisterServices(IServiceCollection services)
         {
             services
+                .AddSingleton<ApplicationSettings>()
+                .AddTransient<IBudgetPlannerService, BudgetPlannerService>()
+                .AddTransient<ITransactionService, TransactionService>()
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)));
         }
