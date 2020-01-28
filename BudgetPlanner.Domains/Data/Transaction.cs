@@ -15,5 +15,7 @@ namespace BudgetPlanner.Domains.Data
         public bool Active { get; set; }
         public int BudgetId { get; set; }
         public DateTime Created { get; set; }
+        public int TypeId { get; set; }
+        public decimal Amount { get; set; }
     }
 }

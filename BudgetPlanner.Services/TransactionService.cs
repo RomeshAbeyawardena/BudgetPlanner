@@ -1,5 +1,6 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
+using BudgetPlanner.Domains.Enumerations;
 using DNI.Shared.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,6 +27,26 @@ namespace BudgetPlanner.Services
                                     select transaction;
 
             return await transactionQuery.ToArrayAsync();
+        }
+
+        public async Task<decimal> GetBalance(int budgetId)
+        {
+            var transactionQuery = from transaction in DefaultTransactionQuery
+                                   where transaction.BudgetId == budgetId
+                                   select transaction;
+
+            var transactionIncomeQuery = from transaction in transactionQuery
+                                         where transaction.TypeId == (int)TransactionType.Income
+                                         select transaction;
+
+            var transactionOutgoingQuery = from transaction in transactionQuery
+                                           where transaction.TypeId == (int)TransactionType.Outgoing
+                                           select transaction;
+
+            var income = transactionIncomeQuery.SumAsync(transaction => transaction.Amount);
+            var outgoings = transactionOutgoingQuery.SumAsync(transaction => transaction.Amount);
+            
+            return await income - await outgoings;
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)

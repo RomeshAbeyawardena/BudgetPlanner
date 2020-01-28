@@ -10,5 +10,6 @@ namespace BudgetPlanner.Contracts.Services
     public interface ITransactionService
     {
         Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate);
+        Task<decimal> GetBalance(int budgetId);
     }
 }
