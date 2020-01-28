@@ -29,24 +29,19 @@ namespace BudgetPlanner.Services
             return await transactionQuery.ToArrayAsync();
         }
 
-        public async Task<decimal> GetBalance(int budgetId)
+        public async Task<decimal> GetTotal(int budgetId, Domains.Enumerations.TransactionType transactionType)
         {
             var transactionQuery = from transaction in DefaultTransactionQuery
                                    where transaction.BudgetId == budgetId
                                    select transaction;
 
-            var transactionIncomeQuery = from transaction in transactionQuery
-                                         where transaction.TransactionTypeId == (int)TransactionType.Income
+            var transactionTypeId = (int)transactionType;
+
+            var transactionSumQuery = from transaction in transactionQuery
+                                         where transaction.TransactionTypeId == transactionTypeId
                                          select transaction;
 
-            var transactionOutgoingQuery = from transaction in transactionQuery
-                                           where transaction.TransactionTypeId == (int)TransactionType.Outgoing
-                                           select transaction;
-
-            var income = await transactionIncomeQuery.SumAsync(transaction => transaction.Amount);
-            var outgoings = await transactionOutgoingQuery.SumAsync(transaction => transaction.Amount);
-            
-            return income - outgoings;
+            return await transactionSumQuery.SumAsync(transaction => transaction.Amount);
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)

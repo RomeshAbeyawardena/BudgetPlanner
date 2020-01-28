@@ -22,6 +22,7 @@ namespace BudgetPlanner.Services
                 .AddSingleton<ApplicationSettings>()
                 .AddTransient<IBudgetPlannerService, BudgetPlannerService>()
                 .AddTransient<ITransactionService, TransactionService>()
+                .AddTransient<ITransactionTypeService, TransactionTypeService>()
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)));
         }

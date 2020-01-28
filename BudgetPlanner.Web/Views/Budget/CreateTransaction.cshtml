@@ -1,0 +1,10 @@
+﻿@model AddBudgetTransactionViewModel
+
+@using (Html.BeginForm("CreateTransaction", "Budget"))
+{
+    @Html.LabelFor(model => model.TransactionTypeId)
+    @Html.ListBoxFor(model => model.TransactionTypeId, Model.TransactionTypes)
+
+    @Html.LabelFor(model => model.Amount)
+    @Html.TextBoxFor(model => model.Amount, "0.00")
+}

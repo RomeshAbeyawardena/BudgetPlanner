@@ -4,6 +4,7 @@ using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,17 @@ namespace BudgetPlanner.Web.Controllers
                 return RedirectToAction("Details", "Budget", new { reference = createBudgetPlannerViewModel.Reference });
 
             return View(createBudgetPlannerViewModel);
+        }
+
+        [HttpGet, Route("/[controller]/Details/{reference}/Create")]
+        public async Task<ActionResult> CreateTransaction(string reference)
+        {
+            var response = await MediatorService
+                .Send<RetrieveTransactionTypesResponse,RetrieveTransactionTypesRequest>(new RetrieveTransactionTypesRequest());
+
+            return View(new AddBudgetTransactionViewModel { 
+                Active = true,
+                TransactionTypes = new SelectList(response.TransactionTypes, nameof(TransactionType.Id), nameof(TransactionType.Name)) });
         }
     }
 }

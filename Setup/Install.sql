@@ -47,5 +47,3 @@ CREATE TABLE [dbo].[Transaction]
 	,[Amount] DECIMAL(18,4) NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 )
-
-SELECT * FROM dbo.Budget
