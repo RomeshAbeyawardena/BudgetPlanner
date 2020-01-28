@@ -10,6 +10,16 @@ namespace BudgetPlanner.Domains.Requests
 {
     public class CreateTransactionRequest : IRequest<CreateTransactionResponse>
     {
+        public int Id { get; set; }
+
+        public bool Active { get; set; }
         
+        public int BudgetId { get; set; }
+
+        public DateTimeOffset Created { get; set; }
+       
+        public int TransactionTypeId { get; set; }
+
+        public decimal Amount { get; set; }
     }
 }
