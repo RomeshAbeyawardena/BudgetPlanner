@@ -14,6 +14,7 @@ namespace BudgetPlanner.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
+            await Task.CompletedTask;
             return View(new HomeViewModel { LastUpdated = DateTime.Now.AddDays(-30) });
         }
 

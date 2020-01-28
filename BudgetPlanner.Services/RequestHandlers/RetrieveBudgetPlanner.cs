@@ -17,7 +17,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<RetrieveBudgetPlannerResponse> Handle(RetrieveBudgetPlannerRequest request, CancellationToken cancellationToken)
         {
-            return new RetrieveBudgetPlannerResponse { BudgetPlanner = _budgetPlannerService.GetBudgetPlanner(request.Reference) };
+            return new RetrieveBudgetPlannerResponse { BudgetPlanner = await _budgetPlannerService.GetBudgetPlanner(request.Reference) };
         }
 
         public RetrieveBudgetPlanner(IBudgetPlannerService budgetPlannerService)

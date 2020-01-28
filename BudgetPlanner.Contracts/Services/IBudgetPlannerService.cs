@@ -9,6 +9,6 @@ namespace BudgetPlanner.Contracts.Services
     public interface IBudgetPlannerService
     {
         Task<IEnumerable<Budget>> GetBudgetPlanners(DateTime lastUpdated);
-        Budget GetBudgetPlanner(string reference);
+        Task<Budget> GetBudgetPlanner(string reference);
     }
 }
