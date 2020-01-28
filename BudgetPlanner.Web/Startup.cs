@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DNI.Shared.Services.Extensions;
+using FluentValidation.AspNetCore;
+
 namespace BudgetPlanner.Web
 {
     public class Startup
@@ -18,7 +20,8 @@ namespace BudgetPlanner.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc();
+                .AddMvc()
+                .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssembly(ServiceBroker.DefaultAssembly));
 
             services
                 .RegisterServiceBroker<ServiceBroker>();

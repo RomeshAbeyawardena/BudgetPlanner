@@ -2,6 +2,7 @@
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
 using DNI.Shared.Contracts;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;

@@ -10,6 +10,14 @@ namespace BudgetPlanner.Domains.Requests
 {
     public class CreateBudgetPlannerRequest : IRequest<CreateBudgetPlannerResponse>
     {
-        
+        public int Id { get; set; }
+
+        public string Reference { get; set; }
+
+        public bool Active { get; set; }
+
+        public DateTimeOffset? LastUpdated { get; set; }
+
+        public DateTimeOffset Created { get; set; }
     }
 }
