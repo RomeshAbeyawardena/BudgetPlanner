@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DNI.Shared.Domains.Enumerations;
+using DNI.Shared.Services.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,8 +16,11 @@ namespace BudgetPlanner.Domains.Data
 
         public bool Active { get; set; }
         public int BudgetId { get; set; }
-        public DateTime Created { get; set; }
-        public int TypeId { get; set; }
+
+        [Modifier(ModifierFlag.Created)]
+        public DateTimeOffset Created { get; set; }
+        
+        public int TransactionTypeId { get; set; }
         public decimal Amount { get; set; }
     }
 }

@@ -16,24 +16,19 @@ namespace BudgetPlanner.Services.RequestHandlers
     {
         private readonly IMapperProvider _mapperProvider;
         private readonly IBudgetPlannerService _budgetPlannerService;
-        private readonly ITransactionService _transactionService;
 
         public async Task<RetrieveBudgetPlannersResponse> Handle(RetrieveBudgetPlannersRequest request, CancellationToken cancellationToken)
         {
             var budgetPlanners = await _budgetPlannerService.GetBudgetPlanners(request.LastUpdated);
             var budgets = _mapperProvider.Map<Domains.Data.Budget, Domains.Dto.Budget>(budgetPlanners);
 
-            foreach(var budget in budgets)
-                budget.Balance = await _transactionService.GetBalance(budget.Id);
-
             return new RetrieveBudgetPlannersResponse { BudgetPlanners = budgets };
         }
 
-        public RetrieveBudgetPlanners(IMapperProvider mapperProvider, IBudgetPlannerService budgetPlannerService, ITransactionService transactionService)
+        public RetrieveBudgetPlanners(IMapperProvider mapperProvider, IBudgetPlannerService budgetPlannerService)
         {
             _mapperProvider = mapperProvider;
             _budgetPlannerService = budgetPlannerService;
-            _transactionService = transactionService;
         }
     }
 }
