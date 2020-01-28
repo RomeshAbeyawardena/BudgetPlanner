@@ -4,7 +4,7 @@
 { 
     @foreach (var budgetPlanner in Model.BudgetPlanners)
     {
-        await Component.InvokeAsync<BudgetPlannerViewComponent>(budgetPlanner);
+        @await Html.PartialAsync("Partials/BudgetPanelDashboardItem" ,budgetPlanner)
     }
 }
 else

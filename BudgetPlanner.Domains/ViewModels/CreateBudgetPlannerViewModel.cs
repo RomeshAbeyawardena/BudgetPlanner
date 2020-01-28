@@ -16,6 +16,9 @@ namespace BudgetPlanner.Domains.ViewModels
         [Required, Display(Name = "Unique Reference"), MinLength(5), MaxLength(200)]
         public string Reference { get; set; }
 
+        [Required, MinLength(3), MaxLength(200)]
+        public string Name { get; set; }
+
         [Required, Display(Name = "Enabled")]
         public bool Active { get; set; }
 

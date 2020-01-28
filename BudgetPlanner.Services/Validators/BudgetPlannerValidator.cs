@@ -23,6 +23,12 @@ namespace BudgetPlanner.Services.Validators
                 .MinimumLength(5)
                 .MaximumLength(200)
                 .MustAsync(BeUnique);
+
+            RuleFor(request => request.Name)
+                .NotEmpty()
+                .MinimumLength(5)
+                .MaximumLength(200)
+                .MustAsync(BeUnique);
         }
 
         private async Task<bool> BeUnique(string reference, CancellationToken cancellationToken)

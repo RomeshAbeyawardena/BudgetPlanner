@@ -43,10 +43,10 @@ namespace BudgetPlanner.Services
                                            where transaction.TransactionTypeId == (int)TransactionType.Outgoing
                                            select transaction;
 
-            var income = transactionIncomeQuery.SumAsync(transaction => transaction.Amount);
-            var outgoings = transactionOutgoingQuery.SumAsync(transaction => transaction.Amount);
+            var income = await transactionIncomeQuery.SumAsync(transaction => transaction.Amount);
+            var outgoings = await transactionOutgoingQuery.SumAsync(transaction => transaction.Amount);
             
-            return await income - await outgoings;
+            return income - outgoings;
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)
