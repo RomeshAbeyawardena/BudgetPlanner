@@ -27,12 +27,16 @@ namespace BudgetPlanner.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            return View(new CreateBudgetPlannerViewModel());
+            await Task.CompletedTask;
+            return View(new CreateBudgetPlannerViewModel { Active = true });
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(CreateBudgetPlannerViewModel createBudgetPlannerViewModel)
         {
+            if(!ModelState.IsValid)
+                return View(createBudgetPlannerViewModel);
+
             var response = await MediatorService
                 .Send<ValidateBudgetPlannerReferenceResponse, ValidateBudgetPlannerReferenceRequest>(
                     new ValidateBudgetPlannerReferenceRequest { UniqueReference = createBudgetPlannerViewModel.Reference } );

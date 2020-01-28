@@ -20,11 +20,11 @@ namespace BudgetPlanner.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .RegisterServiceBroker<ServiceBroker>(out var serviceBroker)
                 .AddMvc()
-                .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssembly(ServiceBroker.DefaultAssembly));
+                .AddFluentValidation(configuration => configuration
+                .RegisterValidatorsFromAssemblies(serviceBroker.Assemblies));
 
-            services
-                .RegisterServiceBroker<ServiceBroker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

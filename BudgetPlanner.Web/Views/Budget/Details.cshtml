@@ -1,5 +1,7 @@
 ﻿@model BudgetPlannerDetailsViewModel
 
+@{ ViewBag.Title = "Details"; }
+
 @Model.Reference
 
 @(Component.InvokeAsync<TransactionListViewComponent>(@Model.BudgetId))

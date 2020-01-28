@@ -48,7 +48,7 @@ namespace BudgetPlanner.Services
 
         public async Task<bool> IsReferenceUnique(string uniqueReference)
         {
-            return await GetBudgetReferenceQuery(uniqueReference)
+            return !await GetBudgetReferenceQuery(uniqueReference)
                 .AnyAsync();
         }
 

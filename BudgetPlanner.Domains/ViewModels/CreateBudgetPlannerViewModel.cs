@@ -13,7 +13,7 @@ namespace BudgetPlanner.Domains.ViewModels
         [HiddenInput]
         public int Id { get; set; }
 
-        [Required, Display(Name = "Unique Reference")]
+        [Required, Display(Name = "Unique Reference"), MinLength(5), MaxLength(200)]
         public string Reference { get; set; }
 
         [Required, Display(Name = "Enabled")]
