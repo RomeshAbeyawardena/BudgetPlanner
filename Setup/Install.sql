@@ -47,3 +47,19 @@ CREATE TABLE [dbo].[Transaction]
 	,[Amount] DECIMAL(18,4) NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 )
+
+INSERT INTO [dbo].[TransactionType]
+(
+    [Name],
+    [Created],
+    [Modified]
+)
+VALUES
+(   'Income',                  -- Name - varchar(200)
+    SYSDATETIMEOFFSET(), -- Created - datetimeoffset
+    SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
+    ),
+	(   'Outgoing',                  -- Name - varchar(200)
+    SYSDATETIMEOFFSET(), -- Created - datetimeoffset
+    SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
+    )

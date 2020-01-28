@@ -2,9 +2,21 @@
 
 @using (Html.BeginForm("CreateTransaction", "Budget"))
 {
-    @Html.LabelFor(model => model.TransactionTypeId)
-    @Html.ListBoxFor(model => model.TransactionTypeId, Model.TransactionTypes)
-
-    @Html.LabelFor(model => model.Amount)
-    @Html.TextBoxFor(model => model.Amount, "0.00")
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Created)
+    @Html.HiddenFor(model => model.BudgetId)
+    <div class="form-group">
+        @Html.LabelFor(model => model.TransactionTypeId)
+        @Html.DropDownListFor(model => model.TransactionTypeId, Model.TransactionTypes, "Please select", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Amount)
+        @Html.TextBoxFor(model => model.Amount, "0.00", new { @class = "form-control", type = "number", step = "0.1" })
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.Active, new { @class = "form-check-input" })
+        @Html.LabelFor(model => model.Active)
+    </div>
+    <button type="submit" class="btn btn-primary">Save Transaction</button>
 }

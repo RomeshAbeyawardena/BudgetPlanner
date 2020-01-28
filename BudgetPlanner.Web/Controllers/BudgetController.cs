@@ -21,6 +21,9 @@ namespace BudgetPlanner.Web.Controllers
             var response = await MediatorService
                 .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { Reference = reference });
 
+            if(response.BudgetPlanner == null)
+                return RedirectToAction("Index","Home");
+
             var budgetPlannerDetailsViewModel = Map<Budget, BudgetPlannerDetailsViewModel>(response.BudgetPlanner);
             return View(budgetPlannerDetailsViewModel);
         }
@@ -61,14 +64,38 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
-        public async Task<ActionResult> CreateTransaction(string reference)
+        public async Task<ActionResult> CreateTransaction([FromRoute]string reference)
         {
             var response = await MediatorService
                 .Send<RetrieveTransactionTypesResponse,RetrieveTransactionTypesRequest>(new RetrieveTransactionTypesRequest());
 
+            var budgetResponse = await MediatorService
+                .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { Reference = reference });
+
+            if(budgetResponse.BudgetPlanner == null)
+                return RedirectToAction("Index","Home");
+
+
             return View(new AddBudgetTransactionViewModel { 
+                BudgetId = budgetResponse.BudgetPlanner.Id,
                 Active = true,
-                TransactionTypes = new SelectList(response.TransactionTypes, nameof(TransactionType.Id), nameof(TransactionType.Name)) });
+                TransactionTypes = new SelectList(response.TransactionTypes, nameof(TransactionType.Id), nameof(TransactionType.Name)) });;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateTransaction(AddBudgetTransactionViewModel model)
+        {
+            if(!ModelState.IsValid)
+                return View(model);
+
+            var createTransactionRequest = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);
+
+            var response = await MediatorService.Send<CreateTransactionResponse,CreateTransactionRequest>(createTransactionRequest);
+            
+            if(response.IsSuccessful)
+                return RedirectToAction("Details", "Budget", new { reference = response.Reference });
+
+            return View(model);
         }
     }
 }
