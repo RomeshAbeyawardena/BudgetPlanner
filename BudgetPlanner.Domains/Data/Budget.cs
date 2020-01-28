@@ -8,6 +8,8 @@ namespace BudgetPlanner.Domains.Data
 {
     public class Budget
     {
-        
+        public string Reference { get; set; }
+        public bool Active { get; set; }
+        public DateTime LastUpdated { get; set; }
     }
 }
