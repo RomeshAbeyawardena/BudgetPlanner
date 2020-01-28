@@ -8,6 +8,6 @@ namespace BudgetPlanner.Domains.Constants
 {
     public class DataConstants
     {
-        public const string DefaultConnectionStringKey = "DefaultConnectionString";
+        public const string DefaultConnectionStringKey = "Default";
     }
 }

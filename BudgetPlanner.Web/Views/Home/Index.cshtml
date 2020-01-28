@@ -1,3 +1,6 @@
 ﻿@model HomeViewModel
+@section headSection {
 
-@await (Component.InvokeAsync<BudgetPlannerViewComponent>())
+}
+
+@await (Component.InvokeAsync<BudgetPlannerViewComponent>(new BudgetPanelDashboardListViewModel { LastUpdated = Model.LastUpdated }))

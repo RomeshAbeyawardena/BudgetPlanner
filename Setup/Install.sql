@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[Budget](
 		CONSTRAINT IQ_Budget_Reference UNIQUE
 	,[Active] BIT NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
-	,[LastUpdated] DATETIMEOFFSET NOT NULL
+	,[LastUpdated] DATETIMEOFFSET NULL
 	,INDEX Idx_Budget_Reference 
 		NONCLUSTERED ([Reference])
 )
@@ -34,8 +34,8 @@ CREATE TABLE [dbo].[Transaction]
 	,[BudgetId] INT NOT NULL
 		CONSTRAINT FK_Transaction_Budget
 		REFERENCES [dbo].[Budget]
-	,[Active] BIT NOT NULL
-	,[Created] DATETIMEOFFSET NOT NULL
 	,[TransactionTypeId] INT NOT NULL
+	,[Active] BIT NOT NULL
 	,[Amount] DECIMAL(18,4) NOT NULL
+	,[Created] DATETIMEOFFSET NOT NULL
 )

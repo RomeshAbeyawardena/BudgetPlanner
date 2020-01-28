@@ -36,11 +36,11 @@ namespace BudgetPlanner.Services
                                    select transaction;
 
             var transactionIncomeQuery = from transaction in transactionQuery
-                                         where transaction.TypeId == (int)TransactionType.Income
+                                         where transaction.TransactionTypeId == (int)TransactionType.Income
                                          select transaction;
 
             var transactionOutgoingQuery = from transaction in transactionQuery
-                                           where transaction.TypeId == (int)TransactionType.Outgoing
+                                           where transaction.TransactionTypeId == (int)TransactionType.Outgoing
                                            select transaction;
 
             var income = transactionIncomeQuery.SumAsync(transaction => transaction.Amount);

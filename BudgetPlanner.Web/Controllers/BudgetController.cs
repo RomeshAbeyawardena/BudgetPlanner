@@ -14,7 +14,7 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class BudgetController : DefaultControllerBase
     {
-        [HttpGet, Route("{controller}/{action}/[reference]")]
+        [HttpGet, Route("[controller]/[action]/{reference}")]
         public async Task<ActionResult> Details([FromRoute]string reference)
         {
             var response = await MediatorService

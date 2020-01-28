@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BudgetPlanner.Domains.Requests;
+using BudgetPlanner.Domains.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,10 @@ namespace BudgetPlanner.Domains
 {
     public class DomainProfile : Profile
     {
-        
+        public DomainProfile()
+        {
+            CreateMap<Dto.Budget, BudgetPanelDashboardItemViewModel>();
+            CreateMap<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>();
+        }
     }
 }

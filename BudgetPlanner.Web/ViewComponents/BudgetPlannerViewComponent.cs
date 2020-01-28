@@ -13,7 +13,7 @@ namespace BudgetPlanner.Web.ViewComponents
 {
     public class BudgetPlannerViewComponent : DefaultViewComponentBase
     {
-        public async Task<IViewComponentResult> InvokeAsync(object viewModel = default)
+        public async Task<IViewComponentResult> InvokeAsync(object viewModel)
         {
 
             if(viewModel is BudgetPanelDashboardListViewModel budgetPanelDashboardListViewModel)
