@@ -44,6 +44,11 @@ namespace BudgetPlanner.Services
             return await transactionSumQuery.SumAsync(transaction => transaction.Amount);
         }
 
+        public async Task<Transaction> SaveTransaction(Transaction transaction)
+        {
+            return await _transactionRepository.SaveChanges(transaction);
+        }
+
         public TransactionService(IRepository<Transaction> transactionRepository)
         {
             _transactionRepository = transactionRepository;
