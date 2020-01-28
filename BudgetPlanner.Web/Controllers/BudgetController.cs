@@ -36,7 +36,23 @@ namespace BudgetPlanner.Web.Controllers
             var response = await MediatorService
                 .Send<ValidateBudgetPlannerReferenceResponse, ValidateBudgetPlannerReferenceRequest>(
                     new ValidateBudgetPlannerReferenceRequest { UniqueReference = createBudgetPlannerViewModel.Reference } );
-            return View();
+
+            if (!response.IsUnique) 
+            { 
+                ModelState.AddModelError(nameof(createBudgetPlannerViewModel.Reference), "Unique Reference is not valid");
+
+                return View(createBudgetPlannerViewModel);
+            }
+
+            var createBudgetPlannerRequest = Map<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>(createBudgetPlannerViewModel);
+
+            var saveResponse = await MediatorService
+                .Send<CreateBudgetPlannerResponse, CreateBudgetPlannerRequest>(createBudgetPlannerRequest);
+
+            if(saveResponse.IsSuccessful)
+                return RedirectToAction("Details", "Budget", new { reference = createBudgetPlannerViewModel.Reference });
+
+            return View(createBudgetPlannerViewModel);
         }
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class ValidateBudgetPlannerReferenceResponse
+    public class CreateBudgetPlannerResponse
     {
-        public bool IsUnique { get; set; }
+        public bool IsSuccessful { get; set; }
     }
 }

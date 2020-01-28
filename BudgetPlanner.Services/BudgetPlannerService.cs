@@ -17,13 +17,14 @@ namespace BudgetPlanner.Services
 
         private IQueryable<Budget> DefaultBudgetQuery => _budgetRepository.Query(budget => budget.Active == true);
 
+        private IQueryable<Budget> GetBudgetReferenceQuery(string reference) => from budget in DefaultBudgetQuery
+                                                                  where budget.Reference == reference
+                                                                  select budget;
+
         public async Task<Budget> GetBudgetPlanner(string reference)
         {
-            var budgetQuery = from budget in DefaultBudgetQuery
-                              where budget.Reference == reference
-                              select budget;
-
-            return await budgetQuery.SingleOrDefaultAsync();
+            return await GetBudgetReferenceQuery(reference)
+                .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Budget>> GetBudgetPlanners(DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending)
@@ -44,6 +45,14 @@ namespace BudgetPlanner.Services
 
             return await budgetQuery.ToArrayAsync();
         }
+
+        public async Task<bool> IsReferenceUnique(string uniqueReference)
+        {
+            return await GetBudgetReferenceQuery(reference)
+                .Any();
+        }
+
+
 
         public BudgetPlannerService(IRepository<Budget> budgetRepository)
         {
