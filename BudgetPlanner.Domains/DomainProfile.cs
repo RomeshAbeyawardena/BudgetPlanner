@@ -17,6 +17,7 @@ namespace BudgetPlanner.Domains
             CreateMap<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>();
             CreateMap<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>();
             CreateMap<CreateBudgetPlannerRequest, Data.Budget>();
+            CreateMap<Data.Budget, Dto.Budget>();
         }
     }
 }

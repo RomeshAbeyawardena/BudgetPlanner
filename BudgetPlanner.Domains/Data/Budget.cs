@@ -17,7 +17,7 @@ namespace BudgetPlanner.Domains.Data
         public string Reference { get; set; }
         public bool Active { get; set; }
         
-        [Modifier(ModifierFlag.Modified)]
+        [Modifier(ModifierFlag.Created|ModifierFlag.Modified)]
         public DateTimeOffset? LastUpdated { get; set; }
         
         [Modifier(ModifierFlag.Created)]

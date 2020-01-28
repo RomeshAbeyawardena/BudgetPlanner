@@ -30,7 +30,7 @@ namespace BudgetPlanner.Services
         public async Task<IEnumerable<Budget>> GetBudgetPlanners(DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending)
         {
             var budgetQuery = from budget in DefaultBudgetQuery
-                              where budget.LastUpdated == lastUpdated
+                              where budget.LastUpdated >= lastUpdated
                               select budget;
 
             if (orderBy == OrderBy.Descending)

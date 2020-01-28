@@ -1,10 +1,15 @@
-﻿CREATE DATABASE BudgetPlanner
+﻿USE master;
+
+DROP DATABASE BudgetPlanner
+GO
+
+CREATE DATABASE BudgetPlanner
 GO
 
 USE BudgetPlanner;
 
 CREATE TABLE [dbo].[Budget](
-	[Id] INT NOT NULL
+	[Id] INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_Budget PRIMARY KEY
 	,[Reference] VARCHAR(200) NOT NULL
 		CONSTRAINT IQ_Budget_Reference UNIQUE
@@ -17,7 +22,7 @@ CREATE TABLE [dbo].[Budget](
 
 CREATE TABLE [dbo].[TransactionType]
 (
-	[Id] INT NOT NULL
+	[Id] INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_TransactionType PRIMARY KEY
 	,[Name] VARCHAR(200) NOT NULL
 		CONSTRAINT IQ_TransactionType UNIQUE
@@ -29,7 +34,7 @@ CREATE TABLE [dbo].[TransactionType]
 
 CREATE TABLE [dbo].[Transaction]
 (
-	[Id] INT NOT NULL
+	[Id] INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_Transaction PRIMARY KEY
 	,[BudgetId] INT NOT NULL
 		CONSTRAINT FK_Transaction_Budget
@@ -39,3 +44,5 @@ CREATE TABLE [dbo].[Transaction]
 	,[Amount] DECIMAL(18,4) NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 )
+
+SELECT * FROM dbo.Budget

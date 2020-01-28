@@ -14,8 +14,8 @@ namespace BudgetPlanner.Domains.Dto
         public bool Active { get; set; }
         public decimal Balance { get; set; }
         
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset? LastUpdated { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTimeOffset Created { get; set; }
     }
 }
