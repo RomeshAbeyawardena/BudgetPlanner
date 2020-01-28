@@ -48,11 +48,14 @@ namespace BudgetPlanner.Services
 
         public async Task<bool> IsReferenceUnique(string uniqueReference)
         {
-            return await GetBudgetReferenceQuery(reference)
-                .Any();
+            return await GetBudgetReferenceQuery(uniqueReference)
+                .AnyAsync();
         }
 
-
+        public async Task<Budget> Save(Budget budgetPlanner)
+        {
+            return await _budgetRepository.SaveChanges(budgetPlanner);
+        }
 
         public BudgetPlannerService(IRepository<Budget> budgetRepository)
         {

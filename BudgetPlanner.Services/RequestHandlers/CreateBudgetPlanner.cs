@@ -1,5 +1,8 @@
-﻿using BudgetPlanner.Domains.Requests;
+﻿using BudgetPlanner.Contracts.Services;
+using BudgetPlanner.Domains.Data;
+using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using DNI.Shared.Contracts;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,9 +15,21 @@ namespace BudgetPlanner.Services.RequestHandlers
 {
     public class CreateBudgetPlanner : IRequestHandler<CreateBudgetPlannerRequest, CreateBudgetPlannerResponse>
     {
+        private readonly IMapperProvider _mapperProvider;
+        private readonly IBudgetPlannerService _budgetPlannerService;
+
         public async Task<CreateBudgetPlannerResponse> Handle(CreateBudgetPlannerRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var budgetPlanner = _mapperProvider.Map<CreateBudgetPlannerRequest, Budget>(request);
+            budgetPlanner = await _budgetPlannerService.Save(budgetPlanner);
+
+            return new CreateBudgetPlannerResponse { IsSuccessful = true, BudgetPlanner = budgetPlanner };
+        }
+
+        public CreateBudgetPlanner(IMapperProvider mapperProvider, IBudgetPlannerService budgetPlannerService)
+        {
+            _mapperProvider = mapperProvider;
+            _budgetPlannerService = budgetPlannerService;
         }
     }
 }
