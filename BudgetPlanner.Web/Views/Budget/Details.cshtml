@@ -4,4 +4,4 @@
 
 @Model.Reference
 
-@(Component.InvokeAsync<TransactionListViewComponent>(@Model.BudgetId))
+@await (Component.InvokeAsync<TransactionListViewComponent>(@Model.Id))

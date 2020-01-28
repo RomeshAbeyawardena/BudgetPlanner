@@ -8,7 +8,8 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class BudgetPlannerDetailsViewModel
     {
-        public int BudgetId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public string Reference { get; set; }
     }
 }

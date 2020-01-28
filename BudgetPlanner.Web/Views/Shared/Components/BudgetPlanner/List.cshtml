@@ -2,10 +2,15 @@
 
 @if(Model.BudgetPlanners.Any())
 { 
-    @foreach (var budgetPlanner in Model.BudgetPlanners)
-    {
-        @await Html.PartialAsync("Partials/BudgetPanelDashboardItem" ,budgetPlanner)
-    }
+    <div class="row">
+        @foreach (var budgetPlanner in Model.BudgetPlanners)
+        {
+            <div class="col">
+                @await Html.PartialAsync("Partials/BudgetPanelDashboardItem", budgetPlanner)
+            </div>
+        }
+    </div>
+    <div class="card">@Html.ActionLink("Add", "Create", "Budget")</div>
 }
 else
 {

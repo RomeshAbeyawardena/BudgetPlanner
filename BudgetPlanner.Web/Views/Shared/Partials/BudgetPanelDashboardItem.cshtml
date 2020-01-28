@@ -1,11 +1,15 @@
 ﻿@model BudgetPanelDashboardItemViewModel
 
-<div>
-    <h3>
-        @Model.Name (@Model.Reference)
-    </h3>
-    <p>
-        @Html.FormatContent("{0:C}", Model.Balance)
-    </p>
-    @Html.ActionLink("View", "Details", "BudgetPlanner", new { Reference = Model.Reference })
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">
+            @Model.Name
+        </h3>
+        <h6 class="card-subtitle mb-2 text-muted">@Model.Reference</h6>
+        <p class="card-text">
+            <span>Balance</span>
+            @Html.FormatContent("{0:C}", Model.Balance)
+        </p>
+        @Html.ActionLink("View Details", "Details", "Budget", new { reference = Model.Reference }, new { @class = "card-link" })
+    </div>
 </div>
