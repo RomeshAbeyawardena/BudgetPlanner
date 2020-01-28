@@ -8,6 +8,6 @@ namespace BudgetPlanner.Domains.Responses
 {
     public class RetrieveBudgetPlannersResponse
     {
-        public IEnumerable<Data.Budget> BudgetPlanners { get; set; }
+        public IEnumerable<Dto.Budget> BudgetPlanners { get; set; }
     }
 }
