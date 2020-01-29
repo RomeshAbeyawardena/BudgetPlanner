@@ -5,7 +5,9 @@ import popup from "./popup";
 require("./scss/index.scss");
 
 $(() => {
-    var popup1 = new popup();
-    popup1.init();
+    var modalPopup = new popup("#popup")
+        .configureMode("modal", "#modalDialog", "#content");
+    
+    modalPopup.init();
     
 });

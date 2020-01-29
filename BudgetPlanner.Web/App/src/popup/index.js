@@ -15,6 +15,7 @@ export default function (dymamicPanelSelector) {
             throw 'Mode ' + mode + ' already exists';
 
         this.modes[mode] = { templateSelector: templateSelector, contentPlaceholder: contentPlaceholder };
+        return this;
     };
     function setupElement(element) {
         const $element = $(element);
