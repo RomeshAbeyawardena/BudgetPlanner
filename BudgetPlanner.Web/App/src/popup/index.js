@@ -21,16 +21,20 @@ export default function (dymamicPanelSelector) {
         const $element = $(element);
         const mode = $element.attr("popup");
         const href = $element.attr("href");
-
+        const context = this;
+        $element.attr("href", "#");
+        $element.attr("data-href", href);
         $element.on("click", (e) => {
-            var modeData = this.modes[mode];
+            var modeData = context.modes[mode];
             if(!modeData)
                 throw 'Mode' + mode + ' not found';
 
-            const $dynamicPanel = $(this.dymamicPanelSelector);
+            const $dynamicPanel = $(context.dymamicPanelSelector);
             const $template = $(modeData.templateSelector);
             $dynamicPanel.html($template.html());
             console.log(e);
+            e.preventDefault();
+            return false;
         });
         
     }

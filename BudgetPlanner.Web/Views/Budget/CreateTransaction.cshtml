@@ -4,6 +4,6 @@
 
 @using (Html.BeginForm("SaveTransaction", "Budget", FormMethod.Post))
 {
-    @await Html.PartialAsync("Editors/_transactionEditor", Model)
+    @await Html.PartialAsync("Partials/Editors/_transactionEditor", Model)
     <button type="submit" class="btn btn-primary">Save Transaction</button>
 }
