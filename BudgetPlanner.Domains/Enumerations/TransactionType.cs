@@ -8,7 +8,7 @@ namespace BudgetPlanner.Domains.Enumerations
 {
     public enum TransactionType
     {
-        Income,
-        Outgoing
+        Income = 1,
+        Outgoing = 2
     }
 }

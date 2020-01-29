@@ -64,3 +64,5 @@ VALUES
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     )
+
+	SELECT * FROM dbo.[Transaction]
