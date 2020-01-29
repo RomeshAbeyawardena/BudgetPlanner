@@ -17,7 +17,7 @@
                     <span>@transaction.Id</span>
                 </th>
                 <td>
-                    <span>@Html.FormatContent("{0:dd MMM yyyy}", transaction.Created)</span>
+                    <span>@Html.FormatContent(FormatConstants.ShortDateFormat, transaction.Created)</span>
                 </td>
                 <td>
                     <span>@transaction.Description</span>
