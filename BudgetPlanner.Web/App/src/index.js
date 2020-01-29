@@ -6,8 +6,7 @@ require("./scss/index.scss");
 
 $(() => {
     var modalPopup = new popup("#popup")
-        .configureMode("modal", "#modalDialog", "#content");
-    
-    modalPopup.init();
+        .configureMode("modal", "#modalDialog", "#content")
+        .init();
     
 });
