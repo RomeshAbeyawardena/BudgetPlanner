@@ -1,5 +1,5 @@
 ﻿import $ from 'jquery';
-import promise from 'promise';
+import { httpRequest } from "../utility";
 
 export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
     this.dymamicPanelSelector = dymamicPanelSelector;
@@ -20,7 +20,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
         return this;
     };
     this.getMode = function (mode) {
-        var modeData = context.modes[mode];
+        var modeData = this.modes[mode];
         if (!modeData)
             throw 'Mode' + mode + ' not found';
         return modeData;
@@ -34,12 +34,20 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
         $element.attr("data-href", href);
 
         $element.on("click", (e) => {
+            const $element = $(e.target);
+            const href = $element.attr("data-href");
             const modeData = context.getMode(mode);
             const $dynamicPanel = $(context.dymamicPanelSelector);
             const $template = $(modeData.templateSelector);
-
-            $template.find(modeData.contentPlaceholder).html();
+            
             $dynamicPanel.html($template.html());
+            
+            var request = new httpRequest(href);
+            request.get().then((e) => {
+                var contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
+                contentPlaceholder.html(e);
+                
+            });
         });
 
     }
