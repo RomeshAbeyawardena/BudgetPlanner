@@ -22,8 +22,11 @@ export default function (dymamicPanelSelector) {
         const mode = $element.attr("popup");
         const href = $element.attr("href");
         const context = this;
+
         $element.attr("href", "#");
         $element.attr("data-href", href);
+
+
         $element.on("click", (e) => {
             var modeData = context.modes[mode];
             if(!modeData)
