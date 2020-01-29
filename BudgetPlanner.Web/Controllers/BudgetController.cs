@@ -25,6 +25,10 @@ namespace BudgetPlanner.Web.Controllers
                 return RedirectToAction("Index","Home");
 
             var budgetPlannerDetailsViewModel = Map<Budget, BudgetPlannerDetailsViewModel>(response.BudgetPlanner);
+
+            budgetPlannerDetailsViewModel.FromDate = DateTime.Now.AddDays(-30);
+            budgetPlannerDetailsViewModel.ToDate = DateTime.Now;
+
             return View(budgetPlannerDetailsViewModel);
         }
 
@@ -85,7 +89,7 @@ namespace BudgetPlanner.Web.Controllers
         {
             model.TransactionTypes = await GetTransactionTypes();
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View("CreateTransaction", model);
 
             var createTransactionRequest = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);

@@ -1,0 +1,4 @@
+﻿.text-number-negate :before
+{
+    content: ' -';
+}

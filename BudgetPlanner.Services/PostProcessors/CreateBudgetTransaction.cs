@@ -17,7 +17,7 @@ namespace BudgetPlanner.Services.PostProcessors
 
         public async Task Process(CreateTransactionRequest request, CreateTransactionResponse response, CancellationToken cancellationToken)
         {
-            var budget = await _budgetPlannerService.GetBudgetPlanner(request.Id);
+            var budget = await _budgetPlannerService.GetBudgetPlanner(request.BudgetId);
             response.Reference = budget.Reference;
         }
 

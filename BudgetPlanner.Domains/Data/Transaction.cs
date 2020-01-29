@@ -26,5 +26,8 @@ namespace BudgetPlanner.Domains.Data
 
         [Column(TypeName = "decimal(18, 4)")]
         public decimal Amount { get; set; }
+
+        [NotMapped]
+        public Enumerations.TransactionType Type => (Enumerations.TransactionType)TransactionTypeId;
     }
 }

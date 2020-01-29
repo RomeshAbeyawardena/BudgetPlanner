@@ -4,4 +4,4 @@
 
 @Model.Reference @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference })
 
-@await (Component.InvokeAsync<TransactionListViewComponent>(@Model.Id))
+@await (Component.InvokeAsync<TransactionListViewComponent>(new { budgetId = @Model.Id, fromDate = Model.FromDate, toDate = Model.ToDate } ))
