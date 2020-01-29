@@ -1,4 +1,4 @@
-﻿.text-number-negate :before
+﻿.text-number-negate span:before
 {
     content: ' -';
 }

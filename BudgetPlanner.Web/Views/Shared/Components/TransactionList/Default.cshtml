@@ -1,23 +1,31 @@
 ﻿@model TransactionListViewModel
 
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Created</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.Transactions)
+        {
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Created</th>
-                <th scope="col">Description</th>
-                <th scope="col">Amount</th>
+                <th scope="row">
+                    <span>@transaction.Id</span>
+                </th>
+                <td>
+                    <span>@Html.FormatContent("{0:dd MMM yyyy}", transaction.Created)</span>
+                </td>
+                <td>
+                    <span>@transaction.Description</span>
+                </td>
+                <td @Html.DisplayIf(transaction.Type == TransactionType.Outgoing, "class=\"text-number-negate\"")>
+                    <span>@Html.FormatContent("{0:C2}", transaction.Amount)</span>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var transaction in Model.Transactions) 
-            { 
-                <tr>
-                    <th scope="row">@transaction.Id</th>
-                    <td>@Html.FormatContent("{0:dd MMM yyyy}", transaction.Created)</td>
-                    <td>@transaction.Description</td>
-                    <td @Html.DisplayIf(transaction.Type == TransactionType.Outgoing, "class=\"text-number-negate\"")>@Html.FormatContent("{0:C2}", transaction.Amount)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
