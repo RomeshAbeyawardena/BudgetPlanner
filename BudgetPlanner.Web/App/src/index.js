@@ -5,7 +5,7 @@ import popup from "./popup";
 require("./scss/index.scss");
 
 $(() => {
-    var modalPopup = new popup("#popup")
+    var modalPopup = new popup("#popup", "#dialogModeDataHiddenField")
         .configureMode("modal", "#modalDialog", "#content")
         .init();
     

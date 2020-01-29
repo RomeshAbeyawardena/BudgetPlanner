@@ -9,6 +9,7 @@
     @await RenderSectionAsync("headSection", false)
 </head>
 <body>
+    <input type="hidden" id="dialogModeDataHiddenField" />
     <template id="modalDialog">
         @await Html.PartialAsync("Partials/_modalDialog")
     </template>
