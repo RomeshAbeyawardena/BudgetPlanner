@@ -1,1 +1,3 @@
-﻿require("./scss/index.scss");
+﻿import "bootstrap";
+
+require("./scss/index.scss");
