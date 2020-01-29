@@ -23,7 +23,11 @@
 else
 {
     <div class="card-body">
-        <p>No Budget Planners available @Html.ActionLink("Create one", "Create", "Budget")</p>
+        <p>No Budget Planners available @Html.ActionLink("Create one", "Create", "Budget", null, DictionaryBuilder
+                .Create<string, object>(dictionaryBuilder => dictionaryBuilder
+                    .Add("class", "btn btn-primary")
+                    .Add("popup", "modal")
+                    .Add("data-args", "{ \"isModal\":\"true\" }")).ToDictionary())</p>
     </div>
 }
 </div>

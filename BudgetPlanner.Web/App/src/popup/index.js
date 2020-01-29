@@ -47,7 +47,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
             request.get(JSON.parse(args)).then((e) => {
                 var contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
-                
+                $dynamicPanel.find(".modal").show();
             });
         });
 
