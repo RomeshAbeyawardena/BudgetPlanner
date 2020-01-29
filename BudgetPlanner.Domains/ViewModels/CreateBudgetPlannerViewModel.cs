@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
-    public class CreateBudgetPlannerViewModel
+    public class CreateBudgetPlannerViewModel : BaseViewModel
     {
         [HiddenInput]
         public int Id { get; set; }

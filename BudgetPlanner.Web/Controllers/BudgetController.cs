@@ -33,10 +33,10 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create([FromQuery]bool isModal = false)
         {
             await Task.CompletedTask;
-            return View(new CreateBudgetPlannerViewModel { Active = true });
+            return View(new CreateBudgetPlannerViewModel { Active = true, IsModal = isModal });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -68,7 +68,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
-        public async Task<ActionResult> CreateTransaction([FromRoute]string reference)
+        public async Task<ActionResult> CreateTransaction([FromRoute]string reference, [FromQuery]bool isModal = false)
         {
             
             var budgetResponse = await MediatorService
@@ -79,6 +79,7 @@ namespace BudgetPlanner.Web.Controllers
 
 
             return View(new AddBudgetTransactionViewModel { 
+                IsModal = isModal,
                 BudgetId = budgetResponse.BudgetPlanner.Id,
                 Active = true,
                 TransactionTypes = await GetTransactionTypes() });

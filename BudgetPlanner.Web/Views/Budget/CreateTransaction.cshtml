@@ -1,6 +1,10 @@
 ﻿@model AddBudgetTransactionViewModel
 
-@{ ViewBag.Title = "Create Budget"; }
+@{
+    ViewBag.Title = "Create Budget";
+    if (Model.IsModal)
+        Layout = null;
+}
 
 @using (Html.BeginForm("SaveTransaction", "Budget", FormMethod.Post))
 {

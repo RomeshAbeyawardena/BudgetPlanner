@@ -36,6 +36,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
         $element.on("click", (e) => {
             const $element = $(e.target);
             const href = $element.attr("data-href");
+            const args = $element.attr("data-args");
             const modeData = context.getMode(mode);
             const $dynamicPanel = $(context.dymamicPanelSelector);
             const $template = $(modeData.templateSelector);
@@ -43,7 +44,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
             $dynamicPanel.html($template.html());
             
             var request = new httpRequest(href);
-            request.get().then((e) => {
+            request.get(JSON.parse(args)).then((e) => {
                 var contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 

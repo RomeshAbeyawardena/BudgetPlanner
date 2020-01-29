@@ -8,6 +8,6 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class BaseViewModel
     {
-        public int MyProperty { get; set; }
+        public bool IsModal { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
-    public class AddBudgetTransactionViewModel
+    public class AddBudgetTransactionViewModel : BaseViewModel
     {
         public SelectList TransactionTypes { get; set; }
 
