@@ -2,7 +2,11 @@
 
 @{ ViewBag.Title = "Details"; }
 
-@Model.Reference @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference })
+@Model.Reference @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference }, DictionaryBuilder
+                .Create<string, object>(dictionaryBuilder => dictionaryBuilder
+                    .Add("class", "btn btn-primary")
+                    .Add("popup", "modal")
+                    .Add("data-args", "{ \"isModal\":\"true\" }")).ToDictionary())
 <h1>@Model.Name</h1>
 <p>Showing transactions from 
     @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.FromDate) - 
