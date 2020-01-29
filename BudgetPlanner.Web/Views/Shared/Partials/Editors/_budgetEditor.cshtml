@@ -1,0 +1,20 @@
+﻿@model CreateBudgetPlannerViewModel
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.Created)
+@Html.HiddenFor(model => model.LastUpdated)
+@Html.AntiForgeryToken()
+<div class="form-group">
+    @Html.LabelFor(model => model.Reference)
+    @Html.TextBoxFor(model => model.Reference, null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Reference)
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.Name)
+    @Html.TextBoxFor(model => model.Name, null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Name)
+</div>
+<div class="form-group form-check">
+    @Html.CheckBoxFor(model => model.Active, new { @class = "form-check-input" })
+    @Html.LabelFor(model => model.Active)
+</div>

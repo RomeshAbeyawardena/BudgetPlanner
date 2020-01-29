@@ -1,29 +1,9 @@
 ﻿@model AddBudgetTransactionViewModel
 
+@{ ViewBag.Title = "Create Budget"; }
+
 @using (Html.BeginForm("SaveTransaction", "Budget", FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Id)
-    @Html.HiddenFor(model => model.Created)
-    @Html.HiddenFor(model => model.BudgetId)
-    <div class="form-group">
-        @Html.LabelFor(model => model.TransactionTypeId)
-        @Html.DropDownListFor(model => model.TransactionTypeId, Model.TransactionTypes, "Please select", new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.TransactionTypeId)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description)
-        @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Description)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Amount)
-        @Html.TextBoxFor(model => model.Amount, "0.00", new { @class = "form-control", type = "number", step = "0.01" })
-        @Html.ValidationMessageFor(model => model.Amount)
-    </div>
-    <div class="form-group form-check">
-        @Html.CheckBoxFor(model => model.Active, new { @class = "form-check-input" })
-        @Html.LabelFor(model => model.Active)
-    </div>
+    @await Html.PartialAsync("Editors/_transactionEditor", Model)
     <button type="submit" class="btn btn-primary">Save Transaction</button>
 }
