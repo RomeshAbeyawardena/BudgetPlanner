@@ -66,9 +66,7 @@ namespace BudgetPlanner.Web.Controllers
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
         public async Task<ActionResult> CreateTransaction([FromRoute]string reference)
         {
-            var response = await MediatorService
-                .Send<RetrieveTransactionTypesResponse,RetrieveTransactionTypesRequest>(new RetrieveTransactionTypesRequest());
-
+            
             var budgetResponse = await MediatorService
                 .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { Reference = reference });
 
@@ -79,14 +77,16 @@ namespace BudgetPlanner.Web.Controllers
             return View(new AddBudgetTransactionViewModel { 
                 BudgetId = budgetResponse.BudgetPlanner.Id,
                 Active = true,
-                TransactionTypes = new SelectList(response.TransactionTypes, nameof(TransactionType.Id), nameof(TransactionType.Name)) });;
+                TransactionTypes = await GetTransactionTypes() });
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTransaction(AddBudgetTransactionViewModel model)
+        public async Task<ActionResult> SaveTransaction(AddBudgetTransactionViewModel model)
         {
+            model.TransactionTypes = await GetTransactionTypes();
+
             if(!ModelState.IsValid)
-                return View(model);
+                return View("CreateTransaction", model);
 
             var createTransactionRequest = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);
 
@@ -95,7 +95,15 @@ namespace BudgetPlanner.Web.Controllers
             if(response.IsSuccessful)
                 return RedirectToAction("Details", "Budget", new { reference = response.Reference });
 
-            return View(model);
+            return View("CreateTransaction", model);
+        }
+
+        private async Task<SelectList> GetTransactionTypes()
+        {
+            var response = await MediatorService
+                .Send<RetrieveTransactionTypesResponse,RetrieveTransactionTypesRequest>(new RetrieveTransactionTypesRequest());
+
+            return new SelectList(response.TransactionTypes, nameof(TransactionType.Id), nameof(TransactionType.Name));
         }
     }
 }

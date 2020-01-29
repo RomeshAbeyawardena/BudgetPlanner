@@ -21,7 +21,10 @@ namespace BudgetPlanner.Domains.ViewModels
 
         [Display(Name = "Enabled")]
         public bool Active { get; set; }
-        
+
+        [Required, MaxLength(320)]
+        public string Description { get; set; }
+
         [HiddenInput]
         public int BudgetId { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using BudgetPlanner.Contracts.Services;
+using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using MediatR;
@@ -17,7 +18,14 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<RetrieveBudgetPlannerResponse> Handle(RetrieveBudgetPlannerRequest request, CancellationToken cancellationToken)
         {
-            return new RetrieveBudgetPlannerResponse { BudgetPlanner = await _budgetPlannerService.GetBudgetPlanner(request.Reference) };
+            Budget budget;
+
+            if(request.BudgetPlannerId.HasValue)
+                budget = await _budgetPlannerService.GetBudgetPlanner(request.BudgetPlannerId.Value);
+            else
+                budget = await _budgetPlannerService.GetBudgetPlanner(request.Reference);
+
+            return new RetrieveBudgetPlannerResponse { BudgetPlanner = budget  };
         }
 
         public RetrieveBudgetPlanner(IBudgetPlannerService budgetPlannerService)

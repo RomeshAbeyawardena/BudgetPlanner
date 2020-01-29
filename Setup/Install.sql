@@ -43,6 +43,7 @@ CREATE TABLE [dbo].[Transaction]
 		CONSTRAINT FK_Transaction_Budget
 		REFERENCES [dbo].[Budget]
 	,[TransactionTypeId] INT NOT NULL
+	,[Description] VARCHAR(320) NULL
 	,[Active] BIT NOT NULL
 	,[Amount] DECIMAL(18,4) NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL

@@ -20,6 +20,8 @@ namespace BudgetPlanner.Domains.Requests
        
         public int TransactionTypeId { get; set; }
 
+        public string Description { get; set; }
+
         public decimal Amount { get; set; }
     }
 }

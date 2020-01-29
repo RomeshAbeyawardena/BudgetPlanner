@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
@@ -17,10 +18,12 @@ namespace BudgetPlanner.Domains
             CreateMap<Dto.Budget, BudgetPanelDashboardItemViewModel>();
             CreateMap<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>();
             CreateMap<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>();
-            CreateMap<CreateBudgetPlannerRequest, Data.Budget>();
-            CreateMap<Data.Budget, Dto.Budget>();
-            CreateMap<Data.Budget, BudgetPlannerDetailsViewModel>();
+            CreateMap<CreateBudgetPlannerRequest, Budget>();
+            CreateMap<Budget, Dto.Budget>();
+            CreateMap<Budget, BudgetPlannerDetailsViewModel>();
             CreateMap<RetrieveTransactionsResponse,TransactionListViewModel>();
+            CreateMap<AddBudgetTransactionViewModel,CreateTransactionRequest>();
+            CreateMap<CreateTransactionRequest, Transaction>();
         }
     }
 }

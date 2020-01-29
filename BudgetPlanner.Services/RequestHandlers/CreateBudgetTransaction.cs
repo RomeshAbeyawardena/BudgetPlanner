@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.RequestHandlers
 {
-    public class AddBudgetTransaction : IRequestHandler<CreateTransactionRequest, CreateTransactionResponse>
+    public class CreateBudgetTransaction : IRequestHandler<CreateTransactionRequest, CreateTransactionResponse>
     {
         private readonly ITransactionService _transactionService;
         private readonly IMapperProvider _mapperProvider;
@@ -25,7 +25,7 @@ namespace BudgetPlanner.Services.RequestHandlers
             return new CreateTransactionResponse { IsSuccessful = true, Transaction = transaction };
         }
 
-        public AddBudgetTransaction(IMapperProvider mapperProvider, ITransactionService transactionService)
+        public CreateBudgetTransaction(IMapperProvider mapperProvider, ITransactionService transactionService)
         {
             _mapperProvider = mapperProvider;
             _transactionService = transactionService;

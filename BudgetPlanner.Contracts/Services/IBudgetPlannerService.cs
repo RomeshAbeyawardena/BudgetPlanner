@@ -11,6 +11,7 @@ namespace BudgetPlanner.Contracts.Services
     {
         Task<IEnumerable<Budget>> GetBudgetPlanners(DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending);
         Task<Budget> GetBudgetPlanner(string reference);
+        Task<Budget> GetBudgetPlanner(int id);
         Task<bool> IsReferenceUnique(string uniqueReference);
         Task<Budget> Save(Budget budgetPlanner);
     }

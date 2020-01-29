@@ -17,6 +17,7 @@ namespace BudgetPlanner.Domains.Data
 
         public bool Active { get; set; }
         public int BudgetId { get; set; }
+        public string Description { get; set; }
 
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }

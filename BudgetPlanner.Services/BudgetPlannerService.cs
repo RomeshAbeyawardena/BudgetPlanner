@@ -57,6 +57,11 @@ namespace BudgetPlanner.Services
             return await _budgetRepository.SaveChanges(budgetPlanner);
         }
 
+        public async Task<Budget> GetBudgetPlanner(int id)
+        {
+            return await _budgetRepository.Find(id);
+        }
+
         public BudgetPlannerService(IRepository<Budget> budgetRepository)
         {
             _budgetRepository = budgetRepository;
