@@ -9,6 +9,9 @@
     @await RenderSectionAsync("headSection", false)
 </head>
 <body>
+    <template id="modalDialog">
+        @await Html.PartialAsync("Partials/_modalDialog")
+    </template>
     <div class="container">
         @RenderBody()
     </div>
