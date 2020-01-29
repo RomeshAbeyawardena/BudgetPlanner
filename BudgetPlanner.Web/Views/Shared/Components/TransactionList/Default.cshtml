@@ -17,13 +17,13 @@
                     <span>@transaction.Id</span>
                 </th>
                 <td>
-                    <span>@Html.FormatContent(FormatConstants.ShortDateFormat, transaction.Created)</span>
+                    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.ShortDateFormat), transaction.Created)</span>
                 </td>
                 <td>
                     <span>@transaction.Description</span>
                 </td>
                 <td @Html.DisplayIf(transaction.Type == TransactionType.Outgoing, "class=\"text-number-negate\"")>
-                    <span>@Html.FormatContent("{0:C2}", transaction.Amount)</span>
+                    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), transaction.Amount)</span>
                 </td>
             </tr>
         }

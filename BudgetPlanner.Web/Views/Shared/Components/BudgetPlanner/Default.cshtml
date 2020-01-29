@@ -5,7 +5,7 @@
             @Model.Name (@Model.Reference)
         </h3>
         <p>
-            @Html.FormatContent("{0:C}",Model.Balance)
+            @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), Model.Balance)
         </p>
         @Html.ActionLink("View", "Details", "BudgetPlanner", new { Reference = Model.Reference })
     </div>

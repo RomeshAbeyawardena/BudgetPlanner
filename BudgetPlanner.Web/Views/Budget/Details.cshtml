@@ -4,5 +4,7 @@
 
 @Model.Reference @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference })
 <h1>@Model.Name</h1>
-<p>Showing transactions from @Html.FormatContent(FormatConstants.LongDateFormat, Model.FromDate) - @Html.FormatContent(FormatConstants.LongDateFormat, Model.ToDate)</p>
+<p>Showing transactions from 
+    @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.FromDate) - 
+    @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.ToDate)</p>
 @await (Component.InvokeAsync<TransactionListViewComponent>(new { budgetId = @Model.Id, fromDate = Model.FromDate, toDate = Model.ToDate } ))
