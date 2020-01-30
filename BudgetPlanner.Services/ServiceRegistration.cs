@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using BudgetPlanner.Contracts.Providers;
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
+using BudgetPlanner.Services.Providers;
 using DNI.Shared.Contracts;
 using FluentValidation;
 using MediatR;
@@ -20,6 +22,7 @@ namespace BudgetPlanner.Services
         {
             services
                 .AddSingleton<ApplicationSettings>()
+                .AddTransient<ITransactionProvider, TransactionProvider>()
                 .AddTransient<IBudgetPlannerService, BudgetPlannerService>()
                 .AddTransient<ITransactionService, TransactionService>()
                 .AddTransient<ITransactionTypeService, TransactionTypeService>()

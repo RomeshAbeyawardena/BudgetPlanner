@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Providers;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using MediatR.Pipeline;
@@ -13,20 +14,18 @@ namespace BudgetPlanner.Services.PostProcessors
 {
     public class RetrieveBudgetPlanners : IRequestPostProcessor<RetrieveBudgetPlannersRequest, RetrieveBudgetPlannersResponse>
     {
-        private readonly ITransactionService _transactionService;
+        private readonly ITransactionProvider _transactionProvider;
 
         public async Task Process(RetrieveBudgetPlannersRequest request, RetrieveBudgetPlannersResponse response, CancellationToken cancellationToken)
         {
-            foreach (var budget in response.BudgetPlanners){
-                var income = await _transactionService.GetTotal(budget.Id, Domains.Enumerations.TransactionType.Income);
-                var outgoing = await _transactionService.GetTotal(budget.Id, Domains.Enumerations.TransactionType.Outgoing);
-                budget.Balance = income - outgoing;
-            }
+            foreach (var budget in response.BudgetPlanners)
+                budget.Balance = await _transactionProvider.GetBalance(budget.Id);
+            
         }
 
-        public RetrieveBudgetPlanners(ITransactionService transactionService)
+        public RetrieveBudgetPlanners(ITransactionProvider transactionProvider)
         {
-            _transactionService = transactionService;
+            _transactionProvider = transactionProvider;
         }
     }
 }

@@ -28,6 +28,7 @@ namespace BudgetPlanner.Web.Controllers
 
             budgetPlannerDetailsViewModel.FromDate = DateTime.Now.AddDays(-30);
             budgetPlannerDetailsViewModel.ToDate = DateTime.Now;
+            budgetPlannerDetailsViewModel.Balance = response.Amount;
 
             return View(budgetPlannerDetailsViewModel);
         }

@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Domains.Requests;
+﻿using BudgetPlanner.Contracts.Providers;
+using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using MediatR.Pipeline;
 using System;
@@ -12,9 +13,16 @@ namespace BudgetPlanner.Services.PostProcessors
 {
     public class RetrieveBudgetPlanner : IRequestPostProcessor<RetrieveBudgetPlannerRequest, RetrieveBudgetPlannerResponse>
     {
-        public Task Process(RetrieveBudgetPlannerRequest request, RetrieveBudgetPlannerResponse response, CancellationToken cancellationToken)
+        private readonly ITransactionProvider _transactionProvider;
+
+        public async Task Process(RetrieveBudgetPlannerRequest request, RetrieveBudgetPlannerResponse response, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            response.Amount = await _transactionProvider.GetBalance(response.BudgetPlanner.Id);
+        }
+
+        public RetrieveBudgetPlanner(ITransactionProvider transactionProvider)
+        {
+            _transactionProvider = transactionProvider;
         }
     }
 }

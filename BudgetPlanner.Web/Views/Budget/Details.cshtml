@@ -8,7 +8,10 @@
                     .Add("popup", "modal")
                     .Add("data-args", "{ \"isModal\":\"true\" }")).ToDictionary())
 <h1>@Model.Name</h1>
-<p>Showing transactions from 
-    @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.FromDate) - 
-    @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.ToDate)</p>
+<h3>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), Model.Balance)</h3>
+<p>
+    <span>Displaying transactions from </span>
+    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.FromDate) - </span>
+    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.ToDate)</span>
+</p>
 @await (Component.InvokeAsync<TransactionListViewComponent>(new { budgetId = @Model.Id, fromDate = Model.FromDate, toDate = Model.ToDate } ))
