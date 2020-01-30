@@ -48,6 +48,14 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
                 var contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 $dynamicPanel.find(".modal").show();
+
+                var $form = $dynamicPanel.find("form");
+                
+                var $submitButton = $dynamicPanel.find("[type='submit']");
+                $submitButton.on("click", (e) => {
+                        console.log("submit clicked");
+                        e.preventDefault();
+                    });
             });
         });
 
