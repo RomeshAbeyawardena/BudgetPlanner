@@ -40,7 +40,7 @@ namespace BudgetPlanner.Web.Controllers
             return View(new CreateBudgetPlannerViewModel { Active = true, IsModal = isModal });
         }
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([FromForm]CreateBudgetPlannerViewModel createBudgetPlannerViewModel)
         {
             if(!ModelState.IsValid)
