@@ -60,7 +60,7 @@ VALUES
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     ),
-	(   'Outgoing',                  -- Name - varchar(200)
+	(   'Expense',                  -- Name - varchar(200)
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     )

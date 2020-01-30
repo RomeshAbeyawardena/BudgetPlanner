@@ -22,7 +22,7 @@
                 <td>
                     <span>@transaction.Description</span>
                 </td>
-                <td @Html.DisplayIf(transaction.Type == TransactionType.Outgoing, "class=\"text-number-negate\"")>
+                <td @Html.DisplayIf(transaction.Type == TransactionType.Expense, "class=\"text-number-negate\"")>
                     <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), transaction.Amount)</span>
                 </td>
             </tr>

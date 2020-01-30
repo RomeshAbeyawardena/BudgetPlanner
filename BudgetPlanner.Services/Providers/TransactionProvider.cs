@@ -16,7 +16,7 @@ namespace BudgetPlanner.Services.Providers
         public async Task<decimal> GetBalance(int budgetPlannerId)
         {
             var income = await _transactionService.GetTotal(budgetPlannerId, Domains.Enumerations.TransactionType.Income);
-            var outgoing = await _transactionService.GetTotal(budgetPlannerId, Domains.Enumerations.TransactionType.Outgoing);
+            var outgoing = await _transactionService.GetTotal(budgetPlannerId, Domains.Enumerations.TransactionType.Expense);
             return income - outgoing;
         }
 
