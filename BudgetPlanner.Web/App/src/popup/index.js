@@ -1,5 +1,5 @@
 ﻿import $ from 'jquery';
-import { httpRequest } from "../utility";
+import { httpRequest, form } from "../utility";
 
 export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
     this.dymamicPanelSelector = dymamicPanelSelector;
@@ -48,14 +48,17 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
                 var contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 $dynamicPanel.find(".modal").show();
-
-                var $form = $dynamicPanel.find("form");
+                var defaultForm = new form($dynamicPanel, "form");
+                defaultForm.capture(0, true);
+                //var $form = $dynamicPanel.find("form");
+                //var formData = new FormData($form[0]);
+                //console.log(formData);
                 
-                var $submitButton = $dynamicPanel.find("[type='submit']");
-                $submitButton.on("click", (e) => {
-                        console.log("submit clicked");
-                        e.preventDefault();
-                    });
+                //var $submitButton = $dynamicPanel.find("[type='submit']");
+                //$submitButton.on("click", (e) => {
+                //        console.log("submit clicked");
+                //        e.preventDefault();
+                //});
             });
         });
 
