@@ -9,7 +9,7 @@ const hR = function (url, settings) {
             .fail((e) => reject(e)));
     };
     this.post = function (data) {
-        return new promise((resolve, reject) => $.post(url, data).done((e) => resolve(e))
+        return new promise((resolve, reject) => $.post(url, data).done((e, e1, e2) => { resolve({data: e, response: e2}); console.log(e1, e2); })
             .fail((e) => reject(e)));
     },
     this.createSettings = function (method, data, async = true, useCache = false, processData = false) {
@@ -27,19 +27,27 @@ const hR = function (url, settings) {
 export const httpRequest = hR;
 
 export const form = function (rootElement, formSelector) {
-    this.forms = $(rootElement).find(formSelector);
     this.capture = function (formIndex, capture) {
-        const form = this.forms[formIndex];
-        const forms = this.forms;
+        
         if(capture)
             $(rootElement)
                 .find("[type='submit']")
                 .on("click", (e) => {
-                    const request1 = new httpRequest(form.action);
-                    const formData = new FormData(form);
-                    
-                    request1.post($(forms).serialize())
-                        .then((e) => console.log(e));
+                    const forms = $(rootElement).find(formSelector);
+                    const form = forms[formIndex];
+                    const request = new httpRequest(form.action);
+
+                    request.post($(forms).serialize())
+                        .then((e) => { 
+                            console.log(e);
+                            if(e.response.status === 200)
+                                $(rootElement).html(e.data);
+                            else
+                                window.location.refresh();
+                            //recapture form.
+                            
+                            this.capture(formIndex, capture);
+                        });
                     
                     e.preventDefault();
                 });

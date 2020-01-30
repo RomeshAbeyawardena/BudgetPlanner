@@ -45,10 +45,10 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
             
             var request = new httpRequest(href);
             request.get(JSON.parse(args)).then((e) => {
-                var contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
+                const contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 $dynamicPanel.find(".modal").show();
-                var defaultForm = new form($dynamicPanel, "form");
+                var defaultForm = new form(contentPlaceholder, "form");
                 defaultForm.capture(0, true);
                 //var $form = $dynamicPanel.find("form");
                 //var formData = new FormData($form[0]);
