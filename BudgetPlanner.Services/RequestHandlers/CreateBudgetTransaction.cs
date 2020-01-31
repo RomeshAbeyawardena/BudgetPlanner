@@ -3,6 +3,7 @@ using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using DNI.Shared.Contracts;
+using DNI.Shared.Contracts.Services;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,25 @@ namespace BudgetPlanner.Services.RequestHandlers
         private readonly ITransactionService _transactionService;
         private readonly ITransactionLedgerService _transactionLedgerService;
         private readonly IMapperProvider _mapperProvider;
+        private readonly IModifierFlagPropertyService _modifierFlagPropertyService;
+
         public async Task<CreateTransactionResponse> Handle(CreateTransactionRequest request, CancellationToken cancellationToken)
         {
             var transaction = _mapperProvider.Map<CreateTransactionRequest, Transaction>(request);
 
             var lastTransaction = await _transactionService.GetLastTransaction(transaction.BudgetId);
 
-            var transactionLedger = await _transactionLedgerService.SaveTransactionLedger(new TransactionLedger { 
-                TransactionId = lastTransaction?.Id, 
+            var transactionLedger = new TransactionLedger
+            {
+                TransactionId = lastTransaction?.Id,
                 OldAmount = lastTransaction?.Amount ?? 0,
                 NewAmount = transaction.Amount
-            }, false);
+            };
+
+            _modifierFlagPropertyService.SetModifierFlagValues(transactionLedger, DNI.Shared.Contracts.Enumerations.ModifierFlag.Created);
+
+            transactionLedger = await _transactionLedgerService
+                .SaveTransactionLedger(transactionLedger, false);
 
             if(transaction.TransactionLedgers == null)
                 transaction.TransactionLedgers = new List<TransactionLedger>();
@@ -40,9 +49,13 @@ namespace BudgetPlanner.Services.RequestHandlers
             return new CreateTransactionResponse { IsSuccessful = true, Transaction = transaction };
         }
 
-        public CreateBudgetTransaction(IMapperProvider mapperProvider, ITransactionService transactionService, ITransactionLedgerService transactionLedgerService)
+        public CreateBudgetTransaction(IMapperProvider mapperProvider,
+            IModifierFlagPropertyService modifierFlagPropertyService,
+            ITransactionService transactionService, 
+            ITransactionLedgerService transactionLedgerService)
         {
             _mapperProvider = mapperProvider;
+            _modifierFlagPropertyService = modifierFlagPropertyService;
             _transactionService = transactionService;
             _transactionLedgerService = transactionLedgerService;
         }
