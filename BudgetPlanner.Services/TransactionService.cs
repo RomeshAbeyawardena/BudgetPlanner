@@ -49,6 +49,15 @@ namespace BudgetPlanner.Services
             return await _transactionRepository.SaveChanges(transaction);
         }
 
+        public async Task<Transaction> GetLastTransaction(int budgetId)
+        {
+            var transactionQuery = from transaction in DefaultTransactionQuery
+                                   where budgetId == transaction.BudgetId
+                                   select transaction;
+
+            return await transactionQuery.LastOrDefaultAsync();
+        }
+
         public TransactionService(IRepository<Transaction> transactionRepository)
         {
             _transactionRepository = transactionRepository;

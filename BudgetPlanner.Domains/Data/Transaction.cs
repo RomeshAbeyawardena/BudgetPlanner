@@ -29,5 +29,7 @@ namespace BudgetPlanner.Domains.Data
 
         [NotMapped]
         public Enumerations.TransactionType Type => (Enumerations.TransactionType)TransactionTypeId;
+
+        public virtual ICollection<TransactionLedger> TransactionLedgers {  get; set; }
     }
 }

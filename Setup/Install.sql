@@ -49,6 +49,19 @@ CREATE TABLE [dbo].[Transaction]
 	,[Created] DATETIMEOFFSET NOT NULL
 )
 
+CREATE TABLE [dbo].[TransactionLedger]
+(
+	 [Id] INT NOT NULL IDENTITY(1,1)
+		CONSTRAINT PK_TransactionLedger 
+			PRIMARY KEY
+	,[TransactionId] INT NULL
+		CONSTRAINT FK_TransactionLedger_Transaction
+		REFERENCES [dbo].[Transaction]
+	,[OldAmount] DECIMAL(18, 4) NOT NULL
+	,[NewAmount] DECIMAL(18, 4) NOT NULL
+	,[Created] DATETIMEOFFSET NOT NULL
+)
+
 INSERT INTO [dbo].[TransactionType]
 (
     [Name],
