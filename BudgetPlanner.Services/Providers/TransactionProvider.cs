@@ -26,12 +26,15 @@ namespace BudgetPlanner.Services.Providers
 
         private async Task<decimal> GetBalanceFromRealtimeData(int budgetPlannerId)
         {
-            var income = await _transactionService.GetTotal(budgetPlannerId, Domains.Enumerations.TransactionType.Income);
-            var outgoing = await _transactionService.GetTotal(budgetPlannerId, Domains.Enumerations.TransactionType.Expense);
+            var income = await _transactionService
+                .GetTotal(budgetPlannerId, Domains.Enumerations.TransactionType.Income);
+            var outgoing = await _transactionService
+                .GetTotal(budgetPlannerId, Domains.Enumerations.TransactionType.Expense);
             return income - outgoing;
         }
 
-        public TransactionProvider(ITransactionService transactionService, ITransactionLedgerService transactionLedgerService)
+        public TransactionProvider(ITransactionService transactionService, 
+            ITransactionLedgerService transactionLedgerService)
         {
             _transactionService = transactionService;
             _transactionLedgerService = transactionLedgerService;

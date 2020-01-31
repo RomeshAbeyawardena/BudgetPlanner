@@ -44,7 +44,7 @@ namespace BudgetPlanner.Services.RequestHandlers
                 : previousBalance + transaction.Amount
             };
 
-            _modifierFlagPropertyService.SetModifierFlagValues(transactionLedger, ModifierFlag.Created);
+            //_modifierFlagPropertyService.SetModifierFlagValues(transactionLedger, ModifierFlag.Created);
 
             transactionLedger = await _transactionLedgerService
                 .SaveTransactionLedger(transactionLedger, false);
