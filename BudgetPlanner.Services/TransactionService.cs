@@ -18,13 +18,15 @@ namespace BudgetPlanner.Services
         private IQueryable<Transaction> DefaultTransactionQuery => _transactionRepository.Query(transaction => transaction.Active == true);
         private IQueryable<Transaction> BudgetTransactionQuery(int budgetId, IQueryable<Transaction> transactionQuery) => transactionQuery
             .Where(transaction => transaction.BudgetId == budgetId);
+        private IQueryable<Transaction> BudgetTransactionDateRangeQuery(int budgetId, DateTime fromDate, DateTime toDate, 
+            IQueryable<Transaction> transactionQuery) => 
+            BudgetTransactionQuery(budgetId, transactionQuery)
+            .Where(transaction => transaction.Created >= fromDate
+                                        && transaction.Created <= toDate);
 
         public async Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in DefaultTransactionQuery
-                                   where transaction.BudgetId == budgetId
-                                        && (transaction.Created >= fromDate
-                                        && transaction.Created <= toDate)
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
                                     orderby transaction.Created descending
                                     select transaction;
 
@@ -60,7 +62,11 @@ namespace BudgetPlanner.Services
 
         public async Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in 
+            var transactionQuery = from transaction in BudgetTransactionQuery(budgetId, DefaultTransactionQuery)
+                                    .Include(transaction => transaction.TransactionLedgers)
+                                   select transaction;
+
+            return await transactionQuery.ToArrayAsync();
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)
