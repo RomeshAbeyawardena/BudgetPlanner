@@ -1,7 +1,9 @@
-﻿using BudgetPlanner.Domains.Data;
+﻿using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
+using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,6 +17,7 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class BudgetController : DefaultControllerBase
     {
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         [HttpGet, Route("/[controller]/[action]/{reference}")]
         public async Task<ActionResult> Details([FromRoute]string reference)
         {

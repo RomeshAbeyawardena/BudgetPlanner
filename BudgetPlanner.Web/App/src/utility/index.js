@@ -9,7 +9,7 @@ const hR = function (url, settings) {
             .fail((e) => reject(e)));
     };
     this.post = function (data) {
-        return new promise((resolve, reject) => $.post(url, data).done((e, e1, e2) => { resolve({data: e, response: e2}); console.log(e1, e2); })
+        return new promise((resolve, reject) => $.post(url, data).done((e, e1, e2) => { resolve({data: e, response: e2}); })
             .fail((e) => reject(e)));
     },
     this.createSettings = function (method, data, async = true, useCache = false, processData = false) {
@@ -40,10 +40,10 @@ export const form = function (rootElement, formSelector) {
                     request.post($(forms).serialize())
                         .then((e) => { 
                             console.log(e);
-                            if(e.response.status === 200)
+                            if(!e.response.getResponseHeader("DismissModals"))
                                 $(rootElement).html(e.data);
                             else
-                                window.location.refresh();
+                                window.location.reload();
                             //recapture form.
                             
                             this.capture(formIndex, capture);
