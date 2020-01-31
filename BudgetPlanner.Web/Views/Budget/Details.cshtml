@@ -2,7 +2,8 @@
 
 @{ ViewBag.Title = "Details"; }
 
-@Model.Reference
+@Html.ActionLink("Dashboard", "Index", "Home")
+
 <h1>@Model.Name</h1>
 <h3>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), Model.Balance)</h3>
 <p>

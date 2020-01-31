@@ -20,7 +20,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
         return this;
     };
     this.getMode = function (mode) {
-        var modeData = this.modes[mode];
+        const modeData = this.modes[mode];
         if (!modeData)
             throw 'Mode' + mode + ' not found';
         return modeData;
@@ -36,19 +36,23 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
         $element.on("click", (e) => {
             const $element = $(e.target);
             const href = $element.attr("data-href");
-            const args = $element.attr("data-args");
+            var args = $element.attr("data-args");
             const modeData = context.getMode(mode);
             const $dynamicPanel = $(context.dymamicPanelSelector);
             const $template = $(modeData.templateSelector);
             
             $dynamicPanel.html($template.html());
             
-            var request = new httpRequest(href);
-            request.get(JSON.parse(args)).then((e) => {
+            const request = new httpRequest(href);
+
+             if(args)
+                 args = JSON.parse(args);
+
+            request.get(args).then((e) => {
                 const contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 $dynamicPanel.find(".modal").show();
-                var defaultForm = new form(contentPlaceholder, "form", "DismissModals");
+                const defaultForm = new form(contentPlaceholder, "form", "DismissModals");
                 defaultForm.capture(0, true);
             });
         });
