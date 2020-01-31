@@ -48,7 +48,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
                 const contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 $dynamicPanel.find(".modal").show();
-                var defaultForm = new form(contentPlaceholder, "form");
+                var defaultForm = new form(contentPlaceholder, "form", "DismissModals");
                 defaultForm.capture(0, true);
             });
         });

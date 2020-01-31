@@ -26,7 +26,7 @@ const hR = function (url, settings) {
 
 export const httpRequest = hR;
 
-export const form = function (rootElement, formSelector) {
+export const form = function (rootElement, formSelector, reloadHeaderToken) {
     this.capture = function (formIndex, capture) {
         
         if(capture)
@@ -39,7 +39,7 @@ export const form = function (rootElement, formSelector) {
 
                     request.post($(forms).serialize())
                         .then((e) => { 
-                            if(!e.response.getResponseHeader("DismissModals"))
+                            if(!e.response.getResponseHeader(reloadHeaderToken))
                                 $(rootElement).html(e.data);
                             else
                                 window.location.reload();
