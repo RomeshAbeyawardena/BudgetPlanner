@@ -22,7 +22,6 @@ namespace BudgetPlanner.Services.RequestHandlers
         private readonly ITransactionProvider _transactionProvider;
         private readonly ITransactionLedgerService _transactionLedgerService;
         private readonly IMapperProvider _mapperProvider;
-        private readonly IModifierFlagPropertyService _modifierFlagPropertyService;
 
         public async Task<CreateTransactionResponse> Handle(CreateTransactionRequest request, CancellationToken cancellationToken)
         {
@@ -44,8 +43,6 @@ namespace BudgetPlanner.Services.RequestHandlers
                 : previousBalance + transaction.Amount
             };
 
-            //_modifierFlagPropertyService.SetModifierFlagValues(transactionLedger, ModifierFlag.Created);
-
             transactionLedger = await _transactionLedgerService
                 .SaveTransactionLedger(transactionLedger, false);
 
@@ -60,13 +57,11 @@ namespace BudgetPlanner.Services.RequestHandlers
         }
 
         public CreateBudgetTransaction(IMapperProvider mapperProvider,
-            IModifierFlagPropertyService modifierFlagPropertyService,
             ITransactionService transactionService, 
             ITransactionProvider transactionProvider,
             ITransactionLedgerService transactionLedgerService)
         {
             _mapperProvider = mapperProvider;
-            _modifierFlagPropertyService = modifierFlagPropertyService;
             _transactionService = transactionService;
             _transactionProvider = transactionProvider;
             _transactionLedgerService = transactionLedgerService;
