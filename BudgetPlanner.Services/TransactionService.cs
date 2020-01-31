@@ -16,6 +16,8 @@ namespace BudgetPlanner.Services
         private readonly IRepository<Transaction> _transactionRepository;
 
         private IQueryable<Transaction> DefaultTransactionQuery => _transactionRepository.Query(transaction => transaction.Active == true);
+        private IQueryable<Transaction> BudgetTransactionQuery(int budgetId, IQueryable<Transaction> transactionQuery) => transactionQuery
+            .Where(transaction => transaction.BudgetId == budgetId);
 
         public async Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate)
         {
@@ -31,8 +33,7 @@ namespace BudgetPlanner.Services
 
         public async Task<decimal> GetTotal(int budgetId, Domains.Enumerations.TransactionType transactionType)
         {
-            var transactionQuery = from transaction in DefaultTransactionQuery
-                                   where transaction.BudgetId == budgetId
+            var transactionQuery = from transaction in BudgetTransactionQuery(budgetId, DefaultTransactionQuery)
                                    select transaction;
 
             var transactionTypeId = (int)transactionType;
@@ -51,11 +52,15 @@ namespace BudgetPlanner.Services
 
         public async Task<Transaction> GetLastTransaction(int budgetId)
         {
-            var transactionQuery = from transaction in DefaultTransactionQuery
-                                   where budgetId == transaction.BudgetId
+            var transactionQuery = from transaction in BudgetTransactionQuery(budgetId, DefaultTransactionQuery)
                                    select transaction;
 
             return await transactionQuery.LastOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate)
+        {
+            var transactionQuery = from transaction in 
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)

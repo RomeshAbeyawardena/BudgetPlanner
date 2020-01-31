@@ -21,6 +21,7 @@ namespace BudgetPlanner.Domains.Data
 
         [Column(TypeName = "decimal(18, 4)")]
         public decimal NewAmount { get; set; }
+
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
     }
