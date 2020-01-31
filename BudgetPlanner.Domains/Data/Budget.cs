@@ -1,4 +1,4 @@
-﻿using DNI.Shared.Domains.Enumerations;
+﻿using DNI.Shared.Contracts.Enumerations;
 using DNI.Shared.Services.Attributes;
 using System;
 using System.Collections.Generic;
