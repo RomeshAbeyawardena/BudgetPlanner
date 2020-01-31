@@ -17,7 +17,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<RetrieveTransactionsResponse> Handle(RetrieveTransactionsRequest request, CancellationToken cancellationToken)
         {
-            return new RetrieveTransactionsResponse { Transactions = await _transactionService.GetTransactions(request.BudgetId, request.FromDate, request.ToDate) };
+            return new RetrieveTransactionsResponse { Transactions = await _transactionService.GetTransactionsWithLedgers(request.BudgetId, request.FromDate, request.ToDate) };
         }
 
         public RetrieveTransactions(ITransactionService transactionService)

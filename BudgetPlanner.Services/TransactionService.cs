@@ -16,10 +16,12 @@ namespace BudgetPlanner.Services
         private readonly IRepository<Transaction> _transactionRepository;
 
         private IQueryable<Transaction> DefaultTransactionQuery => _transactionRepository.Query(transaction => transaction.Active == true);
+        
         private IQueryable<Transaction> BudgetTransactionQuery(int budgetId, IQueryable<Transaction> transactionQuery) => transactionQuery
             .Where(transaction => transaction.BudgetId == budgetId);
-        private IQueryable<Transaction> BudgetTransactionDateRangeQuery(int budgetId, DateTime fromDate, DateTime toDate, 
-            IQueryable<Transaction> transactionQuery) => 
+        
+        private IQueryable<Transaction> BudgetTransactionDateRangeQuery(int budgetId, DateTime fromDate, DateTime toDate,
+            IQueryable<Transaction> transactionQuery) =>
             BudgetTransactionQuery(budgetId, transactionQuery)
             .Where(transaction => transaction.Created >= fromDate
                                         && transaction.Created <= toDate);
@@ -27,8 +29,8 @@ namespace BudgetPlanner.Services
         public async Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate)
         {
             var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
-                                    orderby transaction.Created descending
-                                    select transaction;
+                                   orderby transaction.Created descending
+                                   select transaction;
 
             return await transactionQuery.ToArrayAsync();
         }
@@ -41,8 +43,8 @@ namespace BudgetPlanner.Services
             var transactionTypeId = (int)transactionType;
 
             var transactionSumQuery = from transaction in transactionQuery
-                                         where transaction.TransactionTypeId == transactionTypeId
-                                         select transaction;
+                                      where transaction.TransactionTypeId == transactionTypeId
+                                      select transaction;
 
             return await transactionSumQuery.SumAsync(transaction => transaction.Amount);
         }
@@ -55,17 +57,18 @@ namespace BudgetPlanner.Services
         public async Task<Transaction> GetLastTransaction(int budgetId)
         {
             var transactionQuery = from transaction in BudgetTransactionQuery(budgetId, DefaultTransactionQuery)
+                                   orderby transaction.Created descending
                                    select transaction;
 
-            return await transactionQuery.LastOrDefaultAsync();
+            return await transactionQuery.FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in BudgetTransactionQuery(budgetId, DefaultTransactionQuery)
-                                    .Include(transaction => transaction.TransactionLedgers)
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
+                                   .Include(transaction => transaction.TransactionLedgers)
+                                   orderby transaction.Created descending
                                    select transaction;
-
             return await transactionQuery.ToArrayAsync();
         }
 

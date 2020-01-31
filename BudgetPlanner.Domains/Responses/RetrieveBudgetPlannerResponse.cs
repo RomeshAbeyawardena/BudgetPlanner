@@ -10,6 +10,7 @@ namespace BudgetPlanner.Domains.Responses
     public class RetrieveBudgetPlannerResponse
     {
         public Budget BudgetPlanner { get; set; }
+        public decimal OldAmount { get; set; }
         public decimal Amount { get; set; }
     }
 }
