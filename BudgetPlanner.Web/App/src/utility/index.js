@@ -39,7 +39,6 @@ export const form = function (rootElement, formSelector) {
 
                     request.post($(forms).serialize())
                         .then((e) => { 
-                            console.log(e);
                             if(!e.response.getResponseHeader("DismissModals"))
                                 $(rootElement).html(e.data);
                             else
