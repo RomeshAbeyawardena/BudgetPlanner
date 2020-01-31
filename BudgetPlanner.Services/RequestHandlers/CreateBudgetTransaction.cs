@@ -30,7 +30,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
             var lastTransaction = await _transactionService.GetLastTransaction(transaction.BudgetId);
 
-            var previousBalance = await _transactionProvider.GetBalance(transaction.BudgetId);
+            var previousBalance = await _transactionProvider.GetBalance(transaction.BudgetId, true);
 
             var transactionLedger = new TransactionLedger
             {

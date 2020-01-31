@@ -9,6 +9,6 @@ namespace BudgetPlanner.Contracts.Providers
 {
     public interface ITransactionProvider
     {
-        Task<decimal> GetBalance(int budgetPlannerId);
+        Task<decimal> GetBalance(int budgetPlannerId, bool useRealtimeData = false);
     }
 }

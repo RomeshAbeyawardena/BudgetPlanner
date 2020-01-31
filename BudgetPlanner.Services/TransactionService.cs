@@ -54,9 +54,15 @@ namespace BudgetPlanner.Services
             return await _transactionRepository.SaveChanges(transaction);
         }
 
-        public async Task<Transaction> GetLastTransaction(int budgetId)
+        public async Task<Transaction> GetLastTransaction(int budgetId, bool includeLedger = false)
         {
-            var transactionQuery = from transaction in BudgetTransactionQuery(budgetId, DefaultTransactionQuery)
+            var transactionQuery = BudgetTransactionQuery(budgetId, DefaultTransactionQuery); 
+
+            if(includeLedger)
+                transactionQuery = transactionQuery
+                    .Include(transaction => transaction.TransactionLedgers);
+
+            transactionQuery = from transaction in transactionQuery
                                    orderby transaction.Created descending
                                    select transaction;
 
