@@ -17,10 +17,13 @@ namespace BudgetPlanner.Domains.Data
         public int? TransactionId { get; set; }
         
         [Column(TypeName = "decimal(18, 4)")]
-        public decimal OldAmount { get; set; }
+        public decimal PreviousBalance { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
-        public decimal NewAmount { get; set; }
+        public decimal NewBalance { get; set; }
+
+        [Column(TypeName = "decimal(18, 4)")]
+        public decimal Amount { get; set; }
 
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }

@@ -1,8 +1,10 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Providers;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using DNI.Shared.Contracts;
+using DNI.Shared.Contracts.Enumerations;
 using DNI.Shared.Contracts.Services;
 using MediatR;
 using System;
@@ -17,6 +19,7 @@ namespace BudgetPlanner.Services.RequestHandlers
     public class CreateBudgetTransaction : IRequestHandler<CreateTransactionRequest, CreateTransactionResponse>
     {
         private readonly ITransactionService _transactionService;
+        private readonly ITransactionProvider _transactionProvider;
         private readonly ITransactionLedgerService _transactionLedgerService;
         private readonly IMapperProvider _mapperProvider;
         private readonly IModifierFlagPropertyService _modifierFlagPropertyService;
@@ -27,14 +30,21 @@ namespace BudgetPlanner.Services.RequestHandlers
 
             var lastTransaction = await _transactionService.GetLastTransaction(transaction.BudgetId);
 
+            var previousBalance = await _transactionProvider.GetBalance(transaction.BudgetId);
+
             var transactionLedger = new TransactionLedger
             {
                 TransactionId = lastTransaction?.Id,
-                OldAmount = lastTransaction?.Amount ?? 0,
-                NewAmount = transaction.Amount
+                Amount = transaction.Type == Domains.Enumerations.TransactionType.Expense 
+                    ? -transaction.Amount
+                    : transaction.Amount,
+                PreviousBalance = previousBalance,
+                NewBalance = transaction.Type == Domains.Enumerations.TransactionType.Expense 
+                ? previousBalance - transaction.Amount
+                : previousBalance + transaction.Amount
             };
 
-            _modifierFlagPropertyService.SetModifierFlagValues(transactionLedger, DNI.Shared.Contracts.Enumerations.ModifierFlag.Created);
+            _modifierFlagPropertyService.SetModifierFlagValues(transactionLedger, ModifierFlag.Created);
 
             transactionLedger = await _transactionLedgerService
                 .SaveTransactionLedger(transactionLedger, false);
@@ -52,11 +62,13 @@ namespace BudgetPlanner.Services.RequestHandlers
         public CreateBudgetTransaction(IMapperProvider mapperProvider,
             IModifierFlagPropertyService modifierFlagPropertyService,
             ITransactionService transactionService, 
+            ITransactionProvider transactionProvider,
             ITransactionLedgerService transactionLedgerService)
         {
             _mapperProvider = mapperProvider;
             _modifierFlagPropertyService = modifierFlagPropertyService;
             _transactionService = transactionService;
+            _transactionProvider = transactionProvider;
             _transactionLedgerService = transactionLedgerService;
         }
     }

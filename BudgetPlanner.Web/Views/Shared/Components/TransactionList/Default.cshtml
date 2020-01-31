@@ -7,30 +7,41 @@
             <th scope="col">Created</th>
             <th scope="col">Description</th>
             <th scope="col">Amount</th>
-            <th scope="col">Old Amount</th>
+            <th scope="col">Old Balance</th>
+            <th scope="col">New Balance</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var transaction in Model.Transactions)
         {
-        <tr>
-            <th scope="row">
-                <span>@transaction.Id</span>
-            </th>
-            <td>
-                <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.ShortDateFormat), transaction.Created)</span>
-            </td>
-            <td>
-                <span>@transaction.Description</span>
-            </td>
-            <td @Html.DisplayIf(transaction.Type == TransactionType.Expense, "class=\"text-number-negate\"")>
-                <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), transaction.Amount)</span>
-            </td>
-            <td @Html.DisplayIf(transaction.Type == TransactionType.Expense, "class=\"text-number-negate\"")>
-                <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), 
-                     transaction.TransactionLedgers?.FirstOrDefault().OldAmount)</span>
-            </td>
-        </tr>
+            var transledger = transaction.TransactionLedgers?.FirstOrDefault();
+
+            <tr>
+                <th scope="row">
+                    <span>@transaction.Id</span>
+                </th>
+                <td>
+                    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.ShortDateFormat), transaction.Created)</span>
+                </td>
+                <td>
+                    <span>@transaction.Description</span>
+                </td>
+                <td @Html.DisplayIf(transaction.Type == TransactionType.Expense, "class=\"text-number-negate\"")>
+                    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), transaction.Amount)</span>
+                </td>
+                <td>
+                    <span>
+                        @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
+                 transledger.PreviousBalance)
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
+                 transledger.NewBalance)
+                    </span>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

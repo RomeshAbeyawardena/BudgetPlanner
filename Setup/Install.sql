@@ -57,8 +57,9 @@ CREATE TABLE [dbo].[TransactionLedger]
 	,[TransactionId] INT NULL
 		CONSTRAINT FK_TransactionLedger_Transaction
 		REFERENCES [dbo].[Transaction]
-	,[OldAmount] DECIMAL(18, 4) NOT NULL
-	,[NewAmount] DECIMAL(18, 4) NOT NULL
+	,[Amount] DECIMAL(18, 4) NOT NULL
+	,[PreviousBalance] DECIMAL(18, 4) NOT NULL
+	,[NewBalance] DECIMAL(18, 4)
 	,[Created] DATETIMEOFFSET NOT NULL
 )
 
@@ -77,3 +78,6 @@ VALUES
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     )
+
+
+	SELECT * FROM dbo.TransactionLedger
