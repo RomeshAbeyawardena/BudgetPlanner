@@ -24,7 +24,8 @@ namespace BudgetPlanner.Data
             }).RegisterDbContentRepositories<BudgetPlannerDbContext>(ServiceLifetime.Transient, 
                 typeof(Budget), 
                 typeof(Transaction),
-                typeof(TransactionType));
+                typeof(TransactionType),
+                typeof(TransactionLedger));
         }
     }
 }
