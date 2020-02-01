@@ -1,4 +1,6 @@
-﻿@model BudgetPlannerDetailsViewModel
+﻿@using System.Text;
+
+@model BudgetPlannerDetailsViewModel
 
 @{ ViewBag.Title = "Details"; }
 
@@ -12,15 +14,19 @@
     <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.ToDate)</span>
 </p>
 
-@await (Component.InvokeAsync<TransactionListViewComponent>(new TransactionListRequestViewModel { 
-    BudgetId = @Model.Id, 
-    FromDate = Model.FromDate, 
-    ToDate = Model.ToDate, 
-    PageSize = Model.PageSize, 
-    PageNumber = Model.PageNumber }))
+<div data-href="/ViewComponent/TransactionList" data-parameters="@Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel {
+    BudgetId = @Model.Id,
+    FromDate = Model.FromDate,
+    ToDate = Model.ToDate,
+    PageSize = Model.PageSize,
+    PageNumber = Model.PageNumber }), Encoding.UTF8)">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 
 @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference }, DictionaryBuilder
                 .Create<string, object>(dictionaryBuilder => dictionaryBuilder
                     .Add("class", "btn btn-primary")
                     .Add("popup", "modal")
-                    .Add("data-args", "{ \"isModal\":\"true\" }")).ToDictionary())
+                    .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())
