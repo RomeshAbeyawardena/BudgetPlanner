@@ -21,15 +21,18 @@ namespace BudgetPlanner.Services
         private IQueryable<Transaction> BudgetTransactionQuery(int budgetId, IQueryable<Transaction> transactionQuery) => transactionQuery
             .Where(transaction => transaction.BudgetId == budgetId);
         
-        private IQueryable<Transaction> BudgetTransactionDateRangeQuery(int budgetId, DateTime fromDate, DateTime toDate,
-            IQueryable<Transaction> transactionQuery) =>
-            BudgetTransactionQuery(budgetId, transactionQuery)
+        private IQueryable<Transaction> BudgetReferenceTransactionQuery(string reference, IQueryable<Transaction> transactionQuery) => transactionQuery.Include(transaction => transaction.Budget)
+            .Where(transaction => transaction.Budget.Reference == reference);
+
+        private IQueryable<Transaction> BudgetTransactionDateRangeQuery(DateTime fromDate, DateTime toDate,
+            IQueryable<Transaction> transactionQuery) => transactionQuery
             .Where(transaction => transaction.Created >= fromDate
                                         && transaction.Created <= toDate);
 
         public async Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(fromDate, toDate, 
+                BudgetTransactionQuery(budgetId, DefaultTransactionQuery))
                                    orderby transaction.Created descending
                                    select transaction;
             
@@ -72,7 +75,8 @@ namespace BudgetPlanner.Services
 
         public async Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(fromDate, toDate, 
+                BudgetTransactionQuery(budgetId, DefaultTransactionQuery))
                                    .Include(transaction => transaction.TransactionLedgers)
                                    orderby transaction.Created descending
                                    select transaction;
@@ -81,16 +85,18 @@ namespace BudgetPlanner.Services
 
         public IPagerResult<Transaction> GetPagedTransactions(int budgetId, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(fromDate, toDate, 
+                BudgetTransactionQuery(budgetId, DefaultTransactionQuery))
                         orderby transaction.Created descending
                         select transaction;
 
             return _transactionRepository.GetPager(transactionQuery);
         }
 
-        public IPagerResult<Transaction> GetPagedTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate)
+        public IPagerResult<Transaction> GetPagedTransactionsWithLedgers(string reference, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(fromDate, toDate, 
+                BudgetReferenceTransactionQuery(reference, DefaultTransactionQuery))
                                    .Include(transaction => transaction.TransactionLedgers)
                                    orderby transaction.Created descending
                                    select transaction;

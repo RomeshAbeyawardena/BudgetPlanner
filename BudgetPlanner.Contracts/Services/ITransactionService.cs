@@ -11,7 +11,7 @@ namespace BudgetPlanner.Contracts.Services
     public interface ITransactionService
     {
         IPagerResult<Transaction> GetPagedTransactions(int budgetId, DateTime fromDate, DateTime toDate);
-        IPagerResult<Transaction> GetPagedTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate);
+        IPagerResult<Transaction> GetPagedTransactionsWithLedgers(string reference, DateTime fromDate, DateTime toDate);
 
         Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate);
         Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate);

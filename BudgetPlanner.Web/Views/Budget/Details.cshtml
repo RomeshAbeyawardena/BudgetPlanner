@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
     var transactionRequestData = Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel
     {
-        BudgetId = @Model.Id,
+        Reference = Model.Reference,
         FromDate = Model.FromDate,
         ToDate = Model.ToDate,
         PageSize = Model.PageSize,

@@ -20,7 +20,7 @@ namespace BudgetPlanner.Web.ViewComponents
                     new RetrieveTransactionsRequest { 
                         PageSize = model.PageSize,
                         PageNumber = model.PageNumber,
-                        BudgetId = model.BudgetId, 
+                        Reference = model.Reference, 
                         FromDate = model.FromDate, 
                         ToDate = model.ToDate 
                     });

@@ -18,7 +18,7 @@ namespace BudgetPlanner.Services.RequestHandlers
         public async Task<RetrieveTransactionsResponse> Handle(RetrieveTransactionsRequest request, CancellationToken cancellationToken)
         {
             var transactionsPager = _transactionService
-                .GetPagedTransactionsWithLedgers(request.BudgetId, request.FromDate, request.ToDate);
+                .GetPagedTransactionsWithLedgers(request.Reference, request.FromDate, request.ToDate);
 
             return new RetrieveTransactionsResponse { 
                 PageNumber = request.PageNumber,

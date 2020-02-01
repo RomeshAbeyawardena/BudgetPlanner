@@ -10,6 +10,7 @@ $(() => {
     const modalPopup = new popup("#popup", "#dialogModeDataHiddenField")
         .configureMode("modal", "#modalDialog", "#content")
         .init();
+
     const loader = new asyncLoader("data-src","data-parameters")
         .init();
 });
