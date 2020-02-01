@@ -17,14 +17,14 @@ namespace BudgetPlanner.Web.Controllers
         {
             await Task.CompletedTask;
 
-            return ViewComponent(typeof(TransactionListViewComponent), new TransactionListRequestViewModel
-            {
-                BudgetId = request.BudgetId,
-                FromDate = request.FromDate,
-                ToDate = request.ToDate,
-                PageSize = request.PageSize,
-                PageNumber = request.PageNumber
-            });
+            return ViewComponent(typeof(TransactionListViewComponent), request);
+        }
+
+        public async Task<ActionResult> BudgetPlannerListDashboard(BudgetPanelDashboardListViewModel request)
+        {
+            await Task.CompletedTask;
+
+            return ViewComponent(typeof(BudgetPlannerViewComponent), request);
         }
     }
 }

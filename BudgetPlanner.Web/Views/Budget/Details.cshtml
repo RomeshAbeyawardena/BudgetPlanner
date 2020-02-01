@@ -1,6 +1,4 @@
-﻿@using System.Text;
-
-@model BudgetPlannerDetailsViewModel
+﻿@model BudgetPlannerDetailsViewModel
 
 @{ ViewBag.Title = "Details"; }
 
@@ -14,7 +12,8 @@
     <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.ToDate)</span>
 </p>
 
-<div data-href="/ViewComponent/TransactionList" data-parameters="@Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel {
+<section data-src="@Url.Action("TransactionList","ViewComponent")"
+         data-parameters="@Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel {
     BudgetId = @Model.Id,
     FromDate = Model.FromDate,
     ToDate = Model.ToDate,
@@ -23,7 +22,7 @@
     <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
     </div>
-</div>
+</section>
 
 @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference }, DictionaryBuilder
                 .Create<string, object>(dictionaryBuilder => dictionaryBuilder
