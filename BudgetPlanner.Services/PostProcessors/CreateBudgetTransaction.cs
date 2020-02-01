@@ -19,6 +19,8 @@ namespace BudgetPlanner.Services.PostProcessors
         {
             var budget = await _budgetPlannerService.GetBudgetPlanner(request.BudgetId);
             response.Reference = budget.Reference;
+            budget.LastTransactionId = response.Transaction.Id;
+            await _budgetPlannerService.Save(budget);
         }
 
         public CreateBudgetTransaction(IBudgetPlannerService budgetPlannerService)

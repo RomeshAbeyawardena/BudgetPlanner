@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[Budget](
 		CONSTRAINT IQ_Budget_Reference UNIQUE
 	,[Name] VARCHAR(200) NOT NULL
 	,[Active] BIT NOT NULL
+	,[LastTransactionId] INT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 	,[LastUpdated] DATETIMEOFFSET NULL
 	,INDEX Idx_Budget_Reference 
