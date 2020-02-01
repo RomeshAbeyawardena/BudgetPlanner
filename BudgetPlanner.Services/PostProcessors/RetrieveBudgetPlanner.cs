@@ -17,7 +17,11 @@ namespace BudgetPlanner.Services.PostProcessors
 
         public async Task Process(RetrieveBudgetPlannerRequest request, RetrieveBudgetPlannerResponse response, CancellationToken cancellationToken)
         {
+            if(response.BudgetPlanner == null)
+                return;
+
             response.Amount = await _transactionProvider.GetBalance(response.BudgetPlanner.Id);
+            response.IsSuccessful = true;
         }
 
         public RetrieveBudgetPlanner(ITransactionProvider transactionProvider)

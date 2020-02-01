@@ -11,7 +11,13 @@
     <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.FromDate) - </span>
     <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.ToDate)</span>
 </p>
-@await (Component.InvokeAsync<TransactionListViewComponent>(new { budgetId = @Model.Id, fromDate = Model.FromDate, toDate = Model.ToDate, pageSize = 5, pageNumber = 1 }))
+
+@await (Component.InvokeAsync<TransactionListViewComponent>(new TransactionListRequestViewModel { 
+    BudgetId = @Model.Id, 
+    FromDate = Model.FromDate, 
+    ToDate = Model.ToDate, 
+    PageSize = Model.PageSize, 
+    PageNumber = Model.PageNumber }))
 
 @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference }, DictionaryBuilder
                 .Create<string, object>(dictionaryBuilder => dictionaryBuilder

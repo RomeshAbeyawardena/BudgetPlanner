@@ -19,16 +19,18 @@ namespace BudgetPlanner.Web.Controllers
     {
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         [HttpGet, Route("/[controller]/[action]/{reference}")]
-        public async Task<ActionResult> Details([FromRoute]string reference)
+        public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=12, [FromQuery]int pageNumber=1)
         {
             var response = await MediatorService
                 .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { Reference = reference });
 
-            if(response.BudgetPlanner == null)
+            if(!response.IsSuccessful)
                 return RedirectToAction("Index","Home");
 
             var budgetPlannerDetailsViewModel = Map<Budget, BudgetPlannerDetailsViewModel>(response.BudgetPlanner);
 
+            budgetPlannerDetailsViewModel.PageSize = pageSize;
+            budgetPlannerDetailsViewModel.PageNumber = pageNumber;
             budgetPlannerDetailsViewModel.FromDate = DateTime.Now.AddDays(-30);
             budgetPlannerDetailsViewModel.ToDate = DateTime.Now;
             budgetPlannerDetailsViewModel.Balance = response.Amount;
