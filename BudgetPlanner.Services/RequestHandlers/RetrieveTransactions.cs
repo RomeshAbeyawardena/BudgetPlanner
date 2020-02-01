@@ -21,6 +21,7 @@ namespace BudgetPlanner.Services.RequestHandlers
                 .GetPagedTransactionsWithLedgers(request.BudgetId, request.FromDate, request.ToDate);
 
             return new RetrieveTransactionsResponse { 
+                PageNumber = request.PageNumber,
                 TotalPages = await transactionsPager.GetTotalNumberOfPages(request.PageSize),
                 Transactions = await transactionsPager
                     .GetItems(request.PageNumber, request.PageSize, cancellationToken: cancellationToken) };

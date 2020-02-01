@@ -1,1 +1,12 @@
-﻿<p>pager</p>
+﻿@model PagerViewModel
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        @for(var i=1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @Html.DisplayIf(Model.PageNumber == i, "active")"><a class="page-link" href="#">@i</a></li>
+        }
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>

@@ -9,6 +9,7 @@ namespace BudgetPlanner.Domains.Responses
 {
     public class RetrieveTransactionsResponse
     {
+        public int PageNumber { get; set; }
         public int TotalPages { get; set; }
         public IEnumerable<Transaction> Transactions { get; set; }
     }
