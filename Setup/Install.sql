@@ -79,6 +79,6 @@ VALUES
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     )
-
+	SELECT * FROM [Budget]
 
 	SELECT * FROM dbo.TransactionLedger

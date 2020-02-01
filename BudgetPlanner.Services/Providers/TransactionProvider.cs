@@ -21,7 +21,10 @@ namespace BudgetPlanner.Services.Providers
 
             var transaction =  await _transactionService.GetLastTransaction(budgetPlannerId, true);
 
-            return transaction.TransactionLedgers.FirstOrDefault().NewBalance;
+            if (transaction == null)
+                return 0;
+
+            return transaction.TransactionLedgers?.FirstOrDefault().NewBalance ?? 0;
         }
 
         private async Task<decimal> GetBalanceFromRealtimeData(int budgetPlannerId)

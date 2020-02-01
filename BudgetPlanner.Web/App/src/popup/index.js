@@ -29,7 +29,11 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
         const $element = $(element);
         const mode = $element.attr("popup");
         const href = $element.attr("href");
+        
+        if($element.attr("data-setup"))
+            return;
 
+        $element.attr("data-setup", "true");
         $element.attr("href", "#");
         $element.attr("data-href", href);
 

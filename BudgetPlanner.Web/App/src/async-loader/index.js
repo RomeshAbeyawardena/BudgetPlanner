@@ -13,7 +13,7 @@ const asyncLoader = function (sourceAttribute, parametersAttribute) {
             
             var parameters = JSON.parse(atob(dynamicParameters));
             
-            new httpRequest(dynamicUrl)
+            return new httpRequest(dynamicUrl)
                 .get(parameters)
                 .then((e) => $dynamicPanel.html(e));
         }
