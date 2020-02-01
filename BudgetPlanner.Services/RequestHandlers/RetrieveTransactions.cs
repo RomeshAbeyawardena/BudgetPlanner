@@ -20,8 +20,10 @@ namespace BudgetPlanner.Services.RequestHandlers
             var transactionsPager = _transactionService
                 .GetPagedTransactionsWithLedgers(request.BudgetId, request.FromDate, request.ToDate);
 
-            return new RetrieveTransactionsResponse { Transactions = await transactionsPager
-                .GetItems(request.PageNumber, request.PageSize, cancellationToken: cancellationToken) };
+            return new RetrieveTransactionsResponse { 
+                TotalPages = await transactionsPager.GetTotalNumberOfPages(request.PageSize),
+                Transactions = await transactionsPager
+                    .GetItems(request.PageNumber, request.PageSize, cancellationToken: cancellationToken) };
         }
 
         public RetrieveTransactions(ITransactionService transactionService)

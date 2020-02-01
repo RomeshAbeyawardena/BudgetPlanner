@@ -9,6 +9,7 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class TransactionListViewModel
     {
+        public int TotalPages { get; set; }
         public IEnumerable<Transaction> Transactions { get; set; }
     }
 }
