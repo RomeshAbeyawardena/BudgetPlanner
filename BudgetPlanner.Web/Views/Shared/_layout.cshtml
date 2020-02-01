@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" src="~/content/app.js"></script>
     <title>@ViewBag.Title - Budget Planner</title>
-    
-    @await RenderSectionAsync("headSection", false)
 </head>
 <body>
-    <input type="hidden" id="dialogModeDataHiddenField" />
     <template id="modalDialog">
         @await Html.PartialAsync("Partials/_modalDialog")
     </template>

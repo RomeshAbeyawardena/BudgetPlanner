@@ -9,18 +9,9 @@ const hR = function (url, settings) {
             .fail((e) => reject(e)));
     };
     this.post = function (data) {
-        return new promise((resolve, reject) => $.post(url, data).done((e, e1, e2) => { resolve({data: e, response: e2}); })
+        return new promise((resolve, reject) => $.post(url, data)
+            .done((e, e1, e2) => { resolve({data: e, status: e1, response: e2}); })
             .fail((e) => reject(e)));
-    },
-    this.createSettings = function (method, data, async = true, useCache = false, processData = false) {
-        return {
-            async: async,
-            cache: useCache,
-            data: data,
-            method: method,
-            processData: processData,
-            contentType: "application/x-www-form-urlencoded"
-        };
     };
 };
 
