@@ -4,6 +4,7 @@ using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
 using BudgetPlanner.Services.Providers;
 using DNI.Shared.Contracts;
+using DNI.Shared.Contracts.Options;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,10 +19,11 @@ namespace BudgetPlanner.Services
 {
     public class ServiceRegistration : IServiceRegistration
     {
-        public void RegisterServices(IServiceCollection services)
+        public void RegisterServices(IServiceCollection services, IServiceRegistrationOptions serviceRegistrationOptions)
         {
             services
                 .AddSingleton<ApplicationSettings>()
+                .AddTransient<IBudgetPlannerCacheProvider, BudgetPlannerCacheProvider>()
                 .AddTransient<ITransactionProvider, TransactionProvider>()
                 .AddTransient<IBudgetPlannerService, BudgetPlannerService>()
                 .AddTransient<ITransactionService, TransactionService>()

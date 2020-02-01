@@ -2,6 +2,7 @@
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Enumerations;
 using DNI.Shared.Contracts;
+using DNI.Shared.Contracts.Options;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace BudgetPlanner.Services
             var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
                                    orderby transaction.Created descending
                                    select transaction;
-
+            
             return await transactionQuery.ToArrayAsync();
         }
 
@@ -76,6 +77,25 @@ namespace BudgetPlanner.Services
                                    orderby transaction.Created descending
                                    select transaction;
             return await transactionQuery.ToArrayAsync();
+        }
+
+        public IPagerResult<Transaction> GetPagedTransactions(int budgetId, DateTime fromDate, DateTime toDate)
+        {
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
+                        orderby transaction.Created descending
+                        select transaction;
+
+            return _transactionRepository.GetPager(transactionQuery);
+        }
+
+        public IPagerResult<Transaction> GetPagedTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate)
+        {
+            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(budgetId, fromDate, toDate, DefaultTransactionQuery)
+                                   .Include(transaction => transaction.TransactionLedgers)
+                                   orderby transaction.Created descending
+                                   select transaction;
+
+            return _transactionRepository.GetPager(transactionQuery);
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)

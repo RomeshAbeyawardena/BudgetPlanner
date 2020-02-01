@@ -20,10 +20,13 @@ namespace BudgetPlanner.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .RegisterServiceBroker<ServiceBroker>(out var serviceBroker)
+                .RegisterServiceBroker<ServiceBroker>(options => { 
+                    options.RegisterAutoMappingProviders = true;
+                    options.RegisterCacheProviders = true;
+                    options.RegisterMessagePackSerialisers = true;
+                    }, out var serviceBroker)
                 .AddDistributedMemoryCache()
                 .AddSession()
-                .AddScoped(serviceProvider => serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.Session)
                 .AddMvc()
                 .AddSessionStateTempDataProvider()
                 .AddFluentValidation(configuration => configuration

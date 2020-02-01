@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Constants
 {
-    public static class DataConstants
+    public static class CacheConstants
     {
-        public const string DefaultConnectionStringKey = "Default";
+        public const string TransactionTypes = nameof(TransactionTypes);
     }
 }

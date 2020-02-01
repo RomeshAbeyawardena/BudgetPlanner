@@ -13,11 +13,13 @@ namespace BudgetPlanner.Web.ViewComponents
 {
     public class TransactionListViewComponent : DefaultViewComponentBase
     {
-        public async Task<IViewComponentResult> InvokeAsync(int budgetId, DateTime fromDate, DateTime toDate)
+        public async Task<IViewComponentResult> InvokeAsync(int budgetId, DateTime fromDate, DateTime toDate, int pageSize, int pageNumber)
         {
             var response = await MediatorService
                 .Send<RetrieveTransactionsResponse, RetrieveTransactionsRequest>(
                     new RetrieveTransactionsRequest { 
+                        PageSize = pageSize,
+                        PageNumber = pageNumber,
                         BudgetId = budgetId, 
                         FromDate = fromDate, 
                         ToDate = toDate });

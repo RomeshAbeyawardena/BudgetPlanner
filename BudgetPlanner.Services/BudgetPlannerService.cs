@@ -59,7 +59,7 @@ namespace BudgetPlanner.Services
 
         public async Task<Budget> GetBudgetPlanner(int id)
         {
-            return await _budgetRepository.Find(id);
+            return await _budgetRepository.Find(keys: id);
         }
 
         public BudgetPlannerService(IRepository<Budget> budgetRepository)

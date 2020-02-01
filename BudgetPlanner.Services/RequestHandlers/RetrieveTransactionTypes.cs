@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Providers;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using MediatR;
@@ -13,16 +14,16 @@ namespace BudgetPlanner.Services.RequestHandlers
 {
     public class RetrieveTransactionTypes : IRequestHandler<RetrieveTransactionTypesRequest, RetrieveTransactionTypesResponse>
     {
-        private readonly ITransactionTypeService _transactionTypeService;
+        private readonly IBudgetPlannerCacheProvider _budgetPlannerCacheProvider;
 
         public async Task<RetrieveTransactionTypesResponse> Handle(RetrieveTransactionTypesRequest request, CancellationToken cancellationToken)
         {
-            return new RetrieveTransactionTypesResponse { TransactionTypes = await _transactionTypeService.GetTransactionTypes() };
+            return new RetrieveTransactionTypesResponse { TransactionTypes = await _budgetPlannerCacheProvider.GetTransactionTypes() };
         }
 
-        public RetrieveTransactionTypes(ITransactionTypeService transactionTypeService)
+        public RetrieveTransactionTypes(IBudgetPlannerCacheProvider budgetPlannerCacheProvider)
         {
-            _transactionTypeService = transactionTypeService;
+            _budgetPlannerCacheProvider = budgetPlannerCacheProvider;
         }
     }
 }
