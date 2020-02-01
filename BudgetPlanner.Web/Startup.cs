@@ -21,7 +21,11 @@ namespace BudgetPlanner.Web
         {
             services
                 .RegisterServiceBroker<ServiceBroker>(out var serviceBroker)
+                .AddDistributedMemoryCache()
+                .AddSession()
+                .AddScoped(serviceProvider => serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.Session)
                 .AddMvc()
+                .AddSessionStateTempDataProvider()
                 .AddFluentValidation(configuration => configuration
                 .RegisterValidatorsFromAssemblies(serviceBroker.Assemblies));
 
@@ -35,6 +39,7 @@ namespace BudgetPlanner.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSession();
             app.UseRouting();
             app.UseStaticFiles();
             app.UseEndpoints(endpoints =>

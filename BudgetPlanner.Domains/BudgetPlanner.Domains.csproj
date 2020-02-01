@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="DNI.Shared.Services" Version="1.0.0.19" />
+    <PackageReference Include="DNI.Shared.Services" Version="1.0.0.22" />
     <PackageReference Include="MediatR" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
