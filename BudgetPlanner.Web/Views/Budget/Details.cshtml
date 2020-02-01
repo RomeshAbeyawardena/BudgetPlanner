@@ -1,6 +1,16 @@
 ﻿@model BudgetPlannerDetailsViewModel
 
-@{ ViewBag.Title = "Details"; }
+@{
+    ViewBag.Title = "Details";
+    var transactionRequestData = Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel
+    {
+        BudgetId = @Model.Id,
+        FromDate = Model.FromDate,
+        ToDate = Model.ToDate,
+        PageSize = Model.PageSize,
+        PageNumber = Model.PageNumber
+    }), Encoding.UTF8);
+}
 
 @Html.ActionLink("Dashboard", "Index", "Home")
 
@@ -13,12 +23,7 @@
 </p>
 
 <section data-src="@Url.Action("TransactionList","ViewComponent")"
-         data-parameters="@Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel {
-    BudgetId = @Model.Id,
-    FromDate = Model.FromDate,
-    ToDate = Model.ToDate,
-    PageSize = Model.PageSize,
-    PageNumber = Model.PageNumber }), Encoding.UTF8)">
+         data-parameters="@transactionRequestData">
     <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
     </div>

@@ -1,21 +1,18 @@
 ﻿import $ from "jquery";
 import { httpRequest } from "../utility";
 
-const asyncLoader = function () {
+const asyncLoader = function (sourceAttribute, parametersAttribute) {
     this.init = function () {
-        const dynamicPanels = $("[data-src]");
+        const dynamicPanels = $("[" + sourceAttribute + "]");
 
-        console.log(dynamicPanels);
         for (var dynamicPanel of dynamicPanels) {
             const $dynamicPanel = $(dynamicPanel);
-            console.log($dynamicPanel);
-            var dynamicUrl = $dynamicPanel.attr("data-src");
-            var dynamicParameters = $dynamicPanel.attr("data-parameters");
-            console.log(dynamicUrl);
-            console.log(dynamicParameters);
-
+            
+            var dynamicUrl = $dynamicPanel.attr(sourceAttribute);
+            var dynamicParameters = $dynamicPanel.attr(parametersAttribute);
+            
             var parameters = JSON.parse(atob(dynamicParameters));
-            console.log(parameters);
+            
             new httpRequest(dynamicUrl)
                 .get(parameters)
                 .then((e) => $dynamicPanel.html(e));

@@ -7,9 +7,9 @@ import asyncLoader from "./async-loader";
 require("./scss/index.scss");
 
 $(() => {
-    var modalPopup = new popup("#popup", "#dialogModeDataHiddenField")
+    const modalPopup = new popup("#popup", "#dialogModeDataHiddenField")
         .configureMode("modal", "#modalDialog", "#content")
         .init();
-    var loader = new asyncLoader()
+    const loader = new asyncLoader("data-src","data-parameters")
         .init();
 });
