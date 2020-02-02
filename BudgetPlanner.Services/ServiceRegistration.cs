@@ -29,7 +29,7 @@ namespace BudgetPlanner.Services
             services
                 .AddSingleton<ApplicationSettings>()
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(RegisterCryptographicCredentialsFactory)
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>))
+                //.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>))
                 .AddTransient<IAccountService, AccountService>()
                 .AddTransient<IBudgetPlannerCacheProvider, BudgetPlannerCacheProvider>()
                 .AddTransient<ITransactionProvider, TransactionProvider>()

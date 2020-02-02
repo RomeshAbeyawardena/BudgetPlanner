@@ -24,6 +24,7 @@ namespace BudgetPlanner.Web
                     options.RegisterAutoMappingProviders = true;
                     options.RegisterCacheProviders = true;
                     options.RegisterMessagePackSerialisers = true;
+                    options.RegisterMediatorServices = true;
                     }, out var serviceBroker)
                 .AddDistributedMemoryCache()
                 .AddSession()
