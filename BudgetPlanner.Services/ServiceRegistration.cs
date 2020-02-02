@@ -13,7 +13,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+using DNI.Shared.Services.Extensions;
+using DNI.Shared.Services.Providers;
+using DNI.Shared.Contracts.Providers;
+using BudgetPlanner.Domains.Constants;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace BudgetPlanner.Services
 {
@@ -23,6 +27,7 @@ namespace BudgetPlanner.Services
         {
             services
                 .AddSingleton<ApplicationSettings>()
+                .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(RegisterCryptographicCredentialsFactory)
                 .AddTransient<IBudgetPlannerCacheProvider, BudgetPlannerCacheProvider>()
                 .AddTransient<ITransactionProvider, TransactionProvider>()
                 .AddTransient<IBudgetPlannerService, BudgetPlannerService>()
@@ -31,6 +36,35 @@ namespace BudgetPlanner.Services
                 .AddTransient<ITransactionLedgerService, TransactionLedgerService>()
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)));
+        }
+
+        private void RegisterCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> factory, 
+            ICryptographyProvider cryptographyProvider, IServiceProvider services)
+        {
+            var applicationSettings = services.GetRequiredService<ApplicationSettings>();
+
+            if(!applicationSettings.EncryptionKeys
+                .TryGetValue(EncryptionKeyConstants.IdentificationData, out var identificationEncryptionKey))
+                throw new KeyNotFoundException();
+
+            if(!applicationSettings.EncryptionKeys
+                .TryGetValue(EncryptionKeyConstants.PersonalData, out var personalDataEncryptionKey))
+                throw new KeyNotFoundException();
+
+            factory
+                .CaseWhen(EncryptionKeyConstants.IdentificationData, 
+                    cryptographyProvider
+                        .GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512, 
+                            Encoding.UTF8, identificationEncryptionKey.Password, identificationEncryptionKey.Salt, 
+                            identificationEncryptionKey.Iterations, 32, 
+                            Convert.FromBase64String(identificationEncryptionKey.InitialVector)))
+                .CaseWhen(EncryptionKeyConstants.IdentificationData, 
+                    cryptographyProvider
+                        .GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512, 
+                            Encoding.UTF8, personalDataEncryptionKey.Password, personalDataEncryptionKey.Salt, 
+                            personalDataEncryptionKey.Iterations, 32, 
+                            Convert.FromBase64String(personalDataEncryptionKey.InitialVector)))
+                ;
         }
     }
 }

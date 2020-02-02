@@ -8,25 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetPlanner.Domains.Data
+namespace BudgetPlanner.Domains.Dto
 {
-    //Entity framework does not accept IEnumerable byte properties
-    #pragma warning disable CA1819
     public class Account
     {
-        [Key]
         public int Id { get; set; }
+        
+        [Encrypt(EncryptionKeyConstants.IdentificationData)]
+        public string EmailAddress { get; set; }
+
+        public IEnumerable<byte> Password { get; set; }
 
         [Encrypt(EncryptionKeyConstants.PersonalData)]
-        public byte[] EmailAddress { get; set; }
+        public string FirstName { get; set; }
 
-        public byte[] Password { get; set; }
-
-        [Encrypt(EncryptionKeyConstants.IdentificationData)]
-        public byte[] FirstName { get; set; }
-
-        [Encrypt(EncryptionKeyConstants.IdentificationData)]
-        public byte[] LastName { get; set; }
+        [Encrypt(EncryptionKeyConstants.PersonalData)]
+        public string LastName { get; set; }
         
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
