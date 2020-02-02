@@ -24,7 +24,21 @@ namespace BudgetPlanner.Domains
             CreateMap<RetrieveTransactionsResponse,TransactionListViewModel>();
             CreateMap<AddBudgetTransactionViewModel,CreateTransactionRequest>();
             CreateMap<CreateTransactionRequest, Transaction>();
-            CreateMap<RegisterAccountViewModel, Dto.Account>();
+            CreateMap<RegisterAccountViewModel, Dto.Account>()
+                .ForMember(member => member.Password, options => options.ConvertUsing(new BytesValueConverter()));
+            CreateMap<Dto.Account, Account>()
+                .ForMember(member => member.EmailAddress, options => options.Ignore())
+                .ForMember(member => member.FirstName, options => options.Ignore())
+                .ForMember(member => member.LastName, options => options.Ignore())
+                ;
+        }
+
+        public class BytesValueConverter : IValueConverter<string, IEnumerable<byte>>
+        {
+            public IEnumerable<byte> Convert(string sourceMember, ResolutionContext context)
+            {
+                return System.Convert.FromBase64String(sourceMember);
+            }
         }
     }
 }

@@ -59,7 +59,7 @@ namespace BudgetPlanner.Services
                             Encoding.UTF8, identificationEncryptionKey.Password, identificationEncryptionKey.Salt, 
                             identificationEncryptionKey.Iterations, 32, 
                             Convert.FromBase64String(identificationEncryptionKey.InitialVector)))
-                .CaseWhen(EncryptionKeyConstants.IdentificationData, 
+                .CaseWhen(EncryptionKeyConstants.PersonalData, 
                     cryptographyProvider
                         .GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512, 
                             Encoding.UTF8, personalDataEncryptionKey.Password, personalDataEncryptionKey.Salt, 

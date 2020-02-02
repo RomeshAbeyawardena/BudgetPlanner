@@ -1,8 +1,11 @@
-﻿using BudgetPlanner.Domains.Dto;
+﻿using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
+using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Services.Abstraction;
+using DNI.Shared.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,7 @@ namespace BudgetPlanner.Web.Controllers
     {
         [HttpGet]
         [Route("/Register")]
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Register(bool isModal = false)
         {
             await Task.CompletedTask;
@@ -29,6 +33,9 @@ namespace BudgetPlanner.Web.Controllers
         {
             if(!ModelState.IsValid)
                 return View(model);
+
+            model.Password = Convert.ToBase64String(
+                model.Password.GetBytes(Encoding.UTF8).ToArray());
 
             var mappedAccount = Map<RegisterAccountViewModel, Account>(model);
 
