@@ -11,5 +11,6 @@ namespace BudgetPlanner.Contracts.Services
     {
         Task<Account> SaveAccount(Account account);
         Task<Account> GetAccount(IEnumerable<byte> encryptedEmailAddress);
+        Task<Account> GetAccount(int accountId);
     }
 }

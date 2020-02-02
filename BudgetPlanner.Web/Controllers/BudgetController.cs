@@ -22,7 +22,7 @@ namespace BudgetPlanner.Web.Controllers
         public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=12, [FromQuery]int pageNumber=1)
         {
             var response = await MediatorService
-                .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { Reference = reference });
+                .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest {  Reference = reference });
 
             if(!response.IsSuccessful)
                 return RedirectToAction("Index","Home");

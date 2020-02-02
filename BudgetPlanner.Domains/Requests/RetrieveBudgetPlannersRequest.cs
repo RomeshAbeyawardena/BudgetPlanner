@@ -10,6 +10,7 @@ namespace BudgetPlanner.Domains.Requests
 {
     public class RetrieveBudgetPlannersRequest : IRequest<RetrieveBudgetPlannersResponse>
     {
+        public int AccountId { get; set; }
         public DateTime LastUpdated { get; set; }
     }
 }
