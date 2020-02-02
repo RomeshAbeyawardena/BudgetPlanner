@@ -27,7 +27,7 @@ namespace BudgetPlanner.Web.Attributes
                 .Request.Cookies.TryGetValue(CookieKeyValue, out var cookieValue))
                     throw new UnauthorizedAccessException();
 
-                var cookieValidationService = context.HttpContext.RequestServices.GetRequiredService<ICookieValidationService>();
+                var cookieValidationService = httpContext.RequestServices.GetRequiredService<ICookieValidationService>();
                 
                 var account = await cookieValidationService.ValidateCookieToken(cookieValue);
 
@@ -35,7 +35,11 @@ namespace BudgetPlanner.Web.Attributes
             }
             catch(UnauthorizedAccessException ex)
             {
-                context.Result = new UnauthorizedObjectResult(ex);
+                #if(DEBUG)
+                    context.Result = new UnauthorizedObjectResult(ex);
+                #else
+                    context.Result = new UnauthorizedResult();
+                #endif
             }
             
         }
