@@ -45,7 +45,8 @@ namespace BudgetPlanner.Web.Controllers
             if(response.IsSuccessful)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
 
-            ModelState.AddModelError(response.ErrorKey, response.ErrorMessage);
+            foreach(var error in response.Errors)
+                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
 
             return View(model);
         }

@@ -18,6 +18,7 @@ using DNI.Shared.Services.Providers;
 using DNI.Shared.Contracts.Providers;
 using BudgetPlanner.Domains.Constants;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using BudgetPlanner.Services.Preprocessors;
 
 namespace BudgetPlanner.Services
 {
@@ -28,6 +29,7 @@ namespace BudgetPlanner.Services
             services
                 .AddSingleton<ApplicationSettings>()
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(RegisterCryptographicCredentialsFactory)
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>))
                 .AddTransient<IAccountService, AccountService>()
                 .AddTransient<IBudgetPlannerCacheProvider, BudgetPlannerCacheProvider>()
                 .AddTransient<ITransactionProvider, TransactionProvider>()

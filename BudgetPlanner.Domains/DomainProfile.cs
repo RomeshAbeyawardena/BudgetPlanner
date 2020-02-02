@@ -33,7 +33,7 @@ namespace BudgetPlanner.Domains
                 ;
         }
 
-        public class BytesValueConverter : IValueConverter<string, IEnumerable<byte>>
+        class BytesValueConverter : IValueConverter<string, IEnumerable<byte>>
         {
             public IEnumerable<byte> Convert(string sourceMember, ResolutionContext context)
             {

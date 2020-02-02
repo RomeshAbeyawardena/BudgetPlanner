@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class RegisterAccountResponse
+    public class RegisterAccountResponse : ResponseBase
     {
-        public bool IsSuccessful { get; set; }
-        public string ErrorKey { get; set; }
-        public string ErrorMessage { get; set; }
         public  Exception Exception { get; set; }
         public Account SavedAccount { get; set; }
-        public IEnumerable<FluentValidation.Results.ValidationFailure> Errors { get; set; }
     }
 }
