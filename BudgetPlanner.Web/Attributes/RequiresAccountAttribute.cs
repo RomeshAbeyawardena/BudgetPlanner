@@ -20,27 +20,18 @@ namespace BudgetPlanner.Web.Attributes
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
+            var httpContext = context.HttpContext;
             try
             {
-                if(!context.HttpContext
+                if(!httpContext
                 .Request.Cookies.TryGetValue(CookieKeyValue, out var cookieValue))
                     throw new UnauthorizedAccessException();
 
-                var accountService = context.HttpContext.RequestServices.GetRequiredService<IAccountService>();
-                var jsonTokenService = context.HttpContext.RequestServices.GetRequiredService<IJsonWebTokenService>();
-                var cryptographySwitch = context.HttpContext.RequestServices.GetRequiredService<ISwitch<string, EncryptionKey>>();
+                var cookieValidationService = context.HttpContext.RequestServices.GetRequiredService<ICookieValidationService>();
+                
+                var account = await cookieValidationService.ValidateCookieToken(cookieValue);
 
-                var defaultEncryptionKey = cryptographySwitch.Case(EncryptionKeyConstants.Default);
-                jsonTokenService.TryParseToken(cookieValue, defaultEncryptionKey.Salt, parameters => { }, Encoding.UTF8, out var claims);
-
-                if (!claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim) || int.TryParse(accountIdClaim, out var accountId))
-                    throw new UnauthorizedAccessException();
-
-                var account = accountService.GetAccount(accountId);
-                if (account == null)
-                    throw new UnauthorizedAccessException();
-
-                context.HttpContext.Items.Add("Account", account);
+                httpContext.Items.Add("Account", account);
             }
             catch(UnauthorizedAccessException ex)
             {

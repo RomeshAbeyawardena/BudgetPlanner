@@ -31,6 +31,11 @@ namespace BudgetPlanner.Services
             return await _accountRepository.SaveChanges(account);
         }
 
+        public Task<Account> GetAccount(int accountId)
+        {
+            throw new NotImplementedException();
+        }
+
         public AccountService(IRepository<Account> accountRepository)
         {
             _accountRepository = accountRepository;
