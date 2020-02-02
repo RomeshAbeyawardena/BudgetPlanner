@@ -14,15 +14,18 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class AccountController : DefaultControllerBase
     {
-        public async Task<ActionResult> Register()
+        [HttpGet]
+        [Route("/Register")]
+        public async Task<ActionResult> Register(bool isModal = false)
         {
             await Task.CompletedTask;
-            var registerAccountViewModel = new RegisterAccountViewModel();
+            var registerAccountViewModel = new RegisterAccountViewModel { IsModal = isModal };
             return View(registerAccountViewModel);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Register(RegisterAccountViewModel model)
+        [Route("/Register")]
+        [ValidateAntiForgeryToken, HttpPost]
+        public async Task<ActionResult> Register([FromForm]RegisterAccountViewModel model)
         {
             if(!ModelState.IsValid)
                 return View(model);
@@ -38,6 +41,15 @@ namespace BudgetPlanner.Web.Controllers
             ModelState.AddModelError(response.ErrorKey, response.ErrorMessage);
 
             return View(model);
+        }
+
+        [HttpGet]
+        [Route("/Login")]
+        public async Task<ActionResult> Login()
+        {
+            await Task.CompletedTask;
+            var loginViewModel = new LoginViewModel();
+            return View(loginViewModel);
         }
     }
 }

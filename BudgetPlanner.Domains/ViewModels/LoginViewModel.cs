@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
-    public class LoginViewModel
+    public class LoginViewModel : BaseViewModel
     {
         public string EmailAddress { get; set; }
+        public string Password { get; set; }
     }
 }

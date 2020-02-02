@@ -25,6 +25,8 @@ namespace BudgetPlanner.Domains.Dto
         [Encrypt(EncryptionKeyConstants.PersonalData)]
         public string LastName { get; set; }
         
+        public bool Active { get; set; }
+
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
         

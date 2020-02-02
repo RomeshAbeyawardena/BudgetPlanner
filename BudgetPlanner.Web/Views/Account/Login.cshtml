@@ -1,0 +1,12 @@
+﻿@model LoginViewModel
+
+@using (Html.BeginForm("Login", "Account"))
+{
+    @await Html.PartialAsync("Partials/Editors/_loginEditor")
+    <button type="submit" class="btn btn-primary">Create</button>
+    @Html.ActionLink("Register Account", "Register", "Account", null, DictionaryBuilder
+                .Create<string, object>(dictionaryBuilder => dictionaryBuilder
+                    .Add("class", "btn btn-primary")
+                    .Add("popup", "modal")
+                    .Add("data-args", "{ \"isModal\":\"true\" }")).ToDictionary())
+}

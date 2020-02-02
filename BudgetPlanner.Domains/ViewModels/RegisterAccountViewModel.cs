@@ -23,6 +23,7 @@ namespace BudgetPlanner.Domains.ViewModels
         [Required, MinLength(2), MaxLength(900)]
         public string LastName { get; set; }
         
+        [Display(Name = "Accept Terms of Use")]
         public bool Active { get; set; }
 
         public DateTimeOffset Created { get; set; }

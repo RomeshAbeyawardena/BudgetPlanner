@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[Account](
 	,[Password] VARBINARY(MAX) NOT NULL
 	,[FirstName] VARBINARY(MAX) NOT NULL
 	,[Lastname] VARBINARY(MAX) NOT NULL
+	,[Active] BIT NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 	,[Modified] DATETIMEOFFSET NULL
 )

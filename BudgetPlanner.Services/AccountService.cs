@@ -14,7 +14,7 @@ namespace BudgetPlanner.Services
     {
         private readonly IRepository<Account> _accountRepository;
 
-        public IQueryable<Account> DefaultAccountQuery => _accountRepository.Query(account => account.IsActive);
+        public IQueryable<Account> DefaultAccountQuery => _accountRepository.Query(account => account.Active);
 
         public async Task<Account> GetAccount(IEnumerable<byte> encryptedEmailAddress)
         {

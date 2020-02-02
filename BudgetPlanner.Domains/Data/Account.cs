@@ -28,7 +28,7 @@ namespace BudgetPlanner.Domains.Data
         [Encrypt(EncryptionKeyConstants.IdentificationData)]
         public byte[] LastName { get; set; }
         
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
 
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
