@@ -36,6 +36,11 @@ namespace BudgetPlanner.Services
                 return await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(account);
         }
 
+        public Task<string> CreateCookieToken(Account account)
+        {
+            throw new NotImplementedException();
+        }
+
         public CookieValidationService(ISwitch<string, EncryptionKey> cryptographySwitch, 
             IEncryptionProvider encryptionProvider,
             IJsonWebTokenService jsonWebTokenService, IAccountService accountService)

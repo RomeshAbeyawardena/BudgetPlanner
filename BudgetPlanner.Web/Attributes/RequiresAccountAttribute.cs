@@ -32,7 +32,7 @@ namespace BudgetPlanner.Web.Attributes
                 var account = await cookieValidationService.ValidateCookieToken(cookieValue);
 
                 httpContext.Items.Add("Account", account);
-            }
+            }   
             catch(UnauthorizedAccessException ex)
             {
                 #if(DEBUG)

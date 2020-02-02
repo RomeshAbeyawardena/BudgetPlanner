@@ -11,6 +11,6 @@ namespace BudgetPlanner.Contracts.Services
     public interface ICookieValidationService
     {
         Task<Account> ValidateCookieToken(string cookieToken);
-        
+        Task<string> CreateCookieToken(Account account);        
     }
 }
