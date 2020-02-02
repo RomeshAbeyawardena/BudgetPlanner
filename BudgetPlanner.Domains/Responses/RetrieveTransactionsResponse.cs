@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class RetrieveTransactionsResponse
+    public class RetrieveTransactionsResponse : ResponseBase
     {
         public int PageNumber { get; set; }
         public int TotalPages { get; set; }

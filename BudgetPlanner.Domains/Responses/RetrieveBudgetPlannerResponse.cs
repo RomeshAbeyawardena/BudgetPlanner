@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class RetrieveBudgetPlannerResponse
+    public class RetrieveBudgetPlannerResponse : ResponseBase
     {
         public bool IsSuccessful { get; set; }
         public Budget BudgetPlanner { get; set; }

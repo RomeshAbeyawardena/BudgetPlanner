@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BudgetPlanner.Domains.Data;
+using DNI.Shared.Domains;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class CreateBudgetPlannerResponse
+    public class CreateBudgetPlannerResponse : ResponseBase
     {
-        public bool IsSuccessful { get; set; }
         public Budget BudgetPlanner { get; set; }
     }
 }
