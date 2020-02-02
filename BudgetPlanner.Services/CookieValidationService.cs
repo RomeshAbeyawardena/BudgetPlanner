@@ -5,6 +5,7 @@ using BudgetPlanner.Domains.Dto;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Providers;
 using DNI.Shared.Contracts.Services;
+using DNI.Shared.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace BudgetPlanner.Services
     public class CookieValidationService : ICookieValidationService
     {
         private readonly IAccountService _accountService;
+        private readonly IClockProvider _clockProvider;
         private readonly ISwitch<string, EncryptionKey> _cryptographySwitch;
         private readonly IEncryptionProvider _encryptionProvider;
         private readonly IJsonWebTokenService _jsonWebTokenService;
@@ -36,15 +38,19 @@ namespace BudgetPlanner.Services
                 return await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(account);
         }
 
-        public Task<string> CreateCookieToken(Account account)
+        public async Task<string> CreateCookieToken(Account account)
         {
-            throw new NotImplementedException();
+            await Task.CompletedTask;
+            var defaultEncryptionKey = _cryptographySwitch.Case(EncryptionKeyConstants.Default);
+            return _jsonWebTokenService.CreateToken(securityToken => { }, _clockProvider.UtcDateTime, 
+                DictionaryBuilder.Create<string, string>().ToDictionary(), defaultEncryptionKey.Salt, Encoding.UTF8);
         }
 
-        public CookieValidationService(ISwitch<string, EncryptionKey> cryptographySwitch, 
+        public CookieValidationService(IClockProvider clockProvider, ISwitch<string, EncryptionKey> cryptographySwitch, 
             IEncryptionProvider encryptionProvider,
             IJsonWebTokenService jsonWebTokenService, IAccountService accountService)
         {
+            _clockProvider = clockProvider;
             _cryptographySwitch = cryptographySwitch;
             _encryptionProvider = encryptionProvider;
             _jsonWebTokenService = jsonWebTokenService;

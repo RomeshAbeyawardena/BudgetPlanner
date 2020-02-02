@@ -60,5 +60,16 @@ namespace BudgetPlanner.Web.Controllers
             var loginViewModel = new LoginViewModel { EmailAddress = emailAddress };
             return View(loginViewModel);
         }
+
+        [HttpGet]
+        [Route("/Login")]
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
+        public async Task<ActionResult> Login(LoginViewModel model)
+        {
+
+        }
+        {
+
+        }
     }
 }
