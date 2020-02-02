@@ -29,7 +29,10 @@ namespace BudgetPlanner.Services.Validators
                 .EmailAddress();
 
             RuleFor(model => model.Account)
-                .MustAsync(BeUnique);
+                .MustAsync(BeUnique)
+                .WithMessage(model => string.Format("{0} is already taken", model.Account.EmailAddress))
+                .WithName(property => property.Account.EmailAddress)
+                .OverridePropertyName(property => property.Account.EmailAddress);
 
             RuleFor(model => model.Account.FirstName)
                 .MinimumLength(3)
