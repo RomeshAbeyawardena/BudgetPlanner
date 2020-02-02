@@ -52,10 +52,11 @@ namespace BudgetPlanner.Web.Controllers
 
         [HttpGet]
         [Route("/Login")]
-        public async Task<ActionResult> Login()
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
+        public async Task<ActionResult> Login(string emailAddress)
         {
             await Task.CompletedTask;
-            var loginViewModel = new LoginViewModel();
+            var loginViewModel = new LoginViewModel { EmailAddress = emailAddress };
             return View(loginViewModel);
         }
     }

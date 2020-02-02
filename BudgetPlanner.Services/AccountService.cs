@@ -18,8 +18,9 @@ namespace BudgetPlanner.Services
 
         public async Task<Account> GetAccount(IEnumerable<byte> encryptedEmailAddress)
         {
+            var emailAddressArray = encryptedEmailAddress.ToArray();
             var accountQuery = from account in DefaultAccountQuery
-                               where account.EmailAddress == encryptedEmailAddress
+                               where account.EmailAddress == emailAddressArray
                                select account;
 
             return await accountQuery.SingleOrDefaultAsync();

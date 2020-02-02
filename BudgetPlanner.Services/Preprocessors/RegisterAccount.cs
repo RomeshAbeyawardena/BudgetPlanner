@@ -1,5 +1,7 @@
 ﻿using BudgetPlanner.Domains.Requests;
+using BudgetPlanner.Domains.Responses;
 using FluentValidation;
+using MediatR;
 using MediatR.Pipeline;
 using System;
 using System.Collections.Generic;
@@ -10,13 +12,22 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.Preprocessors
 {
-    public class RegisterAccount : IRequestPreProcessor<RegisterAccountRequest>
+    public class RegisterAccount : IPipelineBehavior<RegisterAccountRequest, RegisterAccountResponse>
     {
         private readonly IValidator<RegisterAccountRequest> _validator;
 
-        public async Task Process(RegisterAccountRequest request, CancellationToken cancellationToken)
+        public async Task<RegisterAccountResponse> Handle(RegisterAccountRequest request, 
+            CancellationToken cancellationToken, RequestHandlerDelegate<RegisterAccountResponse> next)
         {
-            await _validator.ValidateAsync(request);
+            var result  = await _validator.ValidateAsync(request);
+            if(result.IsValid)
+                return await next();
+
+            return new RegisterAccountResponse
+            {
+                IsSuccessful = false,
+                Errors = result.Errors
+            };
         }
 
         public RegisterAccount(IValidator<RegisterAccountRequest> validator)

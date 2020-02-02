@@ -14,5 +14,6 @@ namespace BudgetPlanner.Domains.Responses
         public string ErrorMessage { get; set; }
         public  Exception Exception { get; set; }
         public Account SavedAccount { get; set; }
+        public IEnumerable<FluentValidation.Results.ValidationFailure> Errors { get; set; }
     }
 }
