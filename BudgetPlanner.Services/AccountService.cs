@@ -22,7 +22,7 @@ namespace BudgetPlanner.Services
                                where account.EmailAddress == encryptedEmailAddress
                                select account;
 
-            return await accountQuery.SingleOrDefaultAsync()
+            return await accountQuery.SingleOrDefaultAsync();
         }
 
         public async Task<Account> SaveAccount(Account account)

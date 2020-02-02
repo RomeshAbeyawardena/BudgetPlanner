@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BudgetPlanner.Domains.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace BudgetPlanner.Domains.Responses
         public string ErrorKey { get; set; }
         public string ErrorMessage { get; set; }
         public  Exception Exception { get; set; }
+        public Account SavedAccount { get; set; }
     }
 }
