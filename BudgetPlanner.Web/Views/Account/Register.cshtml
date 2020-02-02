@@ -1,0 +1,7 @@
+﻿@model RegisterAccountViewModel
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+{
+    @await Html.PartialAsync("Partials/Editors/_accountEditor")
+    <button type="submit" class="btn btn-primary">Create</button>
+}

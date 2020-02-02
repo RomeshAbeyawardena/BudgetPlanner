@@ -24,6 +24,7 @@ namespace BudgetPlanner.Domains
             CreateMap<RetrieveTransactionsResponse,TransactionListViewModel>();
             CreateMap<AddBudgetTransactionViewModel,CreateTransactionRequest>();
             CreateMap<CreateTransactionRequest, Transaction>();
+            CreateMap<RegisterAccountViewModel, Dto.Account>();
         }
     }
 }
