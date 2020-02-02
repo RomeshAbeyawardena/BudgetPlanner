@@ -9,7 +9,7 @@ namespace BudgetPlanner.Contracts.Services
 {
     public interface IBudgetPlannerService
     {
-        Task<IEnumerable<Budget>> GetBudgetPlanners(DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending);
+        Task<IEnumerable<Budget>> GetBudgetPlanners(int accountId, DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending);
         Task<Budget> GetBudgetPlanner(string reference);
         Task<Budget> GetBudgetPlanner(int id);
         Task<bool> IsReferenceUnique(string uniqueReference);

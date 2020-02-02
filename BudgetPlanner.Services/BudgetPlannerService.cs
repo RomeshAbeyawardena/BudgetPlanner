@@ -16,6 +16,9 @@ namespace BudgetPlanner.Services
         private readonly IRepository<Budget> _budgetRepository;
 
         private IQueryable<Budget> DefaultBudgetQuery => _budgetRepository.Query(budget => budget.Active == true);
+        private IQueryable<Budget> DefaultAccountBudgetQuery(int accountId) => from budget in DefaultBudgetQuery
+                                                                              where budget.AccountId == accountId
+                                                                              select budget;
 
         private IQueryable<Budget> GetBudgetReferenceQuery(string reference) => from budget in DefaultBudgetQuery
                                                                   where budget.Reference == reference
@@ -27,9 +30,9 @@ namespace BudgetPlanner.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Budget>> GetBudgetPlanners(DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending)
+        public async Task<IEnumerable<Budget>> GetBudgetPlanners(int accountId, DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending)
         {
-            var budgetQuery = from budget in DefaultBudgetQuery
+            var budgetQuery = from budget in DefaultAccountBudgetQuery(accountId)
                               where budget.LastUpdated >= lastUpdated
                               select budget;
 

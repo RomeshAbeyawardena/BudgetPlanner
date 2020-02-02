@@ -22,7 +22,8 @@ namespace BudgetPlanner.Services.Validators
                 .NotEmpty()
                 .MinimumLength(5)
                 .MaximumLength(200)
-                .MustAsync(BeUnique);
+                .MustAsync(BeUnique)
+                .WithMessage(request => string.Format("Reference must be unique.", request.Reference));
 
             RuleFor(request => request.Name)
                 .NotEmpty()
