@@ -75,7 +75,7 @@ namespace BudgetPlanner.Web.Controllers
         public async Task<ActionResult> Login(LoginViewModel model)
         {
             if(!ModelState.IsValid)
-                return View(model.EmailAddress);
+                return View("Login", model);
 
             var response = await MediatorService
                 .Send<LoginResponse,LoginRequest>(new LoginRequest { 
@@ -90,7 +90,7 @@ namespace BudgetPlanner.Web.Controllers
             }
             AddErrorsToModelState(response);
 
-            return View(model.EmailAddress);
+            return View("Login", model);
         }
 
     }
