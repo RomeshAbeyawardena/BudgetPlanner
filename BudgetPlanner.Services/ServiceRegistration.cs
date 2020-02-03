@@ -53,7 +53,17 @@ namespace BudgetPlanner.Services
                 .TryGetValue(EncryptionKeyConstants.PersonalData, out var personalDataEncryptionKey))
                 throw new KeyNotFoundException();
 
+            if(!applicationSettings.EncryptionKeys
+                .TryGetValue(EncryptionKeyConstants.Default, out var defaultDataEncryptionKey))
+                throw new KeyNotFoundException();
+
+
             factory
+                .CaseWhen(EncryptionKeyConstants.Default,
+                    cryptographyProvider.GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512,
+                    Encoding.UTF8, defaultDataEncryptionKey.Password, defaultDataEncryptionKey.Salt,
+                        defaultDataEncryptionKey.Iterations, 32,
+                        Convert.FromBase64String(defaultDataEncryptionKey.InitialVector)))
                 .CaseWhen(EncryptionKeyConstants.IdentificationData, 
                     cryptographyProvider
                         .GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512, 
