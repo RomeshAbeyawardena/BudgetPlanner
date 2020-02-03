@@ -34,10 +34,6 @@ namespace BudgetPlanner.Services.RequestHandlers
 
             var encryptedAccount = await _encryptionProvider.Encrypt<Account, Domains.Data.Account>(request.Account);
 
-            encryptedAccount.Password = _hashingProvider.PasswordDerivedBytes(password, 
-                defaultSettings.Salt.GetBytes(Encoding.UTF8), 
-                KeyDerivationPrf.HMACSHA512, defaultSettings.Iterations, 32).ToArray();
-
             var savedAccount = await _accountService.SaveAccount(encryptedAccount);
 
             return new RegisterAccountResponse { IsSuccessful = true, SavedAccount = savedAccount };
