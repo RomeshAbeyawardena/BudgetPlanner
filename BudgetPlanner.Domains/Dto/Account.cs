@@ -14,15 +14,16 @@ namespace BudgetPlanner.Domains.Dto
     {
         public int Id { get; set; }
         
-        [Encrypt(EncryptionKeyConstants.IdentificationData)]
+        [Encrypt(EncryptionKeyConstants.IdentificationData, EncryptionMethod.Encryption)]
         public string EmailAddress { get; set; }
 
+        [Encrypt(EncryptionKeyConstants.Default, EncryptionMethod.Hashing)]
         public IEnumerable<byte> Password { get; set; }
 
-        [Encrypt(EncryptionKeyConstants.PersonalData)]
+        [Encrypt(EncryptionKeyConstants.PersonalData, EncryptionMethod.Encryption)]
         public string FirstName { get; set; }
 
-        [Encrypt(EncryptionKeyConstants.PersonalData)]
+        [Encrypt(EncryptionKeyConstants.PersonalData, EncryptionMethod.Encryption)]
         public string LastName { get; set; }
         
         public bool Active { get; set; }

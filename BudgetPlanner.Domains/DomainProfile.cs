@@ -26,6 +26,8 @@ namespace BudgetPlanner.Domains
             CreateMap<CreateTransactionRequest, Transaction>();
             CreateMap<RegisterAccountViewModel, Dto.Account>()
                 .ForMember(member => member.Password, options => options.ConvertUsing(new BytesValueConverter()));
+            CreateMap<LoginRequest, Dto.Account>()
+                .ForMember(member => member.Password, options => options.ConvertUsing(new BytesValueConverter()));
             CreateMap<Dto.Account, Account>()
                 .ForMember(member => member.EmailAddress, options => options.Ignore())
                 .ForMember(member => member.FirstName, options => options.Ignore())

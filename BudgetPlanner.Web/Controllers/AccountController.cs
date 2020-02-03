@@ -1,9 +1,11 @@
-﻿using BudgetPlanner.Domains.Constants;
+﻿using BudgetPlanner.Contracts.Services;
+using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Web.Attributes;
+using DNI.Shared.Domains;
 using DNI.Shared.Services.Abstraction;
 using DNI.Shared.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +19,13 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class AccountController : DefaultControllerBase
     {
+        private readonly ICookieValidationService _cookieValidationService;
+
+        public AccountController(ICookieValidationService cookieValidationService)
+        {
+            _cookieValidationService = cookieValidationService;
+        }
+
         [HttpGet]
         [Route("/Register")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
@@ -45,8 +54,7 @@ namespace BudgetPlanner.Web.Controllers
             if(response.IsSuccessful)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
 
-            foreach(var error in response.Errors)
-                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+            AddErrorsToModelState(response);
 
             return View(model);
         }
@@ -61,13 +69,29 @@ namespace BudgetPlanner.Web.Controllers
             return View(loginViewModel);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("/Login")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
+            if(!ModelState.IsValid)
+                return View(model.EmailAddress);
+
             var response = await MediatorService
-                .Send<LoginResponse,LoginRequest>(new LoginRequest { EmailAddress = model.EmailAddress, Password = model.Password });
+                .Send<LoginResponse,LoginRequest>(new LoginRequest { 
+                    EmailAddress = model.EmailAddress, 
+                    Password = model.Password 
+                });
+            
+            if(response.IsSuccessful)
+            {
+                await _cookieValidationService.CreateCookieToken(response.Account);
+                return RedirectToAction("Index", "Home");
+            }
+            AddErrorsToModelState(response);
+
+            return View(model.EmailAddress);
         }
+
     }
 }

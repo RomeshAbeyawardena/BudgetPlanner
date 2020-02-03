@@ -46,12 +46,12 @@ namespace BudgetPlanner.Services
                 DictionaryBuilder.Create<string, string>().ToDictionary(), defaultEncryptionKey.Salt, Encoding.UTF8);
         }
 
-        public CookieValidationService(IClockProvider clockProvider, ISwitch<string, EncryptionKey> cryptographySwitch, 
+        public CookieValidationService(IClockProvider clockProvider, ApplicationSettings applicationSettings,
             IEncryptionProvider encryptionProvider,
             IJsonWebTokenService jsonWebTokenService, IAccountService accountService)
         {
             _clockProvider = clockProvider;
-            _cryptographySwitch = cryptographySwitch;
+            _cryptographySwitch = Switch.Create(applicationSettings.EncryptionKeys);
             _encryptionProvider = encryptionProvider;
             _jsonWebTokenService = jsonWebTokenService;
             _accountService = accountService;
