@@ -66,10 +66,8 @@ namespace BudgetPlanner.Web.Controllers
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
-
-        }
-        {
-
+            var response = await MediatorService
+                .Send<LoginResponse,LoginRequest>(new LoginRequest { EmailAddress = model.EmailAddress, Password = model.Password });
         }
     }
 }
