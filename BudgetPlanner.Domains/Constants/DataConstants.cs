@@ -8,6 +8,7 @@ namespace BudgetPlanner.Domains.Constants
 {
     public static class DataConstants
     {
+        public const string AccountSessionCookie = "accSession";
         public const string DefaultConnectionStringKey = "Default";
         public const string AccountIdClaim = "AccountId";
     }

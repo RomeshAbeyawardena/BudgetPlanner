@@ -88,7 +88,16 @@ namespace BudgetPlanner.Web.Controllers
             
             if(response.IsSuccessful)
             {
-                await _cookieValidationService.CreateCookieToken(config => { }, response.Account, _applicationSettings.SessionExpiryInMinutes);
+                var cookieToken = await _cookieValidationService
+                    .CreateCookieToken(config => { 
+                        config.Audience = _applicationSettings.Audiences.FirstOrDefault();
+                        config.Issuer = _applicationSettings.Audiences.FirstOrDefault();
+                        }, response.Account, 
+                    _applicationSettings.SessionExpiryInMinutes);
+                _cookieValidationService.AppendSessionCookie(Response.Cookies, 
+                    DataConstants.AccountSessionCookie, cookieToken, 
+                    cookieOptions => { _cookieValidationService
+                        .ConfigureCookieOptions(cookieOptions, _applicationSettings.SessionExpiryInMinutes); });
                 return RedirectToAction("Index", "Home");
             }
             AddErrorsToModelState(response);

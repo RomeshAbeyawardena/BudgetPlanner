@@ -17,6 +17,7 @@ namespace BudgetPlanner.Web.Attributes
     public class RequiresAccountAttribute : Attribute, IAsyncAuthorizationFilter
     {
         public string CookieKeyValue { get; }
+        public string AudienceIssuer { get; }
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
@@ -27,7 +28,8 @@ namespace BudgetPlanner.Web.Attributes
                 .Request.Cookies.TryGetValue(CookieKeyValue, out var cookieValue))
                     throw new UnauthorizedAccessException();
 
-                var cookieValidationService = httpContext.RequestServices.GetRequiredService<ICookieValidationService>();
+                var cookieValidationService = httpContext.RequestServices
+                    .GetRequiredService<ICookieValidationService>();
                 
                 var account = await cookieValidationService.ValidateCookieToken(cookieValue);
 
@@ -44,9 +46,10 @@ namespace BudgetPlanner.Web.Attributes
             
         }
 
-        public RequiresAccountAttribute(string cookieKeyValue)
+        public RequiresAccountAttribute(string cookieKeyValue, string audienceIssuer)
         {
             CookieKeyValue = cookieKeyValue;
+            AudienceIssuer = audienceIssuer;
         }
     }
 }
