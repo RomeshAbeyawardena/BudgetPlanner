@@ -37,7 +37,7 @@ namespace BudgetPlanner.Services.RequestHandlers
                 if(foundAccount == null)
                     throw new NullReferenceException();
 
-                if(foundAccount.Password.SequenceEqual(encryptedAccount.Password))
+                if(!foundAccount.Password.SequenceEqual(encryptedAccount.Password))
                     throw new UnauthorizedAccessException();
 
                 account = _mapperProvider.Map<Domains.Data.Account, Account>(foundAccount);
