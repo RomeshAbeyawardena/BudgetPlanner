@@ -1,5 +1,6 @@
 ﻿using BudgetPlanner.Domains.Dto;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace BudgetPlanner.Contracts.Services
     public interface ICookieValidationService
     {
         Task<Account> ValidateCookieToken(string cookieToken);
-        Task<string> CreateCookieToken(Account account);        
+        Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, Account account, int expiryPeriodInMinutes);
     }
 }

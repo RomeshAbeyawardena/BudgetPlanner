@@ -1,4 +1,5 @@
 ﻿using BudgetPlanner.Contracts.Services;
+using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Requests;
@@ -19,10 +20,12 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class AccountController : DefaultControllerBase
     {
+        private readonly ApplicationSettings _applicationSettings;
         private readonly ICookieValidationService _cookieValidationService;
 
-        public AccountController(ICookieValidationService cookieValidationService)
+        public AccountController(ApplicationSettings applicationSettings, ICookieValidationService cookieValidationService)
         {
+            _applicationSettings = applicationSettings;
             _cookieValidationService = cookieValidationService;
         }
 
@@ -85,7 +88,7 @@ namespace BudgetPlanner.Web.Controllers
             
             if(response.IsSuccessful)
             {
-                await _cookieValidationService.CreateCookieToken(response.Account);
+                await _cookieValidationService.CreateCookieToken(config => { }, response.Account, _applicationSettings.SessionExpiryInMinutes);
                 return RedirectToAction("Index", "Home");
             }
             AddErrorsToModelState(response);

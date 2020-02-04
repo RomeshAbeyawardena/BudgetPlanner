@@ -6,6 +6,7 @@ using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Providers;
 using DNI.Shared.Contracts.Services;
 using DNI.Shared.Services;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,11 +39,11 @@ namespace BudgetPlanner.Services
                 return await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(account);
         }
 
-        public async Task<string> CreateCookieToken(Account account)
+        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, Account account, int expiryPeriodInMinutes)
         {
             await Task.CompletedTask;
             var defaultEncryptionKey = _cryptographySwitch.Case(EncryptionKeyConstants.Default);
-            return _jsonWebTokenService.CreateToken(securityToken => { }, _clockProvider.UtcDateTime, 
+            return _jsonWebTokenService.CreateToken(setupSecurityTokenDescriptor, _clockProvider.UtcDateTime.AddMinutes(expiryPeriodInMinutes), 
                 DictionaryBuilder.Create<string, string>().ToDictionary(), defaultEncryptionKey.Salt, Encoding.UTF8);
         }
 
