@@ -7,6 +7,7 @@ import asyncLoader from "./async-loader";
 require("./scss/index.scss");
 
 $(() => {
+    $('[data-toggle="tooltip"]').tooltip();
     const modalPopup = new popup("#popup", "#dialogModeDataHiddenField");
         modalPopup
             .configureMode("modal", "#modalDialog", "#content")

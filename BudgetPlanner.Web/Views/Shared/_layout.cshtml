@@ -11,6 +11,7 @@
         @await Html.PartialAsync("Partials/_modalDialog")
     </template>
     <div class="container">
+        @await  Html.PartialAsync("Partials/_currentAccountWidget")
         <section id="popup"></section>
         @RenderBody()
     </div>

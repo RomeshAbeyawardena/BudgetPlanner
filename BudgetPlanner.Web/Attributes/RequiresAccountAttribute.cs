@@ -31,20 +31,19 @@ namespace BudgetPlanner.Web.Attributes
                 .Request.Cookies.TryGetValue(CookieKeyValue, out var cookieValue))
                     throw new UnauthorizedAccessException();
 
-                
                 var cookieValidationService = httpContext.RequestServices
                     .GetRequiredService<ICookieValidationService>();
                 
                 var applicationSettings = httpContext.RequestServices
                     .GetRequiredService<ApplicationSettings>();
                 
-
                 var account = await cookieValidationService.ValidateCookieToken(tokenValidation => { 
                     tokenValidation.ValidAudiences = applicationSettings.Audiences;
                     tokenValidation.ValidIssuers = applicationSettings.Issuers;
                 }, cookieValue);
 
-                httpContext.Items.TryAdd(DataConstants.AccountItem, account);
+                if(!httpContext.Items.TryAdd(DataConstants.AccountItem, account))
+                    logger.LogWarning("Skipping Item - An item with the key '{0}' already exists.", DataConstants.AccountItem);
             }   
             catch(UnauthorizedAccessException ex)
             {

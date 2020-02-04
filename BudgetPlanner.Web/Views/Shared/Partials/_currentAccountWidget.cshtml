@@ -1,0 +1,26 @@
+﻿@using BudgetPlanner.Domains.Dto;
+
+@{
+    Account account = null;
+
+    Context.Items.TryGetValue(DataConstants.AccountItem, out var accountObject);
+    account = (Account)accountObject;
+}
+
+@if (account == null)
+{
+    @Html.ActionLink("Login", "Login", "Account")
+}
+else
+{
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Budget Planner</a>
+        <span class="navbar-text">
+            Welcome @account.FirstName
+            @Html.ActionLink("Logout", "Login", "Account", null,
+            DictionaryBuilder.Create<string, object>(builder => builder
+                .Add("title", "Logout " + account.LastName)
+                .Add("data-toggle", "tooltip")).ToDictionary())
+        </span>
+    </nav>
+}
