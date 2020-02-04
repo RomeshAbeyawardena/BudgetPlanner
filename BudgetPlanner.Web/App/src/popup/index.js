@@ -45,6 +45,9 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
             const $dynamicPanel = $(context.dymamicPanelSelector);
             const $template = $(modeData.templateSelector);
             
+            $element.text("Saving...");
+            $element.attr("disabled", "disabled");
+
             $dynamicPanel.html($template.html());
             
             const request = new httpRequest(href);

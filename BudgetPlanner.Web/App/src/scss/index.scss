@@ -1,7 +1,20 @@
 ﻿@import "~bootstrap/scss/bootstrap";
 
-.text-number-negate 
-{
+#navHeader {
+    &.container-fluid {
+        margin: 0;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .navbar-text {
+        a {
+            padding-left: 2rem;
+        }
+    }
+}
+
+.text-number-negate {
     span:before {
         content: ' -';
     }

@@ -1,5 +1,9 @@
 ﻿@model LoginViewModel
 
+@{
+    ViewBag.Title = "Login";
+}
+
 @using (Html.BeginForm("Login", "Account"))
 {
     @await Html.PartialAsync("Partials/Editors/_loginEditor")

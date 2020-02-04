@@ -10,10 +10,12 @@
     <template id="modalDialog">
         @await Html.PartialAsync("Partials/_modalDialog")
     </template>
-    <div class="container">
-        @await  Html.PartialAsync("Partials/_currentAccountWidget")
+    <section class="container-fluid" id="navHeader">
+        @await Html.PartialAsync("Partials/_currentAccountNav")
+    </section>
+    <section class="container">
         <section id="popup"></section>
         @RenderBody()
-    </div>
+    </section>
 </body>
 </html>

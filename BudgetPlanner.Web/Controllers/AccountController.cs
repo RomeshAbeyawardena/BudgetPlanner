@@ -9,6 +9,7 @@ using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Domains;
 using DNI.Shared.Services.Abstraction;
 using DNI.Shared.Shared.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -97,7 +98,12 @@ namespace BudgetPlanner.Web.Controllers
                 _cookieValidationService.AppendSessionCookie(Response.Cookies, 
                     DataConstants.AccountSessionCookie, cookieToken, 
                     cookieOptions => { _cookieValidationService
-                        .ConfigureCookieOptions(cookieOptions, _applicationSettings.SessionExpiryInMinutes); });
+                        .ConfigureCookieOptions(cookieOptions, _applicationSettings.SessionExpiryInMinutes); 
+                        cookieOptions.HttpOnly = true;
+                        cookieOptions.SameSite = SameSiteMode.Strict;
+                        cookieOptions.IsEssential = true;
+                        cookieOptions.Domain = Request.Host.Host;
+                        });
                 return RedirectToAction("Index", "Home");
             }
             AddErrorsToModelState(response);
