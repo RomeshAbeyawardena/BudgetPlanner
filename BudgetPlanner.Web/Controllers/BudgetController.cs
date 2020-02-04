@@ -19,10 +19,14 @@ namespace BudgetPlanner.Web.Controllers
     {
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         [HttpGet, Route("/[controller]/[action]/{reference}")]
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=12, [FromQuery]int pageNumber=1)
         {
             var response = await MediatorService
-                .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest {  Reference = reference });
+                .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { 
+                    AccountId = CurrentAccount.Id, 
+                    Reference = reference 
+                });
 
             if(!response.IsSuccessful)
                 return RedirectToAction("Index","Home");
@@ -39,6 +43,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> Create([FromQuery]bool isModal = false)
         {
             await Task.CompletedTask;
@@ -46,23 +51,13 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> Create([FromForm]CreateBudgetPlannerViewModel createBudgetPlannerViewModel)
         {
             if(!ModelState.IsValid)
                 return View(createBudgetPlannerViewModel);
 
-            var response = await MediatorService
-                .Send<ValidateBudgetPlannerReferenceResponse, ValidateBudgetPlannerReferenceRequest>(
-                    new ValidateBudgetPlannerReferenceRequest {  UniqueReference = createBudgetPlannerViewModel.Reference } );
-
-            if (!response.IsUnique) 
-            { 
-                ModelState.AddModelError(nameof(createBudgetPlannerViewModel.Reference), "Unique Reference is not valid");
-
-                return View(createBudgetPlannerViewModel);
-            }
-
-            createBudgetPlannerViewModel.AccountId = CurrentAccount?.Id;
+            createBudgetPlannerViewModel.AccountId = CurrentAccount.Id;
 
             var createBudgetPlannerRequest = Map<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>(createBudgetPlannerViewModel);
 
@@ -72,10 +67,13 @@ namespace BudgetPlanner.Web.Controllers
             if(saveResponse.IsSuccessful)
                 return RedirectToAction("Details", "Budget", new { reference = createBudgetPlannerViewModel.Reference });
 
+            AddErrorsToModelState(saveResponse);
+
             return View(createBudgetPlannerViewModel);
         }
 
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> CreateTransaction([FromRoute]string reference, [FromQuery]bool isModal = false)
         {
             
@@ -85,7 +83,6 @@ namespace BudgetPlanner.Web.Controllers
             if(budgetResponse.BudgetPlanner == null)
                 return RedirectToAction("Index","Home");
 
-
             return View(new AddBudgetTransactionViewModel { 
                 IsModal = isModal,
                 BudgetId = budgetResponse.BudgetPlanner.Id,
@@ -93,7 +90,8 @@ namespace BudgetPlanner.Web.Controllers
                 TransactionTypes = await GetTransactionTypes() });
         }
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> SaveTransaction(AddBudgetTransactionViewModel model)
         {
             model.TransactionTypes = await GetTransactionTypes();

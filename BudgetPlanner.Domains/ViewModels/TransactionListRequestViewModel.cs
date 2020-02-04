@@ -8,6 +8,7 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class TransactionListRequestViewModel
     {
+        public int AccountId { get; set; }
         public string Reference { get; set; } 
         public DateTime FromDate { get; set; } 
         public DateTime ToDate { get; set; } 

@@ -27,6 +27,6 @@ namespace BudgetPlanner.Domains.ViewModels
 
         [HiddenInput]
         public DateTimeOffset Created { get; set; }
-        public int? AccountId { get; set; }
+        public int AccountId { get; set; }
     }
 }

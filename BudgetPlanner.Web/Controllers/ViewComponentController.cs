@@ -1,4 +1,6 @@
-﻿using BudgetPlanner.Domains.ViewModels;
+﻿using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Domains.ViewModels;
+using BudgetPlanner.Web.Attributes;
 using BudgetPlanner.Web.ViewComponents;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
@@ -11,19 +13,20 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
 {
-    public class ViewComponentController : DefaultControllerBase
+    public class ViewComponentController : ControllerBase
     {
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> TransactionList([FromQuery] TransactionListRequestViewModel request)
         {
             await Task.CompletedTask;
-
+            request.AccountId = CurrentAccount.Id;
             return ViewComponent(typeof(TransactionListViewComponent), request);
         }
-
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> BudgetPlannerListDashboard(BudgetPanelDashboardListViewModel request)
         {
             await Task.CompletedTask;
-
+            request.AccountId = CurrentAccount.Id;
             return ViewComponent(typeof(BudgetPlannerViewComponent), request);
         }
     }

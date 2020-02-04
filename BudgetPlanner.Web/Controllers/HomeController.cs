@@ -16,11 +16,11 @@ namespace BudgetPlanner.Web.Controllers
     {
         [HttpGet]
         [Route("/")]
+        [RequiresAccount(DataConstants.AccountSessionCookie)]
         public async Task<ActionResult> Index()
         {
             await Task.CompletedTask;
             return View(new HomeViewModel { 
-                AccountId = CurrentAccount.Id, 
                 LastUpdated = DateTime.Now.AddDays(-30) });
         }
 

@@ -2,8 +2,7 @@
 
 @{
     ViewBag.Title = "Dashboard";
-    var budgetPlannerData = Html.Base64Encode(Json.Serialize(new BudgetPanelDashboardListViewModel { 
-        AccountId = Model.AccountId,
+    var budgetPlannerData = Html.Base64Encode(Json.Serialize(new BudgetPanelDashboardListViewModel {
         LastUpdated = Model.LastUpdated }), Encoding.UTF8);
 }
 

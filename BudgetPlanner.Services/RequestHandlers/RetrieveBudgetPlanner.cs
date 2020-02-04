@@ -25,7 +25,10 @@ namespace BudgetPlanner.Services.RequestHandlers
             else
                 budget = await _budgetPlannerService.GetBudgetPlanner(request.Reference);
 
-            return new RetrieveBudgetPlannerResponse { BudgetPlanner = budget  };
+            if(budget.AccountId == request.AccountId)
+                return new RetrieveBudgetPlannerResponse { BudgetPlanner = budget  };
+
+            return new RetrieveBudgetPlannerResponse { IsSuccessful = false  };
         }
 
         public RetrieveBudgetPlanner(IBudgetPlannerService budgetPlannerService)

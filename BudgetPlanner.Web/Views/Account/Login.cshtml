@@ -3,7 +3,7 @@
 @using (Html.BeginForm("Login", "Account"))
 {
     @await Html.PartialAsync("Partials/Editors/_loginEditor")
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Login</button>
     @Html.ActionLink("Register Account", "Register", "Account", null, DictionaryBuilder
                 .Create<string, object>(dictionaryBuilder => dictionaryBuilder
                     .Add("class", "btn btn-primary")

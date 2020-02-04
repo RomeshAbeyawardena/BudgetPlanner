@@ -10,6 +10,7 @@ namespace BudgetPlanner.Domains.Requests
 {
     public class RetrieveBudgetPlannerRequest : IRequest<RetrieveBudgetPlannerResponse>
     {
+        public int AccountId { get; set; }
         public int? BudgetPlannerId { get; set; }
         public string Reference { get; set; }
     }

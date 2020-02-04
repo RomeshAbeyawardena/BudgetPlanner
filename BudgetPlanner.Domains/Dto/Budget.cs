@@ -13,7 +13,7 @@ namespace BudgetPlanner.Domains.Dto
         public string Reference { get; set; }
         public bool Active { get; set; }
         public decimal Balance { get; set; }
-        
+        public int AccountId { get; set;}
         public DateTimeOffset? LastUpdated { get; set; }
 
         public DateTimeOffset Created { get; set; }
