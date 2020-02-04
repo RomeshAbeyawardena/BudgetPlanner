@@ -9,5 +9,6 @@ namespace BudgetPlanner.Domains.ViewModels
     public class HomeViewModel
     {
         public DateTime LastUpdated { get; set; }
+        public int AccountId { get; set; }
     }
 }

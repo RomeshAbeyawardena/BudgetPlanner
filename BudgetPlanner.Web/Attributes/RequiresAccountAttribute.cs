@@ -6,6 +6,7 @@ using DNI.Shared.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,16 @@ namespace BudgetPlanner.Web.Attributes
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var httpContext = context.HttpContext;
+            var logger = httpContext.RequestServices
+                .GetRequiredService<ILogger<RequiresAccountAttribute>>();
+            
             try
             {
                 if(!httpContext
                 .Request.Cookies.TryGetValue(CookieKeyValue, out var cookieValue))
                     throw new UnauthorizedAccessException();
 
+                
                 var cookieValidationService = httpContext.RequestServices
                     .GetRequiredService<ICookieValidationService>();
                 
@@ -39,15 +44,12 @@ namespace BudgetPlanner.Web.Attributes
                     tokenValidation.ValidIssuers = applicationSettings.Issuers;
                 }, cookieValue);
 
-                httpContext.Items.Add("Account", account);
+                httpContext.Items.Add(DataConstants.AccountItem, account);
             }   
             catch(UnauthorizedAccessException ex)
             {
-                #if(DEBUG)
-                    context.Result = new UnauthorizedObjectResult(ex);
-                #else
-                    context.Result = new UnauthorizedResult();
-                #endif
+                context.Result = new UnauthorizedResult();
+                logger.LogError(ex.Message, ex);
             }
             
         }

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
 {
-    public class BudgetController : DefaultControllerBase
+    public class BudgetController : ControllerBase
     {
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         [HttpGet, Route("/[controller]/[action]/{reference}")]
@@ -53,7 +53,7 @@ namespace BudgetPlanner.Web.Controllers
 
             var response = await MediatorService
                 .Send<ValidateBudgetPlannerReferenceResponse, ValidateBudgetPlannerReferenceRequest>(
-                    new ValidateBudgetPlannerReferenceRequest { UniqueReference = createBudgetPlannerViewModel.Reference } );
+                    new ValidateBudgetPlannerReferenceRequest {  UniqueReference = createBudgetPlannerViewModel.Reference } );
 
             if (!response.IsUnique) 
             { 
@@ -61,6 +61,8 @@ namespace BudgetPlanner.Web.Controllers
 
                 return View(createBudgetPlannerViewModel);
             }
+
+            createBudgetPlannerViewModel.AccountId = CurrentAccount?.Id;
 
             var createBudgetPlannerRequest = Map<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>(createBudgetPlannerViewModel);
 

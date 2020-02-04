@@ -12,13 +12,15 @@ using System.Threading.Tasks;
 namespace BudgetPlanner.Web.Controllers
 {
     [RequiresAccount(DataConstants.AccountSessionCookie)]
-    public class HomeController : DefaultControllerBase
+    public class HomeController : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult> Index()
         {
             await Task.CompletedTask;
-            return View(new HomeViewModel { LastUpdated = DateTime.Now.AddDays(-30) });
+            return View(new HomeViewModel { 
+                AccountId = CurrentAccount.Id, 
+                LastUpdated = DateTime.Now.AddDays(-30) });
         }
 
     }

@@ -2,7 +2,9 @@
 
 @{
     ViewBag.Title = "Dashboard";
-    var budgetPlannerData = Html.Base64Encode(Json.Serialize(new BudgetPanelDashboardListViewModel { LastUpdated = Model.LastUpdated }), Encoding.UTF8);
+    var budgetPlannerData = Html.Base64Encode(Json.Serialize(new BudgetPanelDashboardListViewModel { 
+        AccountId = Model.AccountId,
+        LastUpdated = Model.LastUpdated }), Encoding.UTF8);
 }
 
 <section data-src="@Url.Action("BudgetPlannerListDashboard","ViewComponent")"
