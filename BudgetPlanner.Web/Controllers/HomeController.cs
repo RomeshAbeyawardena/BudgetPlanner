@@ -1,4 +1,6 @@
-﻿using BudgetPlanner.Domains.ViewModels;
+﻿using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Domains.ViewModels;
+using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
 {
+    [RequiresAccount(DataConstants.AccountSessionCookie)]
     public class HomeController : DefaultControllerBase
     {
         [HttpGet]

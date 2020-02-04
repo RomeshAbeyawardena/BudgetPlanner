@@ -17,7 +17,6 @@ namespace BudgetPlanner.Web.Attributes
     public class RequiresAccountAttribute : Attribute, IAsyncAuthorizationFilter
     {
         public string CookieKeyValue { get; }
-        public string AudienceIssuer { get; }
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
@@ -31,7 +30,14 @@ namespace BudgetPlanner.Web.Attributes
                 var cookieValidationService = httpContext.RequestServices
                     .GetRequiredService<ICookieValidationService>();
                 
-                var account = await cookieValidationService.ValidateCookieToken(cookieValue);
+                var applicationSettings = httpContext.RequestServices
+                    .GetRequiredService<ApplicationSettings>();
+                
+
+                var account = await cookieValidationService.ValidateCookieToken(tokenValidation => { 
+                    tokenValidation.ValidAudiences = applicationSettings.Audiences;
+                    tokenValidation.ValidIssuers = applicationSettings.Issuers;
+                }, cookieValue);
 
                 httpContext.Items.Add("Account", account);
             }   
@@ -46,10 +52,9 @@ namespace BudgetPlanner.Web.Attributes
             
         }
 
-        public RequiresAccountAttribute(string cookieKeyValue, string audienceIssuer)
+        public RequiresAccountAttribute(string cookieKeyValue)
         {
             CookieKeyValue = cookieKeyValue;
-            AudienceIssuer = audienceIssuer;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace BudgetPlanner.Domains
             configuration.Bind(this);
             DefaultConnectionString = configuration.GetConnectionString(DataConstants.DefaultConnectionStringKey);
         }
+        public IEnumerable<string> Issuers { get; set;}
         public IEnumerable<string> Audiences { get; set; }
         public int SessionExpiryInMinutes { get; set; }
         public IDictionary<string, EncryptionKey> EncryptionKeys { get; set; }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services
@@ -31,9 +32,9 @@ namespace BudgetPlanner.Services
             return await _accountRepository.SaveChanges(account);
         }
 
-        public Task<Account> GetAccount(int accountId)
+        public async Task<Account> GetAccount(int accountId)
         {
-            throw new NotImplementedException();
+            return await _accountRepository.Find(CancellationToken.None, accountId);
         }
 
         public AccountService(IRepository<Account> accountRepository)

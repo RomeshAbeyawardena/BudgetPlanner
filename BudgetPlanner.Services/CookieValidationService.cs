@@ -24,12 +24,15 @@ namespace BudgetPlanner.Services
         private readonly IEncryptionProvider _encryptionProvider;
         private readonly IJsonWebTokenService _jsonWebTokenService;
 
-        public async Task<Account> ValidateCookieToken(string cookieToken)
+        public async Task<Account> ValidateCookieToken(Action<TokenValidationParameters> tokenValidationParameters, string cookieToken)
         {
                 var defaultEncryptionKey = _cryptographySwitch.Case(EncryptionKeyConstants.Default);
-                _jsonWebTokenService.TryParseToken(cookieToken, defaultEncryptionKey.Salt, parameters => { }, Encoding.UTF8, out var claims);
+                
+            if(!_jsonWebTokenService.TryParseToken(cookieToken, defaultEncryptionKey.Salt, tokenValidationParameters, Encoding.UTF8, out var claims))
+                throw new UnauthorizedAccessException();
 
-                if (!claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim) || int.TryParse(accountIdClaim, out var accountId))
+                if (!claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim) 
+                || !int.TryParse(accountIdClaim, out var accountId))
                     throw new UnauthorizedAccessException();
 
                 var account = await _accountService.GetAccount(accountId);
@@ -44,8 +47,11 @@ namespace BudgetPlanner.Services
         {
             await Task.CompletedTask;
             var defaultEncryptionKey = _cryptographySwitch.Case(EncryptionKeyConstants.Default);
-            return _jsonWebTokenService.CreateToken(setupSecurityTokenDescriptor, _clockProvider.UtcDateTime.AddMinutes(expiryPeriodInMinutes), 
-                DictionaryBuilder.Create<string, string>().ToDictionary(), defaultEncryptionKey.Salt, Encoding.UTF8);
+            return _jsonWebTokenService.CreateToken(setupSecurityTokenDescriptor, 
+                _clockProvider.UtcDateTime.AddMinutes(expiryPeriodInMinutes), 
+                DictionaryBuilder.Create<string, string>(builder => builder
+                .Add(DataConstants.AccountIdClaim, account.Id.ToString())).ToDictionary(), 
+                defaultEncryptionKey.Salt, Encoding.UTF8);
         }
 
         public void AppendSessionCookie(IResponseCookies responseCookies, string cookieName, string value, Action<CookieOptions> cookieOptionsAction = null)
