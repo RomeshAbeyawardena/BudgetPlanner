@@ -78,7 +78,9 @@ namespace BudgetPlanner.Web.Controllers
         {
             
             var budgetResponse = await MediatorService
-                .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { Reference = reference });
+                .Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(new RetrieveBudgetPlannerRequest { 
+                    AccountId = CurrentAccount.Id, 
+                    Reference = reference });
 
             if(budgetResponse.BudgetPlanner == null)
                 return RedirectToAction("Index","Home");

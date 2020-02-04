@@ -44,7 +44,7 @@ namespace BudgetPlanner.Web.Attributes
                     tokenValidation.ValidIssuers = applicationSettings.Issuers;
                 }, cookieValue);
 
-                httpContext.Items.Add(DataConstants.AccountItem, account);
+                httpContext.Items.TryAdd(DataConstants.AccountItem, account);
             }   
             catch(UnauthorizedAccessException ex)
             {
