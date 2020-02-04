@@ -17,16 +17,16 @@ namespace BudgetPlanner.Domains.Data
         [Key]
         public int Id { get; set; }
 
-        [Encrypt(EncryptionKeyConstants.PersonalData, EncryptionMethod.Encryption)]
+        [Encrypt(EncryptionKeyConstants.IdentificationData, EncryptionMethod.Encryption)]
         public byte[] EmailAddress { get; set; }
 
         [Encrypt(EncryptionKeyConstants.PersonalData, EncryptionMethod.Hashing)]
         public byte[] Password { get; set; }
 
-        [Encrypt(EncryptionKeyConstants.IdentificationData, EncryptionMethod.Encryption)]
+        [Encrypt(EncryptionKeyConstants.PersonalData, EncryptionMethod.Encryption)]
         public byte[] FirstName { get; set; }
 
-        [Encrypt(EncryptionKeyConstants.IdentificationData, EncryptionMethod.Encryption)]
+        [Encrypt(EncryptionKeyConstants.PersonalData, EncryptionMethod.Encryption)]
         public byte[] LastName { get; set; }
         
         public bool Active { get; set; }
