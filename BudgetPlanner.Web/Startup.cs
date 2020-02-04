@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DNI.Shared.Services.Extensions;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace BudgetPlanner.Web
 {
@@ -46,11 +47,13 @@ namespace BudgetPlanner.Web
             app.UseSession();
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseStatusCodePagesWithRedirects("/Default/Error/{0}");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
             });
         }
+
     }
 }

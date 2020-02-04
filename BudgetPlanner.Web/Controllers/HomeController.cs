@@ -15,6 +15,7 @@ namespace BudgetPlanner.Web.Controllers
     public class HomeController : ControllerBase
     {
         [HttpGet]
+        [Route("/")]
         public async Task<ActionResult> Index()
         {
             await Task.CompletedTask;
