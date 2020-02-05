@@ -18,7 +18,10 @@ namespace BudgetPlanner.Domains.ViewModels
         [Required, MinLength(6), MaxLength(32)]
         public string Password { get; set; }
 
-        [Required, MinLength(6), MaxLength(32), MustMatch(nameof(Password))]
+        [Required, 
+         MinLength(6), 
+         MaxLength(32)]
+        [MustMatch(nameof(Password))]
         public string Confirm { get; set; }
 
         [Required, MinLength(3), MaxLength(32)]
