@@ -75,7 +75,7 @@ CREATE TABLE [dbo].[TransactionLedger]
 		REFERENCES [dbo].[Transaction]
 	,[Amount] DECIMAL(18, 4) NOT NULL
 	,[PreviousBalance] DECIMAL(18, 4) NOT NULL
-	,[NewBalance] DECIMAL(18, 4)
+	,[NewBalance] DECIMAL(18, 4) NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 )
 
@@ -94,8 +94,3 @@ VALUES
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     )
-	SELECT * FROM [Budget]
-
-	SELECT * FROM dbo.TransactionLedger
-
-	SELECT * FROM dbo.Account
