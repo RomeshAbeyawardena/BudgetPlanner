@@ -27,7 +27,6 @@ namespace BudgetPlanner.Services
         {
             services
                 .AddSingleton<ApplicationSettings>()
-                .AddSingleton<IMarkdownToHtmlService, MarkdownToHtmlService>()
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(RegisterCryptographicCredentialsFactory)
                 .AddTransient<ICookieValidationService, CookieValidationService>()
                 .AddTransient<IAccountService, AccountService>()
