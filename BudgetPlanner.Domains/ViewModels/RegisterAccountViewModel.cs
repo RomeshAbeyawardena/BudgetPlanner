@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DNI.Shared.Services.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace BudgetPlanner.Domains.ViewModels
 
         [Required, MinLength(6), MaxLength(32)]
         public string Password { get; set; }
+
+        [Required, MinLength(6), MaxLength(32), MustMatch(nameof(Password))]
+        public string Confirm { get; set; }
 
         [Required, MinLength(3), MaxLength(32)]
         public string FirstName { get; set; }
