@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Domains.Data;
+﻿using BudgetPlanner.Contracts.Enumeration;
+using BudgetPlanner.Domains.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace BudgetPlanner.Contracts.Services
     {
         Task<Account> SaveAccount(Account account);
         Task<Account> GetAccount(IEnumerable<byte> encryptedEmailAddress);
-        Task<Account> GetAccount(int accountId);
+        Task<Account> GetAccount(int accountId, FindUsage findUsage);
     }
 }

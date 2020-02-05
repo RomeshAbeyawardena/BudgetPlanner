@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Enumeration;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Dto;
@@ -35,7 +36,7 @@ namespace BudgetPlanner.Services
                 || !int.TryParse(accountIdClaim, out var accountId))
                     throw new UnauthorizedAccessException();
 
-                var account = await _accountService.GetAccount(accountId);
+                var account = await _accountService.GetAccount(accountId, FindUsage.UseLocally);
 
                 if (account == null)
                     throw new UnauthorizedAccessException();

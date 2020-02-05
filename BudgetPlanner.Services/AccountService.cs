@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Enumeration;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
 using DNI.Shared.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace BudgetPlanner.Services
     {
         private readonly IRepository<Account> _accountRepository;
 
-        public IQueryable<Account> DefaultAccountQuery => _accountRepository.Query(account => account.Active);
+        public IQueryable<Account> DefaultAccountQuery => _accountRepository.Query(account => account.Active, false);
 
         public async Task<Account> GetAccount(IEnumerable<byte> encryptedEmailAddress)
         {
@@ -32,9 +33,14 @@ namespace BudgetPlanner.Services
             return await _accountRepository.SaveChanges(account);
         }
 
-        public async Task<Account> GetAccount(int accountId)
+        public async Task<Account> GetAccount(int accountId, FindUsage findUsage)
         {
-            return await _accountRepository.Find(CancellationToken.None, accountId);
+            if(findUsage == FindUsage.SaveToDatabase)
+                return await _accountRepository.Find(CancellationToken.None, accountId);
+
+            return await (from account in DefaultAccountQuery
+                   where account.Id == accountId
+                   select account).SingleOrDefaultAsync();
         }
 
         public AccountService(IRepository<Account> accountRepository)
