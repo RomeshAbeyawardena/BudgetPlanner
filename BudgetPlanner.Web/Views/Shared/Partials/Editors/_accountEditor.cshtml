@@ -6,27 +6,32 @@
 @Html.HiddenFor(model => model.Created)
 @Html.HiddenFor(model => model.Modified)
 
-<div class="form-group">
+<div class="form-group" id="emailPanel" expander-form data-expander-parent="parent">
     @Html.LabelFor(model => model.EmailAddress)
     @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.EmailAddress)
 </div>
-<div class="form-group">
+<div class="form-group" id="passwordPanel" expander-form data-expander-parent="#emailPanel">
     @Html.LabelFor(model => model.Password)
     @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.Password)
 </div>
-<div class="form-group">
+<div class="form-group" id="confirmPanel" expander-form data-expander-parent="#passwordPanel">
+    @Html.LabelFor(model => model.Confirm)
+    @Html.PasswordFor(model => model.Confirm, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Confirm)
+</div>
+<div class="form-group" id="firstNamePanel" expander-form data-expander-parent="#confirmPanel">
     @Html.LabelFor(model => model.FirstName)
     @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.FirstName)
 </div>
-<div class="form-group">
+<div class="form-group" id="lastNamePanel" expander-form data-expander-parent="#firstNamePanel">
     @Html.LabelFor(model => model.LastName)
     @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.LastName)
 </div>
-<div class="form-group form-check">
+<div class="form-group form-check" expander-form data-expander-parent="#lastNamePanel">
     @Html.CheckBoxFor(model => model.Active, new { @class = "form-check-input" })
     @Html.LabelFor(model => model.Active)
 </div>

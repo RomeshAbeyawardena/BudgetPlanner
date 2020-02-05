@@ -8,9 +8,12 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
     this.modes = {};
     this.init = function () {
         this.elements = $("a[popup]");
+        var promises = [];
         for (var element of this.elements) {
-            setupElement(this, element);
+            promises.append(setupElement(this, element));
         }
+
+        return Promise.all(promises);
     };
     this.configureMode = function (mode, templateSelector, contentPlaceholder) {
         if (this.modes[mode])
@@ -55,7 +58,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
              if(args)
                  args = JSON.parse(args);
 
-            request.get(args).then((e) => {
+            return request.get(args).then((e) => {
                 const contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 $dynamicPanel.find(".modal").show();

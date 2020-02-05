@@ -1,9 +1,12 @@
 ﻿import $ from "jquery";
 import { httpRequest } from "../utility";
+import promise from "promise";
 
 const asyncLoader = function (sourceAttribute, parametersAttribute) {
     this.init = function () {
         const dynamicPanels = $("[" + sourceAttribute + "]");
+
+        var promises = [];
 
         for (var dynamicPanel of dynamicPanels) {
             const $dynamicPanel = $(dynamicPanel);
@@ -13,10 +16,12 @@ const asyncLoader = function (sourceAttribute, parametersAttribute) {
             
             var parameters = JSON.parse(atob(dynamicParameters));
             
-            return new httpRequest(dynamicUrl)
+            promises.append(new httpRequest(dynamicUrl)
                 .get(parameters)
-                .then((e) => $dynamicPanel.html(e));
+                .then((e) => $dynamicPanel.html(e)));
         }
+
+        return promise.all(promises);
     };
 };
 

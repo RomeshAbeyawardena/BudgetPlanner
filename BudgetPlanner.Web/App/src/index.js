@@ -3,6 +3,7 @@ import $ from "jquery";
 import "bootstrap";
 import popup from "./popup";
 import asyncLoader from "./async-loader";
+import expanderForm from "./expander-form";
 
 require("./scss/index.scss");
 
@@ -13,6 +14,10 @@ $(() => {
             .configureMode("modal", "#modalDialog", "#content")
             .init();
 
+    const expander = new expanderForm()
+        .init();
+
     const loader = new asyncLoader("data-src","data-parameters")
-        .init().then(() => modalPopup.init());
+        .init()
+        .then(() => { modalPopup.init(); expander.init(true); });
 });
