@@ -11,9 +11,10 @@ const expanderForm = function () {
         const context = this;
         for (var expanderForm of expanderForms) {
             const expanderParent = $(expanderForm).data("expander-parent");
-            const expanderParentId = expanderParent.attr("id");
-
-            var $expanderFormInput = expanderForm.find("input");
+            const $expanderParent = $(expanderParent);
+            const expanderParentId = $expanderParent.attr("id");
+            const $expanderForm = $(expanderForm);
+            var $expanderFormInput = $expanderForm.find("input");
 
             $expanderFormInput.on("change", () => {
                 var form = context.getExpander(expanderParent);
@@ -21,16 +22,16 @@ const expanderForm = function () {
                     context.expandChildren(form);
             });
 
-            context.addExpander(expanderParentId, expanderForm, []);
+            context.addExpander(expanderParentId, $expanderForm, []);
 
             if (expanderParent === 'parent')  //top-level don't hide    
                 continue;
 
             //find approriate parent
-            var expander = getExpander(expanderParent);
+            var expander = this.getExpander(expanderParent);
 
             expander.children.push(expanderForm);
-            expanderForm.hide();
+            $expanderForm.hide();
         }
 
         return context;
@@ -42,7 +43,7 @@ const expanderForm = function () {
         this.expanderParents[expanderParentId] = { id: expanderId, element: element, children: children };
     };
     this.getExpander = function (value) {
-        const expander = this.expanderForms[value];
+        const expander = this.expanderParents[value];
 
         if (!expander)
             throw 'Expander "' + expanderParent + '" not found';

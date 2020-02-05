@@ -1,0 +1,9 @@
+﻿@inject IMarkdownToHtmlService markdownToHtmlService;
+
+@await Html.PartialAsync("Partials/_dialog", new DialogViewModel
+{
+    HeaderContent = "Logout Confirmation",
+    Title = "Successfully signed out!",
+    Text = markdownToHtmlService
+        .ToHtml($"You have successfully signed out, [click here]({Url.Action("Login", "Account")}) to sign back in")
+})
