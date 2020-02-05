@@ -8,6 +8,8 @@ GO
 CREATE DATABASE BudgetPlanner
 GO
 
+CREATE USER [WebUser] FOR LOGIN [WebUser]
+
 USE BudgetPlanner;
 
 CREATE TABLE [dbo].[Account](
