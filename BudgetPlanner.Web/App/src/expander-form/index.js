@@ -7,7 +7,7 @@ const expanderForm = function () {
         if (flushParents)
             this.flushParents();
 
-        var expanderForms = $("form [expander-form]");
+        var expanderForms = $("[expander-form]");
         const context = this;
         for (var expanderForm of expanderForms) {
             const expanderParent = $(expanderForm).data("expander-parent");
@@ -29,9 +29,11 @@ const expanderForm = function () {
             //find approriate parent
             var expander = getExpander(expanderParent);
 
-            expander.children.append(expanderForm);
+            expander.children.push(expanderForm);
             expanderForm.hide();
         }
+
+        return context;
     };
     this.flushParents = function () {
         this.expanderParents = {};

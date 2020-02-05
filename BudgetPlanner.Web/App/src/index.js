@@ -9,13 +9,15 @@ require("./scss/index.scss");
 
 $(() => {
     $('[data-toggle="tooltip"]').tooltip();
-    const modalPopup = new popup("#popup", "#dialogModeDataHiddenField");
-        modalPopup
-            .configureMode("modal", "#modalDialog", "#content")
-            .init();
 
     const expander = new expanderForm()
         .init();
+
+    const modalPopup = new popup("#popup", "#dialogModeDataHiddenField");
+        modalPopup
+            .configureMode("modal", "#modalDialog", "#content")
+            .init()
+            .then(() => { expander.init(true); });
 
     const loader = new asyncLoader("data-src","data-parameters")
         .init()

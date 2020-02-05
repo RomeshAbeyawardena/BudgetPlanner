@@ -9,8 +9,10 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
     this.init = function () {
         this.elements = $("a[popup]");
         var promises = [];
+        console.log(promises);
         for (var element of this.elements) {
-            promises.append(setupElement(this, element));
+            console.log(promises);
+            promises.push(setupElement(this, element));
         }
 
         return Promise.all(promises);
