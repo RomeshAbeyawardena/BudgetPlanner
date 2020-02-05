@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Contracts.Enumeration
 {
-    public enum FindUsage
+    public enum EntityUsage
     {
         SaveToDatabase = 1,
         UseLocally = 2

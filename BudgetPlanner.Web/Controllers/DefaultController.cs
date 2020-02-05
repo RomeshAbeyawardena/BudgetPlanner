@@ -14,6 +14,8 @@ namespace BudgetPlanner.Web.Controllers
         [Route("/Default/Error/{statusCode}")]
         public async Task<ActionResult> Error([FromRoute]int statusCode)
         {
+            await Task.CompletedTask;
+
             if(statusCode == 401)
                 return RedirectToAction("Login", "Account");
 

@@ -36,7 +36,7 @@ namespace BudgetPlanner.Services
                 || !int.TryParse(accountIdClaim, out var accountId))
                     throw new UnauthorizedAccessException();
 
-                var account = await _accountService.GetAccount(accountId, FindUsage.UseLocally);
+                var account = await _accountService.GetAccount(accountId, EntityUsage.UseLocally);
 
                 if (account == null)
                     throw new UnauthorizedAccessException();

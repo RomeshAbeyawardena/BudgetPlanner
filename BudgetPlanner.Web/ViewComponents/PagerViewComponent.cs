@@ -12,6 +12,8 @@ namespace BudgetPlanner.Web.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            await Task.CompletedTask;
+
             return View();
         }
     }
