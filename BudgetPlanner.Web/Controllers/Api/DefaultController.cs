@@ -21,7 +21,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
         protected IDictionary<string, string> GetTokenClaims(string token)
         {
-            var defaultEncryptionKey = CryptographySwitch.Case(EncryptionKeyConstants.Default);
+            var defaultEncryptionKey = CryptographySwitch.Case(EncryptionKeyConstants.Api);
             if(!JsonWebTokenService.TryParseToken(token, defaultEncryptionKey.Password, tokenValidation => {
                 tokenValidation.ValidAudiences = ApplicationSettings.Audiences;
                 tokenValidation.ValidIssuers = ApplicationSettings.Issuers;

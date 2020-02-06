@@ -13,6 +13,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 {
     public class BudgetController : DefaultController
     {
+        [HttpGet]
         public async Task<ActionResult> GetBudgetPlanners([Bind(Prefix = "payload")]string token)
         {
             var claims = GetTokenClaims(token);
@@ -27,6 +28,7 @@ namespace BudgetPlanner.Web.Controllers.Api
             return Ok(response);
         }
 
+        [HttpGet]
         public async Task<ActionResult> GetBudgetPlanner([Bind(Prefix = "payload")]string token)
         {
             var claims = GetTokenClaims(token);
