@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Setup\Install.sql = Setup\Install.sql
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetPlanner.WebApp", "BudgetPlanner.WebApp\BudgetPlanner.WebApp.csproj", "{F124B648-5F2D-418D-8C46-FC494AD6E21B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +118,18 @@ Global
 		{786BF250-9B09-4008-99FE-CB60887057EC}.Release|x64.Build.0 = Release|Any CPU
 		{786BF250-9B09-4008-99FE-CB60887057EC}.Release|x86.ActiveCfg = Release|Any CPU
 		{786BF250-9B09-4008-99FE-CB60887057EC}.Release|x86.Build.0 = Release|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Debug|x64.Build.0 = Debug|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Debug|x86.Build.0 = Debug|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|x64.ActiveCfg = Release|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|x64.Build.0 = Release|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|x86.ActiveCfg = Release|Any CPU
+		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
