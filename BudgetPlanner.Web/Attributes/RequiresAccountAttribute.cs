@@ -42,6 +42,8 @@ namespace BudgetPlanner.Web.Attributes
                     tokenValidation.ValidIssuers = applicationSettings.Issuers;
                 }, cookieValue);
 
+                 
+
                 if(!httpContext.Items.TryAdd(DataConstants.AccountItem, account))
                     logger.LogWarning("Skipping Item - An item with the key '{0}' already exists.", DataConstants.AccountItem);
             }   

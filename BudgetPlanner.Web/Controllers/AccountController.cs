@@ -92,7 +92,7 @@ namespace BudgetPlanner.Web.Controllers
                 var cookieToken = await _cookieValidationService
                     .CreateCookieToken(config => { 
                         config.Audience = _applicationSettings.Audiences.FirstOrDefault();
-                        config.Issuer = _applicationSettings.Audiences.FirstOrDefault();
+                        config.Issuer = _applicationSettings.Issuers.FirstOrDefault();
                         }, response.Account, 
                     _applicationSettings.SessionExpiryInMinutes);
                 _cookieValidationService.AppendSessionCookie(Response.Cookies, 

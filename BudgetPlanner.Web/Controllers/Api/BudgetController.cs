@@ -53,7 +53,7 @@ namespace BudgetPlanner.Web.Controllers.Api
         }
 
         [HttpPost]
-        [HandleException(typeof(), typeof(), typeof())]
+        
         public async Task<ActionResult> CreateBudgetPlanner([Bind(Prefix = "payload")]string token, [FromForm] CreateBudgetPlannerViewModel model)
         {
             var claims = GetTokenClaims(token);
