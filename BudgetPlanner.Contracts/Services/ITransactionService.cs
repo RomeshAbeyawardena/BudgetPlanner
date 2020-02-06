@@ -1,5 +1,5 @@
 ﻿using BudgetPlanner.Domains.Data;
-using DNI.Shared.Contracts.Options;
+using DNI.Shared.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

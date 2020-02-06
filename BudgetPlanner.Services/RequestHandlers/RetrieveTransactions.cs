@@ -24,7 +24,11 @@ namespace BudgetPlanner.Services.RequestHandlers
                 PageNumber = request.PageNumber,
                 TotalPages = await transactionsPager.GetTotalNumberOfPages(request.PageSize),
                 Transactions = await transactionsPager
-                    .GetItems(request.PageNumber, request.PageSize, cancellationToken: cancellationToken) };
+                    .GetPagedItems(builder => { 
+                        builder.PageNumber = request.PageNumber;
+                        builder.MaximumRowsPerPage = request.PageSize; 
+                        builder.UseAsync = true;
+                    }, cancellationToken: cancellationToken) };
         }
 
         public RetrieveTransactions(ITransactionService transactionService)
