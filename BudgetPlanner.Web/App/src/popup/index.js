@@ -6,12 +6,15 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
     this.modesHiddenFieldSelector = modesHiddenFieldSelector;
     this.elements = [];
     this.modes = {};
+    this._onLoad = null;
+    this.onLoad = function (callback) {
+        this._onLoad = callback;
+        return this;
+    };
     this.init = function () {
         this.elements = $("a[popup]");
         var promises = [];
-        console.log(promises);
         for (var element of this.elements) {
-            console.log(promises);
             promises.push(setupElement(this, element));
         }
 
@@ -66,6 +69,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
                 $dynamicPanel.find(".modal").show();
                 const defaultForm = new form(contentPlaceholder, "form", "DismissModals");
                 defaultForm.capture(0, true);
+                context._onLoad();
             });
         });
 

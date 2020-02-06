@@ -111,5 +111,14 @@ namespace BudgetPlanner.Web.Controllers
             return View("Login", model);
         }
 
+        [HttpGet]
+        [Route("/Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            await Task.CompletedTask;
+            Response.Cookies.Delete(DataConstants.AccountSessionCookie);
+            return View();
+        }
+
     }
 }
