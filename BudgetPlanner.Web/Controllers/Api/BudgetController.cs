@@ -1,6 +1,7 @@
 ﻿using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using BudgetPlanner.Domains.ViewModels;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -51,9 +52,25 @@ namespace BudgetPlanner.Web.Controllers.Api
             return Ok(response);
         }
 
-        public BudgetController()
+        [HttpPost]
+        [HandleException(typeof(), typeof(), typeof())]
+        public async Task<ActionResult> CreateBudgetPlanner([Bind(Prefix = "payload")]string token, [FromForm] CreateBudgetPlannerViewModel model)
         {
+            var claims = GetTokenClaims(token);
+            int accountId = default;
 
+            if (!claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim)
+                && int.TryParse(accountIdClaim, out accountId))
+                throw new UnauthorizedAccessException();
+
+            if (model.AccountId != accountId)
+                throw new UnauthorizedAccessException();
+
+            var request = Map<CreateBudgetPlannerViewModel, CreateBudgetPlannerRequest>(model);
+
+            await MediatorService.Send<CreateBudgetPlannerResponse, CreateBudgetPlannerRequest>(request);
+
+            return Ok();
         }
     }
 }
