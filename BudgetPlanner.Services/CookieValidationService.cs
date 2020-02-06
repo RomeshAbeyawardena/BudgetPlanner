@@ -29,7 +29,7 @@ namespace BudgetPlanner.Services
         {
                 var defaultEncryptionKey = _cryptographySwitch.Case(EncryptionKeyConstants.Default);
                 
-            if(!_jsonWebTokenService.TryParseToken(cookieToken, defaultEncryptionKey.Salt, tokenValidationParameters, Encoding.UTF8, out var claims))
+            if(!_jsonWebTokenService.TryParseToken(cookieToken, defaultEncryptionKey.Password, tokenValidationParameters, Encoding.UTF8, out var claims))
                 throw new UnauthorizedAccessException();
 
                 if (!claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim) 
