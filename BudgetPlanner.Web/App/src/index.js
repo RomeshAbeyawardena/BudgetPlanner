@@ -21,5 +21,8 @@ $(() => {
 
     const loader = new asyncLoader("data-src","data-parameters")
         .init()
-        .then(() => { modalPopup.init(); expander.init(true); });
+        .then(() => {
+            modalPopup.init();
+            expander.init(true);
+        });
 });
