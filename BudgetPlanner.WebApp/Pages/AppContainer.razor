@@ -1,0 +1,9 @@
+﻿@inherits AppContainerHelper
+
+@foreach(var component in AppComponents)
+{
+    if(component.Visible)
+    {
+        @component
+    }
+}

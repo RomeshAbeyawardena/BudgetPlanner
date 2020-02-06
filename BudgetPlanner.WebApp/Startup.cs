@@ -30,7 +30,11 @@ namespace BudgetPlanner.WebApp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services
-                .RegisterServiceBroker<ServiceBroker>(options => { options.RegisterAutoMappingProviders = true; }, out var serviceBroker);
+                .RegisterServiceBroker<ServiceBroker>(options => { 
+                    options.RegisterCacheProviders = true; 
+                    options.RegisterAutoMappingProviders = true;
+                    options.RegisterMessagePackSerialisers = true;
+                    }, out var serviceBroker);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
