@@ -11,11 +11,13 @@ namespace BudgetPlanner.Services.Claims
 {
     public class TransactionClaim : DefaultClaim, IPagerClaim, IDateRangeClaim
     {
-        [Claim(DataConstants.BudgetPlannerIdClaim)]
+        [Claim(ClaimConstants.BudgetPlannerIdClaim)]
         public int BudgetPlannerId { get; set; }
 
-        [Claim(DataConstants.BudgetPlannerReferenceClaim)]
+        [Claim(ClaimConstants.BudgetPlannerReferenceClaim)]
         public string Reference { get; set; }
+
+        
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
         public DateTime FromDate { get; set; }

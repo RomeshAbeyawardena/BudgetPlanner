@@ -13,5 +13,7 @@ namespace BudgetPlanner.Domains.Constants
         public const string BudgetPlannerReferenceClaim = "BudgetPlannerReference";
         public const string PageSizeClaim = "PageSize";
         public const string PageNumberClaim = "PageNumber";
+        public const string FromDateRangeClaim = "FromDate";
+        public const string ToDateRangeClaim = "ToDateRange";
     }
 }

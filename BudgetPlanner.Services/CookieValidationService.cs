@@ -1,8 +1,10 @@
 ﻿using BudgetPlanner.Contracts.Enumeration;
+using DNI.Shared.Shared.Extensions;
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Dto;
+using BudgetPlanner.Services.Claims;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Providers;
 using DNI.Shared.Contracts.Services;
@@ -32,11 +34,9 @@ namespace BudgetPlanner.Services
             if(!_jsonWebTokenService.TryParseToken(cookieToken, defaultEncryptionKey.Password, tokenValidationParameters, Encoding.UTF8, out var claims))
                 throw new UnauthorizedAccessException();
 
-                if (!claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim) 
-                || !int.TryParse(accountIdClaim, out var accountId))
-                    throw new UnauthorizedAccessException();
-
-                var account = await _accountService.GetAccount(accountId, EntityUsage.UseLocally);
+            var defaultClaim = claims.ToClaimObject<DefaultClaim>();
+                
+                var account = await _accountService.GetAccount(defaultClaim.AccountId, EntityUsage.UseLocally);
 
                 if (account == null)
                     throw new UnauthorizedAccessException();
@@ -51,7 +51,7 @@ namespace BudgetPlanner.Services
             return _jsonWebTokenService.CreateToken(setupSecurityTokenDescriptor, 
                 _clockProvider.UtcDateTime.AddMinutes(expiryPeriodInMinutes), 
                 DictionaryBuilder.Create<string, string>(builder => builder
-                .Add(DataConstants.AccountIdClaim, account.Id.ToString())).ToDictionary(), 
+                .Add(ClaimConstants.AccountIdClaim, account.Id.ToString())).ToDictionary(), 
                 defaultEncryptionKey.Salt, Encoding.UTF8);
         }
 
