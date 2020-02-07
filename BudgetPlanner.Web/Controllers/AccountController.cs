@@ -95,6 +95,8 @@ namespace BudgetPlanner.Web.Controllers
                         config.Issuer = _applicationSettings.Issuers.FirstOrDefault();
                         }, response.Account, 
                     _applicationSettings.SessionExpiryInMinutes);
+
+
                 _cookieValidationService.AppendSessionCookie(Response.Cookies, 
                     DataConstants.AccountSessionCookie, cookieToken, 
                     cookieOptions => { _cookieValidationService
