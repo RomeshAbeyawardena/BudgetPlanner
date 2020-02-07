@@ -1,4 +1,4 @@
-﻿using BudgetPlanner.Domains.Claims;
+﻿using BudgetPlanner.Services.Claims;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;

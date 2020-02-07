@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetPlanner.Domains.Claims
+namespace BudgetPlanner.Services.Claims
 {
     public class BudgetPlannerClaim : DefaultClaim
     {

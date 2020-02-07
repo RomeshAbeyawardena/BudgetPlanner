@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BudgetPlanner.Domains;
-using BudgetPlanner.Domains.Claims;
+using BudgetPlanner.Services.Claims;
 using BudgetPlanner.Domains.Constants;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Services;

@@ -13,6 +13,8 @@ namespace BudgetPlanner.Domains.Constants
         public const string AccountIdClaim = "AccountId";
         public const string BudgetPlannerIdClaim = "BudgetPlannerId";
         public const string BudgetPlannerReferenceClaim = "BudgetPlannerReference";
+        public const string PageSizeClaim = "PageSize";
+        public const string PageNumberClaim = "PageNumber";
         public const string AccountItem = nameof(AccountItem);
     }
 }
