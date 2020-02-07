@@ -7,7 +7,7 @@ using DNI.Shared.Services.Abstraction;
 
 namespace BudgetPlanner.Web.Controllers.Api
 {
-    public class TransactionController : DefaultController
+    public class TransactionController : DefaultApiController
     {
         
     }

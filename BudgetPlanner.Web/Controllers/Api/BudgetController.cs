@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers.Api
 {
-    public class BudgetController : DefaultController
+    public class BudgetController : DefaultApiController
     {
         [HttpGet]
         public async Task<ActionResult> GetBudgetPlanners([Bind(Prefix = "payload")]string token)
