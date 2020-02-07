@@ -24,7 +24,7 @@ namespace BudgetPlanner.Web.Controllers.Api
                 && int.TryParse(accountIdClaim, out var accountId))
                 request.AccountId = accountId;
 
-            var response = await MediatorService.Send<RetrieveBudgetPlannersResponse, RetrieveBudgetPlannersRequest>(request);
+            var response = await MediatorService.Send<RetrieveBudgetPlannersResponse>(request);
 
             return Ok(response);
         }
@@ -47,7 +47,7 @@ namespace BudgetPlanner.Web.Controllers.Api
             if (claims.TryGetValue(DataConstants.BudgetPlannerReferenceClaim, out var budgetPlannerReferenceClaim))
                 request.Reference = budgetPlannerReferenceClaim;
 
-            var response = await MediatorService.Send<RetrieveBudgetPlannerResponse, RetrieveBudgetPlannerRequest>(request);
+            var response = await MediatorService.Send<RetrieveBudgetPlannerResponse>(request);
 
             return Ok(response);
         }
@@ -68,7 +68,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var request = Map<CreateBudgetPlannerViewModel, CreateBudgetPlannerRequest>(model);
 
-            await MediatorService.Send<CreateBudgetPlannerResponse, CreateBudgetPlannerRequest>(request);
+            await MediatorService.Send<CreateBudgetPlannerResponse>(request);
 
             return Ok();
         }

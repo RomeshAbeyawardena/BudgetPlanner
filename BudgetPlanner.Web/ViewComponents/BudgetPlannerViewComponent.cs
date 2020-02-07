@@ -33,7 +33,7 @@ namespace BudgetPlanner.Web.ViewComponents
             var retrieveBudgetPlannersRequest = Map<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>(budgetPanelDashboardListViewModel);
 
             var response = await MediatorService
-                .Send<RetrieveBudgetPlannersResponse, RetrieveBudgetPlannersRequest>(retrieveBudgetPlannersRequest);
+                .Send<RetrieveBudgetPlannersResponse>(retrieveBudgetPlannersRequest);
 
             budgetPanelDashboardViewModel.BudgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.BudgetPlanners);
 
