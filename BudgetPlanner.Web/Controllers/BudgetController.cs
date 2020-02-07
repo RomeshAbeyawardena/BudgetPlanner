@@ -23,7 +23,7 @@ namespace BudgetPlanner.Web.Controllers
         public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=12, [FromQuery]int pageNumber=1)
         {
             var response = await MediatorService
-                .Send<RetrieveBudgetPlannerResponse>(new RetrieveBudgetPlannerRequest { 
+                .Send(new RetrieveBudgetPlannerRequest { 
                     AccountId = CurrentAccount.Id, 
                     Reference = reference 
                 });
@@ -62,7 +62,7 @@ namespace BudgetPlanner.Web.Controllers
             var createBudgetPlannerRequest = Map<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>(createBudgetPlannerViewModel);
 
             var saveResponse = await MediatorService
-                .Send<CreateBudgetPlannerResponse>(createBudgetPlannerRequest);
+                .Send(createBudgetPlannerRequest);
 
             if(saveResponse.IsSuccessful)
                 return RedirectToAction("Details", "Budget", new { reference = createBudgetPlannerViewModel.Reference });
@@ -78,7 +78,7 @@ namespace BudgetPlanner.Web.Controllers
         {
             
             var budgetResponse = await MediatorService
-                .Send<RetrieveBudgetPlannerResponse>(new RetrieveBudgetPlannerRequest { 
+                .Send(new RetrieveBudgetPlannerRequest { 
                     AccountId = CurrentAccount.Id, 
                     Reference = reference });
 
@@ -103,7 +103,7 @@ namespace BudgetPlanner.Web.Controllers
 
             var createTransactionRequest = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);
 
-            var response = await MediatorService.Send<CreateTransactionResponse>(createTransactionRequest);
+            var response = await MediatorService.Send(createTransactionRequest);
             
             if(response.IsSuccessful)
                 return RedirectToAction("Details", "Budget", new { reference = response.Reference });
@@ -114,7 +114,7 @@ namespace BudgetPlanner.Web.Controllers
         private async Task<SelectList> GetTransactionTypes()
         {
             var response = await MediatorService
-                .Send<RetrieveTransactionTypesResponse>(new RetrieveTransactionTypesRequest());
+                .Send(new RetrieveTransactionTypesRequest());
 
             return new SelectList(response.TransactionTypes, nameof(TransactionType.Id), nameof(TransactionType.Name));
         }

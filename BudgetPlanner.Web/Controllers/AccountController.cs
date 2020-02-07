@@ -53,7 +53,7 @@ namespace BudgetPlanner.Web.Controllers
             var mappedAccount = Map<RegisterAccountViewModel, Account>(model);
 
             var response = await MediatorService
-                .Send<RegisterAccountResponse>(new RegisterAccountRequest { Account = mappedAccount });
+                .Send(new RegisterAccountRequest { Account = mappedAccount });
 
             if(response.IsSuccessful)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
@@ -82,7 +82,7 @@ namespace BudgetPlanner.Web.Controllers
                 return View("Login", model);
 
             var response = await MediatorService
-                .Send<LoginResponse>(new LoginRequest { 
+                .Send(new LoginRequest { 
                     EmailAddress = model.EmailAddress, 
                     Password = model.Password 
                 });

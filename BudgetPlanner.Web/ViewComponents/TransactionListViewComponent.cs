@@ -16,7 +16,7 @@ namespace BudgetPlanner.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(TransactionListRequestViewModel model)
         {
             var response = await MediatorService
-                .Send<RetrieveTransactionsResponse>(
+                .Send(
                     new RetrieveTransactionsRequest { 
                         PageSize = model.PageSize,
                         PageNumber = model.PageNumber,
