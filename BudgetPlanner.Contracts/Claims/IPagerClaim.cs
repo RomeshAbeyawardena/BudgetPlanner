@@ -10,9 +10,9 @@ namespace BudgetPlanner.Contracts.Claims
 {
     public interface IPagerClaim
     {
-        [Claim(DataConstants.PageSizeClaim)]
+        [Claim(ClaimConstants.PageSizeClaim)]
         int PageSize { get; set; }
-        [Claim(DataConstants.PageNumberClaim)]
+        [Claim(ClaimConstants.PageNumberClaim)]
         int PageNumber {  get; set; }
     }
 }

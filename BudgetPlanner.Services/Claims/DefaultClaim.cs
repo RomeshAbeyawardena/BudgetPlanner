@@ -10,7 +10,7 @@ namespace BudgetPlanner.Services.Claims
 {
     public class DefaultClaim
     {
-        [Claim(DataConstants.AccountIdClaim)]
+        [Claim(ClaimConstants.AccountIdClaim)]
         public int AccountId { get; set; }
     }
 }
