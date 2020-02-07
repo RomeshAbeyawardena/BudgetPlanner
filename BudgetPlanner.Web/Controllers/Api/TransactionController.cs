@@ -31,7 +31,7 @@ namespace BudgetPlanner.Web.Controllers.Api
             if(!response.IsSuccessful)
                 AddErrorsToModelState(response);
 
-            return Ok(response);
+            return HandleResponse(response);
         }
 
         public async Task<ActionResult> SaveTransaction([Bind(Prefix = "payload")]string token, 
@@ -46,10 +46,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var response = await MediatorService.Send(createTransactionRequest);
             
-            if(!response.IsSuccessful)
-                AddErrorsToModelState(response);
-
-            return Ok(response);
+            return HandleResponse(response);
         }
     }
 }

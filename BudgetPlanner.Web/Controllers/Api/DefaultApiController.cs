@@ -8,9 +8,11 @@ using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Services.Claims;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Services;
+using DNI.Shared.Domains;
 using DNI.Shared.Services;
 using DNI.Shared.Services.Abstraction;
 using DNI.Shared.Shared.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BudgetPlanner.Web.Controllers.Api
@@ -41,6 +43,16 @@ namespace BudgetPlanner.Web.Controllers.Api
         protected DefaultClaim GetClaim(string token)
         {
             return GetClaim<DefaultClaim>(token);
+        }
+
+        protected ActionResult HandleResponse(ResponseBase response)
+        {
+            if(response.IsSuccessful)
+                return Ok(response);
+
+            AddErrorsToModelState(response);
+
+            return BadRequest(ModelState);
         }
     }
 }
