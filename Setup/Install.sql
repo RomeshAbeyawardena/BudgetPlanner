@@ -96,3 +96,13 @@ VALUES
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     )
+
+
+	CREATE TABLE [dbo].[RequestToken]
+	(
+		[Id] INT NOT NULL
+			IDENTITY(1,1) CONSTRAINT PK_RequestToken PRIMARY KEY
+		,[Key] VARBINARY(MAX)
+		,[Created] DATETIMEOFFSET NOT NULL
+		,[Expires] DATETIMEOFFSET NOT NULL
+	)
