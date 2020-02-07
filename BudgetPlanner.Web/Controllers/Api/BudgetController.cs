@@ -57,7 +57,10 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var request = Map<CreateBudgetPlannerViewModel, CreateBudgetPlannerRequest>(model);
 
-            await MediatorService.Send(request);
+            var response = await MediatorService.Send(request);
+
+            if(!response.IsSuccessful)
+                AddErrorsToModelState(response);
 
             return Ok();
         }

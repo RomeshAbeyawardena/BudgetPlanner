@@ -7,6 +7,7 @@ using BudgetPlanner.Services.Claims;
 using BudgetPlanner.Domains.Requests;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
+using BudgetPlanner.Domains.ViewModels;
 
 namespace BudgetPlanner.Web.Controllers.Api
 {
@@ -26,6 +27,27 @@ namespace BudgetPlanner.Web.Controllers.Api
                         FromDate = transactionClaim.FromDate,
                         ToDate = transactionClaim.ToDate
                     });
+
+            if(!response.IsSuccessful)
+                AddErrorsToModelState(response);
+
+            return Ok(response);
+        }
+
+        public async Task<ActionResult> SaveTransaction([Bind(Prefix = "payload")]string token, 
+            AddBudgetTransactionViewModel model)
+        {
+            var transactionClaim = GetClaim<TransactionClaim>(token);
+
+            if(model.BudgetId != transactionClaim.BudgetPlannerId)
+                throw new UnauthorizedAccessException();
+            
+            var createTransactionRequest = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);
+
+            var response = await MediatorService.Send(createTransactionRequest);
+            
+            if(!response.IsSuccessful)
+                AddErrorsToModelState(response);
 
             return Ok(response);
         }
