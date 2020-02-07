@@ -10,17 +10,24 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.Validators
 {
-    public class TransactionValidator : AbstractValidator<CreateTransactionRequest>
+    public class TransactionValidator : ValidatorBase<CreateTransactionRequest>
     {
         private readonly IBudgetPlannerService _budgetPlannerService;
 
-        public TransactionValidator(IBudgetPlannerService budgetPlannerService)
+        public TransactionValidator(IAccountService accountService,
+            IBudgetPlannerService budgetPlannerService)
+            : base(accountService)
         {
             _budgetPlannerService = budgetPlannerService;
+            RuleFor(model => model.AccountId)
+                .MustAsync(BeAValidAccount);
+
             RuleFor(model => model.BudgetId)
                 .MustAsync(BudgetPlannerExists);
+
             RuleFor(model => model.Amount)
                 .GreaterThan(decimal.Zero);
+
             RuleFor(model => model.Description)
                 .MaximumLength(320);
         }

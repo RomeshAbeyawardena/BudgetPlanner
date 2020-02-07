@@ -19,7 +19,6 @@ namespace BudgetPlanner.Services.RequestHandlers
 {
     public class RegisterAccount : IRequestHandler<RegisterAccountRequest, RegisterAccountResponse>
     {
-        private readonly ApplicationSettings _applicationSettings;
         private readonly IHashingProvider _hashingProvider;
         private readonly IEncryptionProvider _encryptionProvider;
         private readonly IAccountService _accountService;
@@ -29,9 +28,6 @@ namespace BudgetPlanner.Services.RequestHandlers
             
             var password = request.Account.Password.GetString(Encoding.UTF8);
 
-            if(!_applicationSettings.EncryptionKeys.TryGetValue(EncryptionKeyConstants.Default, out var defaultSettings))
-                throw new KeyNotFoundException();
-
             var encryptedAccount = await _encryptionProvider.Encrypt<Account, Domains.Data.Account>(request.Account);
 
             var savedAccount = await _accountService.SaveAccount(encryptedAccount);
@@ -39,10 +35,9 @@ namespace BudgetPlanner.Services.RequestHandlers
             return new RegisterAccountResponse { IsSuccessful = true, SavedAccount = savedAccount };
         }
 
-        public RegisterAccount(ApplicationSettings applicationSettings, IHashingProvider hashingProvider, 
+        public RegisterAccount(IHashingProvider hashingProvider, 
             IEncryptionProvider encryptionProvider, IAccountService accountService)
         {
-            _applicationSettings = applicationSettings;
             _hashingProvider = hashingProvider;
             _encryptionProvider = encryptionProvider;
             _accountService = accountService;

@@ -41,9 +41,11 @@ namespace BudgetPlanner.Web.Controllers.Api
             if(model.BudgetId != transactionClaim.BudgetPlannerId)
                 throw new UnauthorizedAccessException();
             
-            var createTransactionRequest = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);
+            var request = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);
 
-            var response = await MediatorService.Send(createTransactionRequest);
+            request.AccountId = transactionClaim.AccountId;
+
+            var response = await MediatorService.Send(request);
             
             return ResponseResult(response);
         }

@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Enumeration;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Requests;
 using FluentValidation;
 using System;
@@ -10,13 +11,18 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.Validators
 {
-    public class BudgetPlannerValidator : AbstractValidator<CreateBudgetPlannerRequest>
+    public class BudgetPlannerValidator : ValidatorBase<CreateBudgetPlannerRequest>
     {
         private readonly IBudgetPlannerService _budgetPlannerService;
 
-        public BudgetPlannerValidator(IBudgetPlannerService budgetPlannerService)
+        public BudgetPlannerValidator(IAccountService accountService, IBudgetPlannerService budgetPlannerService)
+            : base(accountService)
         {
+            
             _budgetPlannerService = budgetPlannerService;
+            
+            RuleFor(request => request.AccountId)
+                .MustAsync(BeAValidAccount);
 
             RuleFor(request => request.Reference)
                 .NotEmpty()
