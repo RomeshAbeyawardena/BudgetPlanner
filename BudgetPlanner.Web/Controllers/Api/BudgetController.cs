@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Domains.Constants;
+﻿using BudgetPlanner.Domains.Claims;
+using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
@@ -17,13 +18,12 @@ namespace BudgetPlanner.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> GetBudgetPlanners([Bind(Prefix = "payload")]string token)
         {
-            var claims = GetTokenClaims(token);
-            var request = new RetrieveBudgetPlannersRequest();
+            var claimObject = GetClaim(token);
 
-            if (claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim)
-                && int.TryParse(accountIdClaim, out var accountId))
-                request.AccountId = accountId;
-
+            var request = new RetrieveBudgetPlannersRequest {
+                AccountId = claimObject.AccountId
+            };
+            
             var response = await MediatorService.Send(request);
 
             return Ok(response);
@@ -32,20 +32,14 @@ namespace BudgetPlanner.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> GetBudgetPlanner([Bind(Prefix = "payload")]string token)
         {
-            var claims = GetTokenClaims(token);
+            var budgetPlannerClaim = GetClaim<BudgetPlannerClaim>(token);
 
-            var request = new RetrieveBudgetPlannerRequest();
-
-            if(claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim) 
-                && int.TryParse(accountIdClaim, out var accountId))
-                request.AccountId = accountId;
-
-            if (claims.TryGetValue(DataConstants.BudgetPlannerIdClaim, out var budgetPlannerIdClaim)
-                && int.TryParse(budgetPlannerIdClaim, out var budgetPlannerId))
-                request.BudgetPlannerId = budgetPlannerId;
-
-            if (claims.TryGetValue(DataConstants.BudgetPlannerReferenceClaim, out var budgetPlannerReferenceClaim))
-                request.Reference = budgetPlannerReferenceClaim;
+            var request = new RetrieveBudgetPlannerRequest
+            {
+                AccountId = budgetPlannerClaim.AccountId,
+                BudgetPlannerId = budgetPlannerClaim.BudgetPlannerId,
+                Reference = budgetPlannerClaim.Reference
+            };
 
             var response = await MediatorService.Send(request);
 
@@ -56,14 +50,9 @@ namespace BudgetPlanner.Web.Controllers.Api
         
         public async Task<ActionResult> CreateBudgetPlanner([Bind(Prefix = "payload")]string token, [FromForm] CreateBudgetPlannerViewModel model)
         {
-            var claims = GetTokenClaims(token);
-            int accountId = default;
+            var budgetPlannerClaim = GetClaim<BudgetPlannerClaim>(token);
 
-            if (!claims.TryGetValue(DataConstants.AccountIdClaim, out var accountIdClaim)
-                && int.TryParse(accountIdClaim, out accountId))
-                throw new UnauthorizedAccessException();
-
-            if (model.AccountId != accountId)
+            if (model.AccountId != budgetPlannerClaim.AccountId)
                 throw new UnauthorizedAccessException();
 
             var request = Map<CreateBudgetPlannerViewModel, CreateBudgetPlannerRequest>(model);

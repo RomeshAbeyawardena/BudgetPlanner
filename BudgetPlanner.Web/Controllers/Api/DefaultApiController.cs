@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BudgetPlanner.Domains;
+using BudgetPlanner.Domains.Claims;
 using BudgetPlanner.Domains.Constants;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Services;
 using DNI.Shared.Services;
 using DNI.Shared.Services.Abstraction;
+using DNI.Shared.Shared.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BudgetPlanner.Web.Controllers.Api
@@ -29,6 +31,16 @@ namespace BudgetPlanner.Web.Controllers.Api
                 throw new UnauthorizedAccessException();
 
             return tokenClaims;
+        }
+        protected TClaim GetClaim<TClaim>(string token)
+        {
+            var tokenClaims = GetTokenClaims(token);
+
+            return tokenClaims.ToClaimObject<TClaim>();
+        }
+        protected DefaultClaim GetClaim(string token)
+        {
+            return GetClaim<DefaultClaim>(token);
         }
     }
 }
