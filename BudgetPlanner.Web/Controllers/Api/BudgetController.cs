@@ -43,7 +43,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var response = await MediatorService.Send(request);
 
-            return HandleResponse(response);
+            return ResponseResult(response);
         }
 
         [HttpPost]
@@ -59,7 +59,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var response = await MediatorService.Send(request);
 
-            return HandleResponse(response);
+            return ResponseResult(response);
         }
     }
 }

@@ -28,10 +28,7 @@ namespace BudgetPlanner.Web.Controllers.Api
                         ToDate = transactionClaim.ToDate
                     });
 
-            if(!response.IsSuccessful)
-                AddErrorsToModelState(response);
-
-            return HandleResponse(response);
+            return ResponseResult(response);
         }
 
         public async Task<ActionResult> SaveTransaction([Bind(Prefix = "payload")]string token, 
@@ -46,7 +43,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var response = await MediatorService.Send(createTransactionRequest);
             
-            return HandleResponse(response);
+            return ResponseResult(response);
         }
     }
 }

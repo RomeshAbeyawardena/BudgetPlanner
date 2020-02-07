@@ -45,14 +45,5 @@ namespace BudgetPlanner.Web.Controllers.Api
             return GetClaim<DefaultClaim>(token);
         }
 
-        protected ActionResult HandleResponse(ResponseBase response)
-        {
-            if(response.IsSuccessful)
-                return Ok(response);
-
-            AddErrorsToModelState(response);
-
-            return BadRequest(ModelState);
-        }
     }
 }
