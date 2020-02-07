@@ -47,7 +47,6 @@ namespace BudgetPlanner.Web.Controllers.Api
         }
 
         [HttpPost]
-        
         public async Task<ActionResult> CreateBudgetPlanner([Bind(Prefix = "payload")]string token, [FromForm] CreateBudgetPlannerViewModel model)
         {
             var budgetPlannerClaim = GetClaim<BudgetPlannerClaim>(token);

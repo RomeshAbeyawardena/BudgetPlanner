@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BudgetPlanner.Web.Controllers.Api
 {
+    [Route("/api/{controller}/{action}")]
     public abstract class DefaultApiController : DefaultApiControllerBase
     {
         protected ApplicationSettings ApplicationSettings => GetService<ApplicationSettings>();

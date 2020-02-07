@@ -13,6 +13,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 {
     public class TransactionController : DefaultApiController
     {
+        [HttpGet]
         public async Task<ActionResult> GetTransactions([Bind(Prefix = "payload")]string token)
         {
             var transactionClaim = GetClaim<TransactionClaim>(token);
@@ -31,6 +32,7 @@ namespace BudgetPlanner.Web.Controllers.Api
             return ResponseResult(response);
         }
 
+        [HttpPost]
         public async Task<ActionResult> SaveTransaction([Bind(Prefix = "payload")]string token, 
             AddBudgetTransactionViewModel model)
         {
