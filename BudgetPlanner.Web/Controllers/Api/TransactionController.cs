@@ -33,7 +33,7 @@ namespace BudgetPlanner.Web.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveTransaction([Bind(Prefix = "payload")]string token, 
+        public async Task<ActionResult> SaveTransaction([FromHeader, Bind(Prefix = "payload")]string token, 
             AddBudgetTransactionViewModel model)
         {
             var transactionClaim = GetClaim<TransactionClaim>(token);

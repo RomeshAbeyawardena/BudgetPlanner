@@ -7,6 +7,7 @@ using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Services.Claims;
 using DNI.Shared.Contracts;
+using DNI.Shared.Contracts.Providers;
 using DNI.Shared.Contracts.Services;
 using DNI.Shared.Domains;
 using DNI.Shared.Services;
@@ -23,7 +24,7 @@ namespace BudgetPlanner.Web.Controllers.Api
         protected ApplicationSettings ApplicationSettings => GetService<ApplicationSettings>();
         protected ISwitch<string, EncryptionKey> CryptographySwitch => Switch.Create(ApplicationSettings.EncryptionKeys);
         protected IJsonWebTokenService JsonWebTokenService => GetService<IJsonWebTokenService>();
-
+        protected IClockProvider ClockProvider => GetService<IClockProvider>();
         protected IDictionary<string, string> GetTokenClaims(string token)
         {
             var defaultEncryptionKey = CryptographySwitch.Case(EncryptionKeyConstants.Api);
@@ -35,6 +36,14 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             return tokenClaims;
         }
+
+        protected string GenerateToken(string issuerAudience, string secret,  IDictionary<string, string> claims)
+        {
+            return JsonWebTokenService.CreateToken(configure => { configure.Issuer = issuerAudience; configure.Audience = issuerAudience; }, 
+                ClockProvider.UtcDateTime.AddMinutes(ApplicationSettings.SessionExpiryInMinutes), 
+                claims, secret, Encoding.UTF8);
+        }
+
         protected TClaim GetClaim<TClaim>(string token)
         {
             var tokenClaims = GetTokenClaims(token);

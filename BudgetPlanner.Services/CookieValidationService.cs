@@ -44,15 +44,19 @@ namespace BudgetPlanner.Services
             return await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(account);
         }
 
-        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, Account account, int expiryPeriodInMinutes)
+        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, string encryptionKey, IDictionary<string, string> claims, int expiryPeriodInMinutes)
         {
             await Task.CompletedTask;
-            var defaultEncryptionKey = _cryptographySwitch.Case(EncryptionKeyConstants.Default);
+            var defaultEncryptionKey = _cryptographySwitch.Case(encryptionKey);
             return _jsonWebTokenService.CreateToken(setupSecurityTokenDescriptor,
-                _clockProvider.UtcDateTime.AddMinutes(expiryPeriodInMinutes),
-                DictionaryBuilder.Create<string, string>(builder => builder
-                .Add(ClaimConstants.AccountIdClaim, account.Id.ToString())).ToDictionary(),
+                _clockProvider.UtcDateTime.AddMinutes(expiryPeriodInMinutes), claims,
                 defaultEncryptionKey.Password, Encoding.UTF8);
+        }
+
+        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, Account account, int expiryPeriodInMinutes)
+        {
+            return await CreateCookieToken(setupSecurityTokenDescriptor, EncryptionKeyConstants.Default, DictionaryBuilder.Create<string, string>(builder => builder
+                .Add(ClaimConstants.AccountIdClaim, account.Id.ToString())).ToDictionary(), expiryPeriodInMinutes);
         }
 
         public void AppendSessionCookie(IResponseCookies responseCookies, string cookieName, string value, Action<CookieOptions> cookieOptionsAction = null)
