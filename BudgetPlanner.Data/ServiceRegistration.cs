@@ -27,7 +27,8 @@ namespace BudgetPlanner.Data
                 typeof(Budget), 
                 typeof(Transaction),
                 typeof(TransactionType),
-                typeof(TransactionLedger));
+                typeof(TransactionLedger),
+                typeof(RequestToken));
         }
     }
 }

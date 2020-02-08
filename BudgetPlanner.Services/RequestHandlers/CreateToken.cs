@@ -1,6 +1,11 @@
 ﻿using BudgetPlanner.Contracts.Services;
+using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using DNI.Shared.Contracts.Enumerations;
+using DNI.Shared.Contracts.Generators;
+using DNI.Shared.Contracts.Providers;
+using DNI.Shared.Shared.Extensions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,15 +18,39 @@ namespace BudgetPlanner.Services.RequestHandlers
 {
     public class CreateToken : IRequestHandler<CreateTokenRequest, CreateTokenResponse>
     {
+        private readonly IClockProvider _clockProvider;
+        private readonly IEncryptionProvider _encryptionProvider;
+        private readonly IRandomStringGenerator _randomStringGenerator;
         private readonly IRequestTokenService _requestTokenService;
 
-        public Task<CreateTokenResponse> Handle(CreateTokenRequest request, CancellationToken cancellationToken)
+        public async Task<CreateTokenResponse> Handle(CreateTokenRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var generatedString = _randomStringGenerator
+                .GenerateString(CharacterType.Lowercase | CharacterType.Uppercase | CharacterType.Numerics, 64);
+
+            var requestToken = new Domains.Dto.RequestToken {
+                Key = generatedString,
+                Expires = _clockProvider.DateTimeOffset
+                    .AddMinutes(request.ValidityPeriodInMinutes)
+            };
+
+            var savedRequestToken = await _requestTokenService.SaveRequestToken(await _encryptionProvider
+                .Encrypt<Domains.Dto.RequestToken, RequestToken>(requestToken));
+
+            return new CreateTokenResponse { 
+                IsSuccessful = true, 
+                TokenRequest = await _encryptionProvider.Decrypt<RequestToken, Domains.Dto.RequestToken>(savedRequestToken) 
+            };
         }
 
-        public CreateToken(IRandomStringGenerator randomStringGenerator, IRequestTokenService requestTokenService)
+        public CreateToken(IClockProvider clockProvider, 
+            IEncryptionProvider encryptionProvider,
+            IRandomStringGenerator randomStringGenerator, 
+            IRequestTokenService requestTokenService)
         {
+            _clockProvider = clockProvider;
+            _encryptionProvider = encryptionProvider;
+            _randomStringGenerator = randomStringGenerator;
             _requestTokenService = requestTokenService;
         }
     }

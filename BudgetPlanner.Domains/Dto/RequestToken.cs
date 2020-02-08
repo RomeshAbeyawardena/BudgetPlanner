@@ -14,7 +14,7 @@ namespace BudgetPlanner.Domains.Dto
         public int Id { get; set; }
 
         [Encrypt(EncryptionKeyConstants.IdentificationData, EncryptionMethod.Encryption)]
-        public IEnumerable<byte> Key { get; set; }
+        public string Key { get; set; }
 
         public DateTimeOffset Created { get; set; }
 

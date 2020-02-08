@@ -10,6 +10,6 @@ namespace BudgetPlanner.Domains.Requests
 {
     public class CreateTokenRequest : IRequest<CreateTokenResponse>
     {
-        
+        public double ValidityPeriodInMinutes { get; set; }
     }
 }

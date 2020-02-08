@@ -37,6 +37,12 @@ namespace BudgetPlanner.Domains
                 .ForMember(member => member.EmailAddress, options => options.Ignore())
                 .ForMember(member => member.FirstName, options => options.Ignore())
                 .ForMember(member => member.LastName, options => options.Ignore());
+
+            CreateMap<RequestToken, Dto.RequestToken>()
+                .ForMember(member => member.Key, options => options.Ignore());
+
+            CreateMap<Dto.RequestToken, RequestToken>()
+                .ForMember(member => member.Key, options => options.Ignore());
         }
 
         class BytesValueConverter : IValueConverter<string, IEnumerable<byte>>

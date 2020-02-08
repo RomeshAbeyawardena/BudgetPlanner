@@ -20,7 +20,7 @@ namespace BudgetPlanner.Domains.Data
 
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
-
+        [DefaultValue]
         public DateTimeOffset Expires { get; set; }
     }
 }

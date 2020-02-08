@@ -13,12 +13,20 @@ namespace BudgetPlanner.Web.Controllers.Api
     public class AccountController : DefaultApiController
     {
         [HttpPost]
-        public async Task<ActionResult> RegisterAccount(RegisterAccountViewModel model)
+        public async Task<ActionResult> RegisterAccount(string payload, RegisterAccountViewModel model)
         {
             var mappedAccount = Map<RegisterAccountViewModel, Account>(model);
 
             var response = await MediatorService
                 .Send(new RegisterAccountRequest { Account = mappedAccount });
+
+            return ResponseResult(response);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RegisterAccountRequest()
+        {
+            var response = await MediatorService.Send(new CreateTokenRequest { ValidityPeriodInMinutes = 15 });
 
             return ResponseResult(response);
         }
