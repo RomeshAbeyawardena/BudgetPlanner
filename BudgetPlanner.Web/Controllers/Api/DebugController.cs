@@ -25,7 +25,7 @@ namespace BudgetPlanner.Web.Controllers.Api
             var queryValues = Request.Query
                 .ToDictionary(property => property.Key, property => property.Value.FirstOrDefault());
 
-            return Ok(GenerateToken(Request.Host.Host, queryValues));
+            return Ok(await GenerateToken(Request.Host.Value, queryValues));
         }
     }
 }
