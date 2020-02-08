@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Services.Claims;
@@ -22,26 +23,27 @@ namespace BudgetPlanner.Web.Controllers.Api
     public abstract class DefaultApiController : DefaultApiControllerBase
     {
         protected ApplicationSettings ApplicationSettings => GetService<ApplicationSettings>();
-        protected ISwitch<string, EncryptionKey> CryptographySwitch => Switch.Create(ApplicationSettings.EncryptionKeys);
-        protected IJsonWebTokenService JsonWebTokenService => GetService<IJsonWebTokenService>();
+        protected ICookieValidationService CookieValidationService => GetService<ICookieValidationService>();
         protected IClockProvider ClockProvider => GetService<IClockProvider>();
         protected IDictionary<string, string> GetTokenClaims(string token)
         {
-            var defaultEncryptionKey = CryptographySwitch.Case(EncryptionKeyConstants.Api);
-            if(!JsonWebTokenService.TryParseToken(token, defaultEncryptionKey.Password, tokenValidation => {
+            
+            var tokenClaims = CookieValidationService.ValidateCookieToken(tokenValidation => {
                 tokenValidation.ValidAudiences = ApplicationSettings.Audiences;
                 tokenValidation.ValidIssuers = ApplicationSettings.Issuers;
-            }, Encoding.UTF8, out var tokenClaims))
+            }, EncryptionKeyConstants.Api, token);
+
+            if(tokenClaims == null)
                 throw new UnauthorizedAccessException();
 
             return tokenClaims;
         }
 
-        protected string GenerateToken(string issuerAudience, string secret,  IDictionary<string, string> claims)
+        protected async Task<string> GenerateToken(string issuerAudience, IDictionary<string, string> claims)
         {
-            return JsonWebTokenService.CreateToken(configure => { configure.Issuer = issuerAudience; configure.Audience = issuerAudience; }, 
-                ClockProvider.UtcDateTime.AddMinutes(ApplicationSettings.SessionExpiryInMinutes), 
-                claims, secret, Encoding.UTF8);
+            return await CookieValidationService.CreateCookieToken(configure => { configure.Issuer = issuerAudience; configure.Audience = issuerAudience; }, 
+                EncryptionKeyConstants.Api, claims, 
+                ApplicationSettings.SessionExpiryInMinutes);
         }
 
         protected TClaim GetClaim<TClaim>(string token)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetPlanner.Domains.Constants;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,18 @@ namespace BudgetPlanner.Web.Controllers.Api
         {
         }
 
+        [HttpGet]
         public async Task<ActionResult> GenerateToken()
         {
+            #if !DEBUG
+                return NotFound();
+            #endif
+
+            await Task.CompletedTask;
             var queryValues = Request.Query
                 .ToDictionary(property => property.Key, property => property.Value.FirstOrDefault());
 
-
-            return Ok();
+            return Ok(GenerateToken(Request.Host.Host, queryValues));
         }
     }
 }
