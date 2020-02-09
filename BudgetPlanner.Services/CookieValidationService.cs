@@ -27,7 +27,7 @@ namespace BudgetPlanner.Services
         private readonly IEncryptionProvider _encryptionProvider;
         private readonly IJsonWebTokenService _jsonWebTokenService;
 
-        public IDictionary<string, string> ValidateCookieToken(Action<TokenValidationParameters> tokenValidationParameters, string encryptionKey, string cookieToken)
+        public IDictionary<string, string> ValidateToken(Action<TokenValidationParameters> tokenValidationParameters, string encryptionKey, string cookieToken)
         {
             var defaultEncryptionKey = _cryptographySwitch.Case(encryptionKey);
 
@@ -38,7 +38,7 @@ namespace BudgetPlanner.Services
         }
         public async Task<Account> ValidateCookieToken(Action<TokenValidationParameters> tokenValidationParameters, string cookieToken)
         {
-            var claims = ValidateCookieToken(tokenValidationParameters, EncryptionKeyConstants.Default, cookieToken);
+            var claims = ValidateToken(tokenValidationParameters, EncryptionKeyConstants.Default, cookieToken);
 
             if(claims == null)
                 throw new UnauthorizedAccessException();

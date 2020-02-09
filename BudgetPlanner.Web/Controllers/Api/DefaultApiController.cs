@@ -29,7 +29,7 @@ namespace BudgetPlanner.Web.Controllers.Api
         protected IDictionary<string, string> GetTokenClaims(string token)
         {
             
-            var tokenClaims = CookieValidationService.ValidateCookieToken(tokenValidation => {
+            var tokenClaims = CookieValidationService.ValidateToken(tokenValidation => {
                 tokenValidation.ValidAudiences = ApplicationSettings.Audiences;
                 tokenValidation.ValidIssuers = ApplicationSettings.Issuers;
             }, EncryptionKeyConstants.Api, token);
@@ -40,10 +40,12 @@ namespace BudgetPlanner.Web.Controllers.Api
             return tokenClaims;
         }
 
-        protected async Task<string> GenerateToken(string issuerAudience, IDictionary<string, string> claims)
+        protected async Task<string> GenerateToken(string issuer, string audience, IDictionary<string, string> claims)
         {
             return await CookieValidationService.CreateCookieToken(configure => { 
-                configure.Issuer = issuerAudience; configure.Audience = issuerAudience; }, 
+                configure.Issuer = issuer; 
+                configure.Audience = audience; 
+            }, 
                 EncryptionKeyConstants.Api, claims, 
                 ApplicationSettings.SessionExpiryInMinutes);
         }
@@ -57,6 +59,14 @@ namespace BudgetPlanner.Web.Controllers.Api
         protected DefaultClaim GetClaim(string token)
         {
             return GetClaim<DefaultClaim>(token);
+        }
+
+        protected string GetPayLoad(string payLoadKey)
+        {
+            if(!HttpContext.Items.TryGetValue(payLoadKey, out var token))
+                throw new UnauthorizedAccessException();
+
+            return token.ToString();
         }
 
     }

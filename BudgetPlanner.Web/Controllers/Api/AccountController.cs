@@ -2,6 +2,7 @@
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Services.Claims;
+using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,12 +15,15 @@ namespace BudgetPlanner.Web.Controllers.Api
 {
     public class AccountController : DefaultApiController
     {
-        [HttpPost]
-        public async Task<ActionResult> RegisterAccount([FromHeader, Bind(Prefix = "payload")]string token, [FromForm]RegisterAccountViewModel model)
+        [HttpPost, RequiresHeaderValue("payload")]
+        public async Task<ActionResult> RegisterAccount([FromForm]RegisterAccountViewModel model)
         {
+            var token = GetPayLoad("payload");
+
             var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
 
-            var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token  = accountRegistrationClaim.Token });
+            var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { 
+                Token  = accountRegistrationClaim.Token });
 
             if(!validateClaimResponse.IsSuccessful)
                 return ResponseResult(validateClaimResponse);
@@ -35,12 +39,15 @@ namespace BudgetPlanner.Web.Controllers.Api
             return ResponseResult(response);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AuthenticateAccount([FromHeader, Bind(Prefix = "payload")]string token, [FromForm]LoginViewModel model)
+        [HttpPost, RequiresHeaderValue("payload")]
+        public async Task<ActionResult> AuthenticateAccount([FromForm]LoginViewModel model)
         {
-            var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
+            var token = GetPayLoad("payload");
 
-            var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token = accountRegistrationClaim.Token });
+            var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token?.ToString());
+
+            var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { 
+                Token = accountRegistrationClaim.Token });
 
             if (!validateClaimResponse.IsSuccessful)
                 return ResponseResult(validateClaimResponse);

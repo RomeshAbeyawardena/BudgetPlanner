@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Attributes
 {
-    public class RequiresAccountAttribute : Attribute, IAsyncAuthorizationFilter
+    public sealed class RequiresAccountAttribute : Attribute, IAsyncAuthorizationFilter
     {
         public string CookieKeyValue { get; }
 

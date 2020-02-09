@@ -27,7 +27,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var issuer = string.Format("{0}://{1}", Request.Scheme, Request.Host.Value);
 
-            return Ok(await GenerateToken(issuer, queryValues));
+            return Ok(await GenerateToken(issuer, issuer, queryValues));
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Attributes
 {
-    public class HeaderValueAttribute : Attribute, IActionFilter
+    public sealed class HeaderValueAttribute : Attribute, IActionFilter
     {
         public HeaderValueAttribute(string name, string value = default)
         {

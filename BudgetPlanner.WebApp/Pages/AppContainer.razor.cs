@@ -16,7 +16,7 @@ namespace BudgetPlanner.WebApp.Pages
             base.OnInitialized();
         }
 
-        protected RenderFragment Create(AppComponent appComponent) => builder => builder.OpenComponent(0, appComponent.GetType());
+        protected static RenderFragment Create(AppComponent appComponent) => builder => builder.OpenComponent(0, appComponent.GetType());
 
         public AppContainerHelper()
         {
