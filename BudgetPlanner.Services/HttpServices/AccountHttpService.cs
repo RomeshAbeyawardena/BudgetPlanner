@@ -15,18 +15,18 @@ using DNI.Shared.Shared.Extensions;
 
 namespace BudgetPlanner.Services.HttpServices
 {
-    public class AccountService : HttpServiceBase, Contracts.HttpServices.IAccountService
+    public class AccountHttpService : HttpServiceBase, IAccountHttpService
     {
         private ICookieValidationService _cookieValidationService;
         private readonly HttpClient _accountHttpClient;
 
-        public AccountService(ApplicationSettings applicationSettings, 
+        public AccountHttpService(ApplicationSettings applicationSettings, 
             IHttpClientFactory httpClientFactory,
             ICookieValidationService cookieValidationService) 
             : base(applicationSettings, httpClientFactory)
         {
             _cookieValidationService = cookieValidationService;
-            _accountHttpClient = GetHttpClient(nameof(AccountService), configure => { });
+            _accountHttpClient = GetHttpClient(nameof(AccountHttpService), configure => { });
         }
 
         public async Task<LoginResponse> Login(string emailAddress, string password)

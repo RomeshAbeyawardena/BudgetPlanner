@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Contracts.HttpServices
 {
-    public interface IAccountService : IHttpService
+    public interface IAccountHttpService : IHttpService
     {
         Task<LoginResponse> Login(string emailAddress, string password);
     }
