@@ -40,7 +40,7 @@ namespace BudgetPlanner.Services.RequestHandlers
                 if(!foundAccount.Password.SequenceEqual(encryptedAccount.Password))
                     throw new UnauthorizedAccessException();
 
-                account = _mapperProvider.Map<Domains.Data.Account, Account>(foundAccount);
+                account = await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(foundAccount);
 
                 return new LoginResponse { IsSuccessful = true, Account = account };
             }

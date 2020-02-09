@@ -2,6 +2,7 @@
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Services.Claims;
+using DNI.Shared.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             if(!validateClaimResponse.IsSuccessful)
                 return ResponseResult(validateClaimResponse);
+            
+            model.Password = Convert.ToBase64String(
+                model.Password.GetBytes(Encoding.UTF8).ToArray());
 
             var mappedAccount = Map<RegisterAccountViewModel, Account>(model);
 
@@ -34,12 +38,12 @@ namespace BudgetPlanner.Web.Controllers.Api
         [HttpPost]
         public async Task<ActionResult> AuthenticateAccount([FromHeader, Bind(Prefix = "payload")]string token, [FromForm]LoginViewModel model)
         {
-            var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
+            //var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
 
-            var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token  = accountRegistrationClaim.Token });
+            //var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token  = accountRegistrationClaim.Token });
 
-            if(!validateClaimResponse.IsSuccessful)
-                return ResponseResult(validateClaimResponse);
+            //if(!validateClaimResponse.IsSuccessful)
+              //  return ResponseResult(validateClaimResponse);
 
             var response = await MediatorService
                 .Send(new LoginRequest { 
