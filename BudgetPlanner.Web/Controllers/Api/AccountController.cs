@@ -38,12 +38,12 @@ namespace BudgetPlanner.Web.Controllers.Api
         [HttpPost]
         public async Task<ActionResult> AuthenticateAccount([FromHeader, Bind(Prefix = "payload")]string token, [FromForm]LoginViewModel model)
         {
-            //var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
+            var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
 
-            //var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token  = accountRegistrationClaim.Token });
+            var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token = accountRegistrationClaim.Token });
 
-            //if(!validateClaimResponse.IsSuccessful)
-              //  return ResponseResult(validateClaimResponse);
+            if (!validateClaimResponse.IsSuccessful)
+                return ResponseResult(validateClaimResponse);
 
             var response = await MediatorService
                 .Send(new LoginRequest { 
