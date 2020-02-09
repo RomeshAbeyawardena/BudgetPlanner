@@ -34,6 +34,8 @@ namespace BudgetPlanner.WebApp
                     options.RegisterCacheProviders = true; 
                     options.RegisterAutoMappingProviders = true;
                     options.RegisterMessagePackSerialisers = true;
+                    options.RegisterAutoMappingProviders = true;
+                    options.RegisterMediatorServices = true;
                     }, out var serviceBroker);
         }
 
