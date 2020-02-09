@@ -27,6 +27,7 @@ namespace BudgetPlanner.Services
         public void RegisterServices(IServiceCollection services, IServiceRegistrationOptions serviceRegistrationOptions)
         {
             services
+                .RegisterExceptionHandlers()
                 .AddSingleton<ApplicationSettings>()
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(RegisterCryptographicCredentialsFactory)
                 .AddTransient<ICookieValidationService, CookieValidationService>()

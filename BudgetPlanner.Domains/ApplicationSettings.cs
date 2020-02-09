@@ -19,6 +19,7 @@ namespace BudgetPlanner.Domains
         public IEnumerable<string> Issuers { get; set;}
         public IEnumerable<string> Audiences { get; set; }
         public int SessionExpiryInMinutes { get; set; }
+        public IDictionary<string, ApiSetting> Apis { get; set; }
         public IDictionary<string, EncryptionKey> EncryptionKeys { get; set; }
         public string DefaultConnectionString { get; set; }
     }

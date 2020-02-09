@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace BudgetPlanner.Web.Controllers.Api
 {
     [Route("/api/{controller}/{action}")]
-    [ApiController]
+    [ApiController, DNI.Shared.Services.Attributes.HandleException]
     public abstract class DefaultApiController : DefaultApiControllerBase
     {
         protected ApplicationSettings ApplicationSettings => GetService<ApplicationSettings>();
