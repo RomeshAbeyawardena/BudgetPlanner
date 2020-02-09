@@ -16,7 +16,7 @@ namespace BudgetPlanner.Web.Controllers.Api
         [HttpPost]
         public async Task<ActionResult> RegisterAccount([FromHeader, Bind(Prefix = "payload")]string token, [FromForm]RegisterAccountViewModel model)
         {
-            var accountRegistrationClaim = GetClaim<AccountRegistrationClaim>(token);
+            var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
 
             var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token  = accountRegistrationClaim.Token });
 
@@ -31,8 +31,27 @@ namespace BudgetPlanner.Web.Controllers.Api
             return ResponseResult(response);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> AuthenticateAccount([FromHeader, Bind(Prefix = "payload")]string token, [FromForm]LoginViewModel model)
+        {
+            var accountRegistrationClaim = GetClaim<RequestTokenClaim>(token);
+
+            var validateClaimResponse = await MediatorService.Send(new ValidateTokenRequest { Token  = accountRegistrationClaim.Token });
+
+            if(!validateClaimResponse.IsSuccessful)
+                return ResponseResult(validateClaimResponse);
+
+            var response = await MediatorService
+                .Send(new LoginRequest { 
+                    EmailAddress = model.EmailAddress, 
+                    Password = model.Password 
+                });
+            
+            return ResponseResult(response);
+        }
+
         [HttpGet]
-        public async Task<ActionResult> RegisterAccountRequest()
+        public async Task<ActionResult> GenerateRequestToken()
         {
             var response = await MediatorService.Send(new CreateTokenRequest { ValidityPeriodInMinutes = 15 });
 

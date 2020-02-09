@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.Claims
 {
-    public class AccountRegistrationClaim
+    public class RequestTokenClaim
     {
-        [Claim(ClaimConstants.AccountRegistrationTokenClaim)]
+        [Claim(ClaimConstants.RequestTokenClaim)]
         public string Token { get; set; }
     }
 }

@@ -15,6 +15,6 @@ namespace BudgetPlanner.Domains.Constants
         public const string PageNumberClaim = "PageNumber";
         public const string FromDateRangeClaim = "FromDate";
         public const string ToDateRangeClaim = "ToDateRange";
-        public const string AccountRegistrationTokenClaim = "AccountRegistrationToken";
+        public const string RequestTokenClaim = "RequestToken";
     }
 }
