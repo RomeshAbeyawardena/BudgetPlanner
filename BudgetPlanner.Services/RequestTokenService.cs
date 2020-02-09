@@ -17,7 +17,7 @@ namespace BudgetPlanner.Services
         private readonly IClockProvider _clockProvider;
 
         private IQueryable<RequestToken> DefaultQuery => _requestTokenRepository
-            .Query(requestToken => requestToken.Created > _clockProvider.DateTimeOffset);
+            .Query(requestToken => requestToken.Expires > _clockProvider.DateTimeOffset);
 
         public async Task<RequestToken> GetRequestToken(IEnumerable<byte> tokenKey)
         {

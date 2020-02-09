@@ -32,7 +32,8 @@ namespace BudgetPlanner.Services.Validators
 
             RuleFor(member => member.Token)
                 .NotEmpty()
-                .MustAsync(BeValid);
+                .MustAsync(BeValid)
+                .WithMessage(property => string.Format("The token '{0}' can not be found or has expired.", property.Token));
 
         }
 

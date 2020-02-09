@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace BudgetPlanner.Web.Controllers.Api
 {
     [Route("/api/{controller}/{action}")]
+    [ApiController]
     public abstract class DefaultApiController : DefaultApiControllerBase
     {
         protected ApplicationSettings ApplicationSettings => GetService<ApplicationSettings>();
@@ -41,7 +42,8 @@ namespace BudgetPlanner.Web.Controllers.Api
 
         protected async Task<string> GenerateToken(string issuerAudience, IDictionary<string, string> claims)
         {
-            return await CookieValidationService.CreateCookieToken(configure => { configure.Issuer = issuerAudience; configure.Audience = issuerAudience; }, 
+            return await CookieValidationService.CreateCookieToken(configure => { 
+                configure.Issuer = issuerAudience; configure.Audience = issuerAudience; }, 
                 EncryptionKeyConstants.Api, claims, 
                 ApplicationSettings.SessionExpiryInMinutes);
         }

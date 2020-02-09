@@ -32,7 +32,9 @@ namespace BudgetPlanner.Services.RequestHandlers
 
             var savedAccount = await _accountService.SaveAccount(encryptedAccount);
 
-            return new RegisterAccountResponse { IsSuccessful = true, SavedAccount = savedAccount };
+            var account = await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(savedAccount);
+
+            return new RegisterAccountResponse { IsSuccessful = true, SavedAccount = account };
         }
 
         public RegisterAccount(IHashingProvider hashingProvider, 
