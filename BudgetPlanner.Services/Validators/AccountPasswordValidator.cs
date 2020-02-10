@@ -17,9 +17,9 @@ namespace BudgetPlanner.Services.Validators
 
         public async Task<IdentityResult> ValidateAsync(UserManager<Account> manager, Account user, string password)
         {
-            var foundUser = await manager.FindByIdAsync(user.EmailAddress);;
+            var foundUser = await manager.FindByIdAsync(user.EmailAddress);
             if(foundUser == default)
-                IdentityResult.Failed(AccountStoreIdentityErrors.AccountNotFound);
+                IdentityResult.Failed(AccountStoreIdentityErrors.InvalidAccountOrPassword);
 
             var account = await _encryptionProvider.Encrypt<Account, Domains.Data.Account>(new Account { 
                 Password = password.ToBase64String(Encoding.UTF8)
@@ -29,7 +29,7 @@ namespace BudgetPlanner.Services.Validators
                 return IdentityResult.Success;
 
             return
-                IdentityResult.Failed(AccountStoreIdentityErrors.AccountNotFound);
+                IdentityResult.Failed(AccountStoreIdentityErrors.InvalidAccountOrPassword);
         }
     }
 }

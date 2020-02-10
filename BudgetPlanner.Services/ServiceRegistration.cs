@@ -5,6 +5,7 @@ using BudgetPlanner.Domains;
 using BudgetPlanner.Services.Providers;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Options;
+using Microsoft.AspNetCore.Identity;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,6 @@ namespace BudgetPlanner.Services
         public void RegisterServices(IServiceCollection services, IServiceRegistrationOptions serviceRegistrationOptions)
         {
             services
-                .RegisterExceptionHandlers()
                 .AddSingleton<ApplicationSettings>()
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(RegisterCryptographicCredentialsFactory)
                 .AddTransient<ICookieValidationService, CookieValidationService>()
@@ -41,13 +41,16 @@ namespace BudgetPlanner.Services
                 .AddTransient<ITransactionTypeService, TransactionTypeService>()
                 .AddTransient<ITransactionLedgerService, TransactionLedgerService>()
                 .AddTransient<IRequestTokenService, RequestTokenService>()
+                .AddTransient<SignInManager<Domains.Dto.Account>>()
+                .AddTransient<IPasswordHasher<Domains.Dto.Account>, AccountPasswordHasher>()
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)));
 
             services
                 .AddIdentityCore<Domains.Dto.Account>()
                 .AddUserStore<AccountStore>()
-                .AddPasswordValidator<AccountPasswordValidator>();
+                .AddPasswordValidator<AccountPasswordValidator>()
+                .AddDefaultTokenProviders();
         }
 
         private void RegisterCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> factory, 

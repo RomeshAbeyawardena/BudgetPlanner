@@ -10,6 +10,7 @@ using DNI.Shared.Domains;
 using DNI.Shared.Services.Abstraction;
 using DNI.Shared.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,13 @@ namespace BudgetPlanner.Web.Controllers
     public class AccountController : DefaultControllerBase
     {
         private readonly ApplicationSettings _applicationSettings;
+        private readonly SignInManager<Account> _signInManager;
         private readonly ICookieValidationService _cookieValidationService;
 
-        public AccountController(ApplicationSettings applicationSettings, ICookieValidationService cookieValidationService)
+        public AccountController(ApplicationSettings applicationSettings, SignInManager<Account> signInManager, ICookieValidationService cookieValidationService)
         {
             _applicationSettings = applicationSettings;
+            _signInManager = signInManager;
             _cookieValidationService = cookieValidationService;
         }
 
@@ -81,34 +84,37 @@ namespace BudgetPlanner.Web.Controllers
             if(!ModelState.IsValid)
                 return View("Login", model);
 
-            var response = await MediatorService
-                .Send(new LoginRequest { 
-                    EmailAddress = model.EmailAddress, 
-                    Password = model.Password 
-                });
-            
-            if(response.IsSuccessful)
-            {
-                var cookieToken = await _cookieValidationService
-                    .CreateCookieToken(config => { 
-                        config.Audience = _applicationSettings.Audiences.FirstOrDefault();
-                        config.Issuer = _applicationSettings.Issuers.FirstOrDefault();
-                        }, response.Account, 
-                    _applicationSettings.SessionExpiryInMinutes);
-
-
-                _cookieValidationService.AppendSessionCookie(Response.Cookies, 
-                    DataConstants.AccountSessionCookie, cookieToken, 
-                    cookieOptions => { _cookieValidationService
-                        .ConfigureCookieOptions(cookieOptions, _applicationSettings.SessionExpiryInMinutes); 
-                        cookieOptions.HttpOnly = true;
-                        cookieOptions.SameSite = SameSiteMode.Strict;
-                        cookieOptions.IsEssential = true;
-                        cookieOptions.Domain = Request.Host.Host;
-                        });
+            var s = await _signInManager.PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, model.Password, false, false);
+            if(s.Succeeded)
                 return RedirectToAction("Index", "Home");
-            }
-            AddErrorsToModelState(response);
+            ////var response = await MediatorService
+            ////    .Send(new LoginRequest { 
+            ////        EmailAddress = model.EmailAddress, 
+            ////        Password = model.Password 
+            ////    });
+            
+            //if(response.IsSuccessful)
+            //{
+            //    var cookieToken = await _cookieValidationService
+            //        .CreateCookieToken(config => { 
+            //            config.Audience = _applicationSettings.Audiences.FirstOrDefault();
+            //            config.Issuer = _applicationSettings.Issuers.FirstOrDefault();
+            //            }, response.Account, 
+            //        _applicationSettings.SessionExpiryInMinutes);
+
+
+            //    _cookieValidationService.AppendSessionCookie(Response.Cookies, 
+            //        DataConstants.AccountSessionCookie, cookieToken, 
+            //        cookieOptions => { _cookieValidationService
+            //            .ConfigureCookieOptions(cookieOptions, _applicationSettings.SessionExpiryInMinutes); 
+            //            cookieOptions.HttpOnly = true;
+            //            cookieOptions.SameSite = SameSiteMode.Strict;
+            //            cookieOptions.IsEssential = true;
+            //            cookieOptions.Domain = Request.Host.Host;
+            //            });
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //AddErrorsToModelState(response);
 
             return View("Login", model);
         }
