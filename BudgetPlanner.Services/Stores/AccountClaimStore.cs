@@ -14,12 +14,12 @@ namespace BudgetPlanner.Services.Stores
     {
         public async Task AddClaimsAsync(Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
-            
-            await GetAccountByEmailAddress(user.EmailAddress);
+            var account = await GetAccount(user.Id);
         }
 
-        public Task<IList<Claim>> GetClaimsAsync(Account user, CancellationToken cancellationToken)
+        public async Task<IList<Claim>> GetClaimsAsync(Account user, CancellationToken cancellationToken)
         {
+            var account = await GetAccount(user.Id);
             throw new NotImplementedException();
         }
 

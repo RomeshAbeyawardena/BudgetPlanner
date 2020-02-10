@@ -24,6 +24,8 @@ namespace BudgetPlanner.Data
                     .UseSqlServer(applicationSettings.DefaultConnectionString); 
             }).RegisterDbContentRepositories<BudgetPlannerDbContext>(ServiceLifetime.Transient, 
                 typeof(Account),
+                typeof(Role),
+                typeof(AccountRole),
                 typeof(Budget), 
                 typeof(Transaction),
                 typeof(TransactionType),
