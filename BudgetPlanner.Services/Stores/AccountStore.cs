@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Enumeration;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Dto;
 using DNI.Shared.Contracts.Providers;
 using DNI.Shared.Shared.Extensions;
@@ -20,9 +21,15 @@ namespace BudgetPlanner.Services.Stores
         private readonly IEncryptionProvider _encryptionHelper;
         private readonly IAccountService _accountService;
 
-        private async Task<Domains.Data.Account> GetAccount(string userId)
+        private async Task<Domains.Data.Account> GetAccount(int userId)
         {
-            var account = new Account { EmailAddress = userId };
+            var foundAccount = await _accountService.GetAccount(userId, EntityUsage.SaveToDatabase);
+            return foundAccount;
+        }
+
+        private async Task<Domains.Data.Account> GetAccountByEmailAddress(string emailAddress)
+        {
+            var account = new Account { EmailAddress = emailAddress };
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(account);
             var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress);
             return foundAccount;
@@ -30,7 +37,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<IdentityResult> CreateAsync(Account user, CancellationToken cancellationToken)
         {
-            if(await FindByIdAsync(user.EmailAddress, cancellationToken) != null)
+            if(await FindByNameAsync(user.EmailAddress, cancellationToken) != null)
                 return IdentityResult.Failed(AccountStoreIdentityErrors.DuplicateAccount);
 
             user.Active = true;
@@ -41,7 +48,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<IdentityResult> DeleteAsync(Account user, CancellationToken cancellationToken)
         {
-            var foundUser = await GetAccount(user.EmailAddress);
+            var foundUser = await GetAccount(user.Id);
             if(foundUser == null)
                 return IdentityResult.Failed(AccountStoreIdentityErrors.AccountNotFound);
 
@@ -62,7 +69,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<Account> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            var foundAccount = await GetAccount(userId);
+            var foundAccount = await GetAccountByEmailAddress(userId);
             if(foundAccount == null)
                 return default;
 
@@ -86,7 +93,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<string> GetUserNameAsync(Account user, CancellationToken cancellationToken)
         {
-            var account = await GetAccount(user.EmailAddress);
+            var account = await GetAccountByEmailAddress(user.EmailAddress);
 
             if(account == null)
                 return null;
@@ -103,7 +110,7 @@ namespace BudgetPlanner.Services.Stores
             if(splitName.Length != 2)
                 return;
 
-            var foundAccount = await GetAccount(user.EmailAddress);
+            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
 
             if(foundAccount == null)
                 return;
@@ -126,7 +133,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<IdentityResult> UpdateAsync(Account user, CancellationToken cancellationToken)
         {
-            var foundAccount = await GetAccount(user.EmailAddress);
+            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
                 
             if(foundAccount == null)
                 return IdentityResult.Failed(AccountStoreIdentityErrors.AccountNotFound);
@@ -145,7 +152,7 @@ namespace BudgetPlanner.Services.Stores
                 .ToBase64String(Encoding.UTF8)
                 .GetBytes(Encoding.UTF8);
 
-            var account = await GetAccount(user.EmailAddress);
+            var account = await GetAccountByEmailAddress(user.EmailAddress);
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
             account.Password = encryptedAccount.Password;
             await _accountService.SaveAccount(account);
@@ -153,9 +160,10 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<string> GetPasswordHashAsync(Account user, CancellationToken cancellationToken)
         {
-            var foundAccount = await GetAccount(user.EmailAddress);
+            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
             if(foundAccount == null)
                 return default;
+            user.Id = foundAccount.Id;
 
             return Convert.ToBase64String(foundAccount.Password);
         }

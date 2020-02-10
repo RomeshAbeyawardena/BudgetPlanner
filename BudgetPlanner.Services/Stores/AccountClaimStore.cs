@@ -15,7 +15,7 @@ namespace BudgetPlanner.Services.Stores
         public async Task AddClaimsAsync(Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
             
-            await GetAccount(user.EmailAddress);
+            await GetAccountByEmailAddress(user.EmailAddress);
         }
 
         public Task<IList<Claim>> GetClaimsAsync(Account user, CancellationToken cancellationToken)
