@@ -16,16 +16,15 @@ namespace BudgetPlanner.Services
 
         public string HashPassword(Account user, string password)
         {
-            throw new NotImplementedException();
+            user.Password = password.GetBytes(Encoding.UTF8);
+            var encrypted = _encryptionProvider.Encrypt<Account, Domains.Data.Account>(user).Result;
+            return Convert.ToBase64String(encrypted.Password);
         }
 
         public PasswordVerificationResult VerifyHashedPassword(Account user, string hashedPassword, string providedPassword)
         {
-            user.Password = providedPassword.GetBytes(Encoding.UTF8);
-            var encrypted = _encryptionProvider.Encrypt<Account, Domains.Data.Account>(user).Result;
+            var hashedProvidedPassword = HashPassword(user, providedPassword);
             
-            var hashedProvidedPassword = Convert.ToBase64String(encrypted.Password);
-
             if(hashedProvidedPassword.Equals(hashedPassword))
                 return PasswordVerificationResult.Success;
 
