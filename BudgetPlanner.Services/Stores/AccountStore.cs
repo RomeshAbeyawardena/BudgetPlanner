@@ -12,12 +12,6 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.Stores
 {
-    public static class AccountStoreIdentityErrors
-    {
-        public static IdentityError DuplicateAccount = new IdentityError { Code = "DuplicateAccount", Description = "Duplicate account exists" };
-        public static IdentityError AccountNotFound = new IdentityError { Code = "AccountNotFound", Description = "Unable to find account" };
-    }
-
     public partial class AccountStore : 
         IUserStore<Account>, 
         IUserPasswordStore<Account>
@@ -159,8 +153,11 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<string> GetPasswordHashAsync(Account user, CancellationToken cancellationToken)
         {
-            var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
-            return Convert.ToBase64String(encryptedAccount.Password);
+            var foundAccount = await GetAccount(user.EmailAddress);
+            if(foundAccount == null)
+                return default;
+
+            return Convert.ToBase64String(foundAccount.Password);
         }
 
         public async Task<bool> HasPasswordAsync(Account user, CancellationToken cancellationToken)
