@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using DNI.Shared.Services.Extensions;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BudgetPlanner.Web
 {
@@ -30,11 +31,20 @@ namespace BudgetPlanner.Web
                     }, out var serviceBroker)
                 .AddDistributedMemoryCache()
                 .AddSession()
+                .AddAuthentication(configureAuthentication);
+
+            services
                 .AddMvc()
                 .AddSessionStateTempDataProvider()
                 .AddFluentValidation(configuration => configuration
                 .RegisterValidatorsFromAssemblies(serviceBroker.Assemblies));
 
+        }
+
+        private void configureAuthentication(AuthenticationOptions options)
+        {
+            
+            options.RequireAuthenticatedSignIn = true;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +63,7 @@ namespace BudgetPlanner.Web
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
-            });
+            }).UseAuthentication();
         }
 
     }

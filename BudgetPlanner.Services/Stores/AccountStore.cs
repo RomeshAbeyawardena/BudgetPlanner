@@ -18,9 +18,10 @@ namespace BudgetPlanner.Services.Stores
         public static IdentityError AccountNotFound = new IdentityError { Code = "AccountNotFound", Description = "Unable to find account" };
     }
 
-    public class AccountStore : 
+    public partial class AccountStore : 
         IUserStore<Account>, 
         IUserPasswordStore<Account>
+        
     {
         private readonly IEncryptionProvider _encryptionHelper;
         private readonly IAccountService _accountService;
@@ -38,6 +39,7 @@ namespace BudgetPlanner.Services.Stores
             if(await FindByIdAsync(user.EmailAddress, cancellationToken) != null)
                 return IdentityResult.Failed(AccountStoreIdentityErrors.DuplicateAccount);
 
+            user.Active = true;
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
             await _accountService.SaveAccount(encryptedAccount, cancellationToken);
             return IdentityResult.Success;

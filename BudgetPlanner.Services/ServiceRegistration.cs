@@ -19,6 +19,8 @@ using DNI.Shared.Contracts.Providers;
 using BudgetPlanner.Domains.Constants;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using BudgetPlanner.Domains.Data;
+using BudgetPlanner.Services.Stores;
+using BudgetPlanner.Services.Validators;
 
 namespace BudgetPlanner.Services
 {
@@ -41,6 +43,11 @@ namespace BudgetPlanner.Services
                 .AddTransient<IRequestTokenService, RequestTokenService>()
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)));
+
+            services
+                .AddIdentityCore<Domains.Dto.Account>()
+                .AddUserStore<AccountStore>()
+                .AddPasswordValidator<AccountPasswordValidator>();
         }
 
         private void RegisterCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> factory, 

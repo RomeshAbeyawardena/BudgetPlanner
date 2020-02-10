@@ -28,7 +28,7 @@ namespace BudgetPlanner.Services
             return await accountQuery.SingleOrDefaultAsync();
         }
 
-        public async Task<Account> SaveAccount(Account account)
+        public async Task<Account> SaveAccount(Account account, CancellationToken cancellationToken)
         {
             return await _accountRepository.SaveChanges(account);
         }

@@ -10,7 +10,7 @@ namespace BudgetPlanner.WebApp.Pages
 {
     public class LoginHelper : AppComponent 
     {
-        public LoginHelper(IAccountHttpService accountHttpService)
+        public LoginHelper()
         {
 
         }
