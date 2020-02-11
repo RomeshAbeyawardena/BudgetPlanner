@@ -41,6 +41,7 @@ namespace BudgetPlanner.Services
                 .AddTransient<ITransactionTypeService, TransactionTypeService>()
                 .AddTransient<ITransactionLedgerService, TransactionLedgerService>()
                 .AddTransient<IRequestTokenService, RequestTokenService>()
+                .AddTransient<IRoleService, RoleService>()
                 .AddTransient<SignInManager<Domains.Dto.Account>>()
                 .AddTransient<IPasswordHasher<Domains.Dto.Account>, AccountPasswordHasher>()
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))

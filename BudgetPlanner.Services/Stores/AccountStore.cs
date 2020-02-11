@@ -19,6 +19,7 @@ namespace BudgetPlanner.Services.Stores
     {
         private readonly IEncryptionProvider _encryptionHelper;
         private readonly IAccountService _accountService;
+        private readonly IRoleService _roleService;
 
         private async Task<Domains.Data.Account> GetAccount(int userId)
         {
@@ -145,10 +146,11 @@ namespace BudgetPlanner.Services.Stores
             return IdentityResult.Success;
         }
 
-        public AccountStore(IEncryptionProvider encryptionHelper, IAccountService accountService)
+        public AccountStore(IEncryptionProvider encryptionHelper, IAccountService accountService, IRoleService roleService)
         {
             _encryptionHelper = encryptionHelper;
             _accountService = accountService;
+            _roleService = roleService;
         }
     }
 }

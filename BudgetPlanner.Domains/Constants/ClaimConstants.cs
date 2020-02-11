@@ -8,6 +8,7 @@ namespace BudgetPlanner.Domains.Constants
 {
     public static class ClaimConstants
     {
+        public const string RolesClaim = "Roles";
         public const string AccountIdClaim = "AccountId";
         public const string BudgetPlannerIdClaim = "BudgetPlannerId";
         public const string BudgetPlannerReferenceClaim = "BudgetPlannerReference";

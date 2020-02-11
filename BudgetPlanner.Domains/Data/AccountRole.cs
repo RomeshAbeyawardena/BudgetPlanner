@@ -21,6 +21,6 @@ namespace BudgetPlanner.Domains.Data
 
         public virtual Account Account { get; set; }
         public virtual Role Role { get; set; }
-
+        public bool Active { get; set; }
     }
 }

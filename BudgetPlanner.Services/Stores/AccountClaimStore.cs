@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Domains.Dto;
+﻿using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Domains.Dto;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,12 @@ namespace BudgetPlanner.Services.Stores
 {
     public partial class AccountStore : IUserClaimStore<Account>
     {
+        private async Task<IEnumerable<Claim>> GetClaims(int accountId)
+        {
+            var accountRoles = await _roleService.GetAccountRoles(accountId);
+            var roles = accountRoles;
+        }
+
         public async Task AddClaimsAsync(Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
             var account = await GetAccount(user.Id);
