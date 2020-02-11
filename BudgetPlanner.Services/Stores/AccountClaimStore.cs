@@ -49,6 +49,13 @@ namespace BudgetPlanner.Services.Stores
 
             claims.Add(new SecurityClaim(ClaimConstants.RolesClaim, string.Join(",", roles.Select(role => role.Name)) ));
 
+            var accountClaims = await _claimService.GetAccountClaims(accountId);
+
+            foreach(var accountClaim in accountClaims)
+            {
+                claims.Add(new SecurityClaim(accountClaim.Claim.Name, accountClaim.Value));
+            }
+
             return claims.ToArray();
         }
 

@@ -10,7 +10,9 @@ namespace BudgetPlanner.Contracts.Services
     public interface IClaimService
     {
         Task<Claim> GetClaim(string claimType);
-        Task<AccountClaim> GetAccountClaims(Claim foundClaim);
-        IEnumerable<Account> GetAccounts(AccountClaim accountClaims);
+        Task<IEnumerable<AccountClaim>> GetAccountClaims(Claim foundClaim);
+        IEnumerable<Account> GetAccounts(IEnumerable<AccountClaim> accountClaims);
+        Task<IEnumerable<AccountClaim>> GetAccountClaims(int accountId);
+        Task<IEnumerable<Claim>> GetClaims(IEnumerable<AccountClaim> accountClaims);
     }
 }
