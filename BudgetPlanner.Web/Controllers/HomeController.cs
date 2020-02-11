@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = DataConstants.DefaultAuthenticationScheme)]
     public class HomeController : ControllerBase
     {
         [HttpGet]

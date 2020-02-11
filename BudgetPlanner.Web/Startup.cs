@@ -13,6 +13,9 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using BudgetPlanner.Domains.Constants;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace BudgetPlanner.Web
 {
@@ -34,7 +37,9 @@ namespace BudgetPlanner.Web
                 .AddSession()
                 .AddAuthorization()
                 .AddAuthentication(configureAuthentication)
-                .AddCookie("", configureOptions);
+                .AddCookie(DataConstants.DefaultAuthenticationScheme, ConfigureOptions)
+                .AddIdentityCookies(ConfigureCookies);
+                //;
 
             services
                 .AddMvc()
@@ -44,15 +49,23 @@ namespace BudgetPlanner.Web
 
         }
 
-        private void configureOptions(CookieAuthenticationOptions options)
+        private void ConfigureOptions(CookieAuthenticationOptions options)
         {
-            options.LoginPath = "/Account/Login";
-            options.LogoutPath = "/Account/Logout";
+            options.LoginPath = ("/Login");
+            options.LogoutPath = ("/Logout");
+            options.SlidingExpiration = true;
+        }
+
+        private void ConfigureCookies(IdentityCookiesBuilder options)
+        {
+
         }
 
         private void configureAuthentication(AuthenticationOptions options)
         {
-            
+            options.DefaultAuthenticateScheme = DataConstants.DefaultAuthenticationScheme;
+            options.DefaultChallengeScheme = DataConstants.DefaultChallengeScheme;
+            options.DefaultScheme = DataConstants.DefaultScheme;
             options.RequireAuthenticatedSignIn = true;
         }
 
