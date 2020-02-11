@@ -46,9 +46,13 @@ namespace BudgetPlanner.Services
             return accountClaims.Select(accountClaim => accountClaim.Account);
         }
 
-        public Task<Claim> GetClaim(string claimType)
+        public async Task<Claim> GetClaim(string claimType)
         {
-            throw new NotImplementedException();
+            var claimQuery = from claim in DefaultClaimQuery
+                             where claim.Name == claimType
+                             select claim;
+
+            return await claimQuery.FirstOrDefaultAsync();
         }
 
         public Claim GetClaim(IEnumerable<Claim> claims, string claimType)
@@ -56,9 +60,13 @@ namespace BudgetPlanner.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Claim>> GetClaims(IEnumerable<AccountClaim> accountClaims)
+        public IEnumerable<Claim> GetClaims(IEnumerable<Claim> claims, IEnumerable<AccountClaim> accountClaims)
         {
-            throw new NotImplementedException();
+            var claimsQuery = from accountClaim in accountClaims
+                              where claims.Any(claim => claim.Id == accountClaim.ClaimId)
+                              select accountClaim.Claim;
+
+            return claimsQuery.ToArray();
         }
 
         public async Task<IEnumerable<Claim>> GetClaims()
