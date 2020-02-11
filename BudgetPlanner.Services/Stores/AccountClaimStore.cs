@@ -40,6 +40,11 @@ namespace BudgetPlanner.Services.Stores
             return _claimService.GetAccounts(accountClaims);
         }
 
+        private async Task<IEnumerable<AccountClaim>> GetAccountClaims(int accountId)
+        {
+            return await _claimService.GetAccountClaims(accountId);
+        }
+
         private async Task<IEnumerable<SecurityClaim>> GetClaims(int accountId)
         {
             var accountRoles = await _roleService.GetAccountRoles(accountId);
@@ -47,10 +52,12 @@ namespace BudgetPlanner.Services.Stores
 
             var claims = new List<SecurityClaim>();
 
+            //Add role claims
             claims.Add(new SecurityClaim(ClaimConstants.RolesClaim, string.Join(",", roles.Select(role => role.Name)) ));
 
             var accountClaims = await _claimService.GetAccountClaims(accountId);
-
+            
+            //Add other claims
             foreach(var accountClaim in accountClaims)
             {
                 claims.Add(new SecurityClaim(accountClaim.Claim.Name, accountClaim.Value));
@@ -61,7 +68,32 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task AddClaimsAsync(Domains.Dto.Account user, IEnumerable<SecurityClaim> claims, CancellationToken cancellationToken)
         {
-            var account = await GetAccount(user.Id);
+            if(claims.Any(claim => claim.Type == ClaimConstants.RolesClaim))
+                throw new NotSupportedException();
+
+            var existingClaims = await _claimService.GetClaims();
+            //contains claim
+            var securityClaims = await GetAccountClaims(user.Id);
+            //yes - update
+            foreach(var securityClaim in claims)
+            {
+                var existingClaim = _claimService.GetClaim(existingClaims, securityClaim.Type);
+
+                var existingSecurityClaim = securityClaims.FirstOrDefault(claim => claim.Claim.Name == securityClaim.Type);
+
+                if (existingClaim == null)
+                    existingClaim = await _claimService
+                        .SaveClaim(new Domains.Data.Claim { Name = securityClaim.Type }, false);
+
+                if (existingSecurityClaim == null)
+                    await _claimService.SaveAccountClaim(new AccountClaim { AccountId = user.Id, Claim = existingClaim }, true);
+                else
+                {
+                    existingSecurityClaim.Value = securityClaim.Value;
+                    await _claimService.SaveAccountClaim(existingSecurityClaim, true);
+                }
+            }
+            //no - add
         }
 
         public async Task<IList<SecurityClaim>> GetClaimsAsync(Domains.Dto.Account user, CancellationToken cancellationToken)

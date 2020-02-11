@@ -14,5 +14,8 @@ namespace BudgetPlanner.Contracts.Services
         IEnumerable<Account> GetAccounts(IEnumerable<AccountClaim> accountClaims);
         Task<IEnumerable<AccountClaim>> GetAccountClaims(int accountId);
         Task<IEnumerable<Claim>> GetClaims(IEnumerable<AccountClaim> accountClaims);
+        Task<IEnumerable<Claim>> GetClaims();
+        Claim GetClaim(IEnumerable<Claim> claims, string claimType);
+        Task<Claim> SaveClaim(Claim claim, bool saveChanges = true);
     }
 }
