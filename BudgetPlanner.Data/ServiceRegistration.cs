@@ -26,6 +26,8 @@ namespace BudgetPlanner.Data
                 typeof(Account),
                 typeof(Role),
                 typeof(AccountRole),
+                typeof(Claim),
+                typeof(AccountClaim),
                 typeof(Budget), 
                 typeof(Transaction),
                 typeof(TransactionType),

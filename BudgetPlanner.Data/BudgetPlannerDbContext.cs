@@ -20,6 +20,8 @@ namespace BudgetPlanner.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<AccountRole> AccountRoles { get; set; }
+        public DbSet<Claim> Claims { get; set; }
+        public DbSet<AccountClaim> AccountClaims { get; set; }
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
