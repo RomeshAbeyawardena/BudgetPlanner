@@ -74,14 +74,14 @@ namespace BudgetPlanner.Services
             return await DefaultClaimQuery.ToArrayAsync();
         }
 
-        public Task SaveAccountClaim(AccountClaim accountClaim, bool v)
+        public async Task<AccountClaim> SaveAccountClaim(AccountClaim accountClaim, bool saveChanges = true)
         {
-            throw new NotImplementedException();
+            return await _accountClaimRepository.SaveChanges(accountClaim, saveChanges);
         }
 
-        public Task<Claim> SaveClaim(Claim claim, bool saveChanges = true)
+        public async Task<Claim> SaveClaim(Claim claim, bool saveChanges = true)
         {
-            throw new NotImplementedException();
+            return await _claimRepository.SaveChanges(claim, saveChanges);
         }
 
         public ClaimService(IRepository<Claim> claimRepository, IRepository<AccountClaim> accountClaimRepository)
