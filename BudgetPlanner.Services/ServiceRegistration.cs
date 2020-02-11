@@ -77,21 +77,20 @@ namespace BudgetPlanner.Services
                 .CaseWhen(EncryptionKeyConstants.Default,
                     cryptographyProvider.GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512,
                     Encoding.UTF8, defaultDataEncryptionKey.Password, defaultDataEncryptionKey.Salt,
-                        defaultDataEncryptionKey.Iterations, 32,
+                        defaultDataEncryptionKey.Iterations, EncryptionKeyConstants.AesKeySize,
                         Convert.FromBase64String(defaultDataEncryptionKey.InitialVector)))
                 .CaseWhen(EncryptionKeyConstants.IdentificationData, 
                     cryptographyProvider
                         .GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512, 
                             Encoding.UTF8, identificationEncryptionKey.Password, identificationEncryptionKey.Salt, 
-                            identificationEncryptionKey.Iterations, 32, 
+                            identificationEncryptionKey.Iterations, EncryptionKeyConstants.AesKeySize, 
                             Convert.FromBase64String(identificationEncryptionKey.InitialVector)))
                 .CaseWhen(EncryptionKeyConstants.PersonalData, 
                     cryptographyProvider
                         .GetCryptographicCredentials<AppCryptographicCredentials>(KeyDerivationPrf.HMACSHA512, 
                             Encoding.UTF8, personalDataEncryptionKey.Password, personalDataEncryptionKey.Salt, 
-                            personalDataEncryptionKey.Iterations, 32, 
-                            Convert.FromBase64String(personalDataEncryptionKey.InitialVector)))
-                ;
+                            personalDataEncryptionKey.Iterations, EncryptionKeyConstants.AesKeySize, 
+                            Convert.FromBase64String(personalDataEncryptionKey.InitialVector)));
         }
     }
 }

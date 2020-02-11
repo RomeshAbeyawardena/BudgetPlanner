@@ -31,5 +31,10 @@ namespace BudgetPlanner.Services.Validators
             return
                 IdentityResult.Failed(AccountStoreIdentityErrors.InvalidAccountOrPassword);
         }
+
+        public AccountPasswordValidator(IEncryptionProvider encryptionProvider)
+        {
+            _encryptionProvider = encryptionProvider;
+        }
     }
 }

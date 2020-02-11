@@ -23,13 +23,6 @@ namespace BudgetPlanner.Services.Stores
 
         private async Task<IEnumerable<Account>> GetAccountsWithClaims(SecurityClaim claim)
         {
-            if(claim.Type == ClaimConstants.RolesClaim)
-            {
-                var roles = await GetRoleNamesFromSeparatedList(',', claim.Value);
-                var accountRoles = await _roleService.GetAccountRoles(roles);
-                return accountRoles.Select(accountRole => accountRole.Account);
-            }
-            
             var foundClaim = await _claimService.GetClaim(claim.Type);
 
             if(foundClaim == null)
