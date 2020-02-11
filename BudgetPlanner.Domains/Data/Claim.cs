@@ -21,5 +21,6 @@ namespace BudgetPlanner.Domains.Data
 
         [Modifier(ModifierFlag.Modified)]
         public DateTimeOffset Modified { get; set; }
+        public bool Active { get; set; }
     }
 }

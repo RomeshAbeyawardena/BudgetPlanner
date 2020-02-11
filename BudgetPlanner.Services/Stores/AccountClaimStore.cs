@@ -72,9 +72,9 @@ namespace BudgetPlanner.Services.Stores
                 throw new NotSupportedException();
 
             var existingClaims = await _claimService.GetClaims();
-            //contains claim
+            
             var securityClaims = await GetAccountClaims(user.Id);
-            //yes - update
+            
             foreach(var securityClaim in claims)
             {
                 var existingClaim = _claimService.GetClaim(existingClaims, securityClaim.Type);
@@ -93,7 +93,6 @@ namespace BudgetPlanner.Services.Stores
                     await _claimService.SaveAccountClaim(existingSecurityClaim, true);
                 }
             }
-            //no - add
         }
 
         public async Task<IList<SecurityClaim>> GetClaimsAsync(Domains.Dto.Account user, CancellationToken cancellationToken)

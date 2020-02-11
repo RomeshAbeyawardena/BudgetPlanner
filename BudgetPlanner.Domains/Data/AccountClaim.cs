@@ -23,6 +23,6 @@ namespace BudgetPlanner.Domains.Data
 
         public virtual Account Account { get; set; }
         public virtual Claim Claim { get; set; }
-        
+        public bool Active { get; set; }
     }
 }
