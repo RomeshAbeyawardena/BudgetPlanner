@@ -15,7 +15,6 @@ namespace BudgetPlanner.Services.Stores
 {
     public partial class AccountStore : 
         IUserStore<Account>
-        
     {
         private readonly IEncryptionProvider _encryptionHelper;
         private readonly IAccountService _accountService;

@@ -13,6 +13,6 @@ namespace BudgetPlanner.Contracts.Claims
         [Claim(ClaimConstants.PageSizeClaim)]
         int PageSize { get; set; }
         [Claim(ClaimConstants.PageNumberClaim)]
-        int PageNumber {  get; set; 
+        int PageNumber {  get; set; }
     }
 }

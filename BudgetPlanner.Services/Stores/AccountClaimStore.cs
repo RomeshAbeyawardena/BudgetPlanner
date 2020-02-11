@@ -1,5 +1,5 @@
 ﻿using BudgetPlanner.Domains.Constants;
-using BudgetPlanner.Domains.Dto;
+using BudgetPlanner.Domains.Data;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,37 +11,61 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.Stores
 {
-    public partial class AccountStore : IUserClaimStore<Account>
+    public partial class AccountStore : IUserClaimStore<Domains.Dto.Account>
     {
+        private async Task<IEnumerable<Role>> GetRoleNamesFromSeparatedList(char separator, string roles)
+        {
+            var existingRoles = await _roleService.GetRoles();
+            var splitString = roles.Split(separator);
+            return _roleService.GetRoles(existingRoles, splitString);
+        }
+
+        private async Task<IEnumerable<Account>> GetAccountsWithClaims(Claim claim)
+        {
+            if(claim.Type == ClaimConstants.RolesClaim)
+            {
+                var roles = await GetRoleNamesFromSeparatedList(',', claim.Value);
+                var accountRoles = await _roleService.GetAccountRoles(roles);
+                return accountRoles.Select(accountRole => accountRole.Account);
+            }
+            return default;
+        }
+
         private async Task<IEnumerable<Claim>> GetClaims(int accountId)
         {
             var accountRoles = await _roleService.GetAccountRoles(accountId);
-            var roles = accountRoles;
+            var roles = _roleService.GetRoles(accountRoles);
+
+            var claims = new List<Claim>();
+
+            claims.Add(new Claim(ClaimConstants.RolesClaim, string.Join(",", roles.Select(role => role.Name)) ));
+
+            return claims.ToArray();
         }
 
-        public async Task AddClaimsAsync(Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        public async Task AddClaimsAsync(Domains.Dto.Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
             var account = await GetAccount(user.Id);
         }
 
-        public async Task<IList<Claim>> GetClaimsAsync(Account user, CancellationToken cancellationToken)
+        public async Task<IList<Claim>> GetClaimsAsync(Domains.Dto.Account user, CancellationToken cancellationToken)
         {
-            var account = await GetAccount(user.Id);
+            return (await GetClaims(user.Id)).ToList();
+        }
+
+        public async Task<IList<Domains.Dto.Account>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
+        {
+            var accounts = await GetAccountsWithClaims(claim);
+            var a = await accounts.Select(async(account) => await _encryptionHelper.Decrypt<Account, Domains.Dto.Account>(account));
+            return a.ToList();
+        }
+
+        public Task RemoveClaimsAsync(Domains.Dto.Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        {
             throw new NotImplementedException();
         }
 
-        public Task<IList<Account>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-            
-        }
-
-        public Task RemoveClaimsAsync(Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ReplaceClaimAsync(Account user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+        public Task ReplaceClaimAsync(Domains.Dto.Account user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

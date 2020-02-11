@@ -11,8 +11,10 @@ namespace BudgetPlanner.Contracts.Services
     {
         Task<IEnumerable<Role>> GetRoles();
         IEnumerable<Role> GetRoles(IEnumerable<AccountRole> accountRoles);
+        IEnumerable<Role> GetRoles(IEnumerable<Role> roles, IEnumerable<string> roleNames);
         Task<Role> SaveRole(Role role);
         Task<AccountRole> SaveAccountRole(AccountRole accountRole);
         Task<IEnumerable<AccountRole>> GetAccountRoles(int accountId);
+        Task<IEnumerable<AccountRole>> GetAccountRoles(IEnumerable<Role> roles);
     }
 }

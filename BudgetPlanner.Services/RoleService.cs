@@ -50,6 +50,16 @@ namespace BudgetPlanner.Services
             return accountRoles.Select(accountRole => accountRole.Role);
         }
 
+        public IEnumerable<Role> GetRoles(IEnumerable<Role> roles, IEnumerable<string> roleNames)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AccountRole>> GetAccountRoles(IEnumerable<Role> roles)
+        {
+            throw new NotImplementedException();
+        }
+
         public RoleService(IRepository<Role> roleRepository, IRepository<AccountRole> accountRoleRepository)
         {
             _roleRepository = roleRepository;
