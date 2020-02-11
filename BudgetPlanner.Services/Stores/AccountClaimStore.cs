@@ -56,8 +56,8 @@ namespace BudgetPlanner.Services.Stores
         public async Task<IList<Domains.Dto.Account>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
         {
             var accounts = await GetAccountsWithClaims(claim);
-            var a = await accounts.Select(async(account) => await _encryptionHelper.Decrypt<Account, Domains.Dto.Account>(account));
-            return a.ToList();
+            var decryptedAccounts =  await _encryptionHelper.Decrypt<Account, Domains.Dto.Account>(accounts);
+            return decryptedAccounts.ToList();
         }
 
         public Task RemoveClaimsAsync(Domains.Dto.Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
