@@ -12,6 +12,7 @@ using DNI.Shared.Services.Extensions;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BudgetPlanner.Web
 {
@@ -31,7 +32,9 @@ namespace BudgetPlanner.Web
                     }, out var serviceBroker)
                 .AddDistributedMemoryCache()
                 .AddSession()
-                .AddAuthentication(configureAuthentication);
+                .AddAuthorization()
+                .AddAuthentication(configureAuthentication)
+                .AddCookie("", configureOptions);
 
             services
                 .AddMvc()
@@ -39,6 +42,12 @@ namespace BudgetPlanner.Web
                 .AddFluentValidation(configuration => configuration
                 .RegisterValidatorsFromAssemblies(serviceBroker.Assemblies));
 
+        }
+
+        private void configureOptions(CookieAuthenticationOptions options)
+        {
+            options.LoginPath = "/Account/Login";
+            options.LogoutPath = "/Account/Logout";
         }
 
         private void configureAuthentication(AuthenticationOptions options)
@@ -54,9 +63,9 @@ namespace BudgetPlanner.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseSession();
             app.UseRouting();
+            app.UseAuthorization();
             app.UseStaticFiles();
             app.UseStatusCodePagesWithRedirects("/Default/Error/{0}");
             app.UseEndpoints(endpoints =>

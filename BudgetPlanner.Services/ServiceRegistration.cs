@@ -50,7 +50,9 @@ namespace BudgetPlanner.Services
 
             services
                 .AddIdentityCore<Domains.Dto.Account>()
+                .AddRoles<Role>()
                 .AddUserStore<AccountStore>()
+                .AddRoleStore<RoleStore>()
                 .AddPasswordValidator<AccountPasswordValidator>()
                 .AddDefaultTokenProviders();
         }

@@ -111,26 +111,30 @@ CREATE TABLE [dbo].[RequestToken]
 CREATE TABLE [dbo].[Role]
 (
     [Id] INT NOT NULL IDENTITY(1, 1)
-        CONSTRAINT PK_Role PRIMARY KEY,
-    [Name] VARCHAR(200) NOT NULL
+        CONSTRAINT PK_Role PRIMARY KEY
+    ,[Name] VARCHAR(200) NOT NULL
         CONSTRAINT IQ_Role
-        UNIQUE,
-    [Created] DATETIMEOFFSET NOT NULL,
-    [Modified] DATETIMEOFFSET NULL
+        UNIQUE
+    ,[Active] BIT NOT NULL
+    ,[Created] DATETIMEOFFSET NOT NULL
+    ,[Modified] DATETIMEOFFSET NULL
 );
 
 INSERT INTO [dbo].[Role]
 (
     [Name],
+    [Active],
     [Created],
     [Modified]
 )
 VALUES
-(   'Admin',             -- Name - varchar(200)
+(   'Admin',    -- Name - varchar(200)
+    1,
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     NULL                 -- Modified - datetimeoffset
     ),
 (   'Standard User',     -- Name - varchar(200)
+    1,
     SYSDATETIMEOFFSET(), -- Created - datetimeoffset
     NULL                 -- Modified - datetimeoffset
 );
@@ -144,8 +148,9 @@ CREATE TABLE [dbo].[AccountRole]
         REFERENCES [dbo].[Account],
     [RoleId] INT NOT NULL
         CONSTRAINT FK_AccountRole_Role
-        REFERENCES [dbo].[Role],
-    [Created] DATETIMEOFFSET NOT NULL
+        REFERENCES [dbo].[Role]
+    ,[Active] BIT NOT NULL
+    ,[Created] DATETIMEOFFSET NOT NULL
 )
 
 CREATE TABLE [dbo].[Claim]
@@ -153,6 +158,7 @@ CREATE TABLE [dbo].[Claim]
 	[Id] INT NOT NULL IDENTITY(1, 1)
         CONSTRAINT PK_Claim PRIMARY KEY
 	,[Name] VARCHAR(200) NOT NULL
+    ,[Active] BIT NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 	,[Modified] DATETIMEOFFSET NOT NULL
 )
@@ -168,5 +174,8 @@ CREATE TABLE [dbo].[AccountClaim]
         CONSTRAINT FK_AccountClaim_Claim
         REFERENCES [dbo].[Claim]
 	,[Value] VARCHAR(2000) NOT NULL
+    ,[Active] BIT NOT NULL
     ,[Created] DATETIMEOFFSET NOT NULL
 );
+
+SELECT * FROM dbo.Account

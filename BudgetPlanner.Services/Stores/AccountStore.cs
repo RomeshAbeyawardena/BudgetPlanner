@@ -38,10 +38,11 @@ namespace BudgetPlanner.Services.Stores
         public async Task<IdentityResult> CreateAsync(Account user, CancellationToken cancellationToken)
         {
             if(await FindByNameAsync(user.EmailAddress, cancellationToken) != null)
-                return IdentityResult.Failed(AccountStoreIdentityErrors.DuplicateAccount);
+                return IdentityResult.Failed(IdentityErrors.DuplicateAccount);
 
-            user.Active = true;
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
+            encryptedAccount.Active = true;
+
             await _accountService.SaveAccount(encryptedAccount, cancellationToken);
             return IdentityResult.Success;
         }
@@ -50,7 +51,7 @@ namespace BudgetPlanner.Services.Stores
         {
             var foundUser = await GetAccount(user.Id);
             if(foundUser == null)
-                return IdentityResult.Failed(AccountStoreIdentityErrors.AccountNotFound);
+                return IdentityResult.Failed(IdentityErrors.AccountNotFound);
 
             foundUser.Active = false;
             await _accountService.SaveAccount(foundUser);
@@ -69,16 +70,25 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<Account> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            var foundAccount = await GetAccountByEmailAddress(userId);
+            if(!int.TryParse(userId, out var id))
+                return default;
+
+            var foundAccount = await GetAccount(id);
+
             if(foundAccount == null)
                 return default;
 
             return await _encryptionHelper.Decrypt<Domains.Data.Account, Account>(foundAccount);
         }
 
-        public Task<Account> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<Account> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var account = await GetAccountByEmailAddress(normalizedUserName);
+
+            if(account == null)
+                return default;
+
+            return await _encryptionHelper.Decrypt<Domains.Data.Account, Account>(account);
         }
 
         public async Task<string> GetNormalizedUserNameAsync(Account user, CancellationToken cancellationToken)
@@ -88,19 +98,12 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<string> GetUserIdAsync(Account user, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(user.EmailAddress);
+            return await Task.FromResult(user.Id.ToString());
         }
 
         public async Task<string> GetUserNameAsync(Account user, CancellationToken cancellationToken)
         {
-            var account = await GetAccountByEmailAddress(user.EmailAddress);
-
-            if(account == null)
-                return null;
-
-            var decryptedAccount = await _encryptionHelper.Decrypt<Domains.Data.Account, Account>(account);
-
-            return $"{decryptedAccount.FirstName} {decryptedAccount.LastName}";
+            return await Task.FromResult(user.EmailAddress);
         }
 
         public async Task SetNormalizedUserNameAsync(Account user, string normalizedName, CancellationToken cancellationToken)
@@ -136,7 +139,7 @@ namespace BudgetPlanner.Services.Stores
             var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
                 
             if(foundAccount == null)
-                return IdentityResult.Failed(AccountStoreIdentityErrors.AccountNotFound);
+                return IdentityResult.Failed(IdentityErrors.AccountNotFound);
 
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
 

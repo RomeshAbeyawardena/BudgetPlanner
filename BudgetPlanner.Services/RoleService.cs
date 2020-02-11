@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services
@@ -63,6 +64,20 @@ namespace BudgetPlanner.Services
             select accountRole;
 
             return await accountRolesQuery.ToArrayAsync();
+        }
+
+        public async Task<Role> GetRole(int id, CancellationToken cancellationToken)
+        {
+            return await _roleRepository.Find(cancellationToken, id);
+        }
+
+        public async Task<Role> GetRole(string normalizedRoleName)
+        {
+            var roleQuery = from role in DefaultRoleQuery
+                            where role.Name == normalizedRoleName
+                            select role;
+
+            return  await roleQuery.FirstOrDefaultAsync();
         }
 
         public RoleService(IRepository<Role> roleRepository, IRepository<AccountRole> accountRoleRepository)

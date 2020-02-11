@@ -20,15 +20,19 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
 {
-    public class AccountController : DefaultControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly ApplicationSettings _applicationSettings;
+        private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
         private readonly ICookieValidationService _cookieValidationService;
 
-        public AccountController(ApplicationSettings applicationSettings, SignInManager<Account> signInManager, ICookieValidationService cookieValidationService)
+        public AccountController(ApplicationSettings applicationSettings, 
+            UserManager<Account> userManager, 
+            SignInManager<Account> signInManager, ICookieValidationService cookieValidationService)
         {
             _applicationSettings = applicationSettings;
+            _userManager = userManager;
             _signInManager = signInManager;
             _cookieValidationService = cookieValidationService;
         }
@@ -49,19 +53,24 @@ namespace BudgetPlanner.Web.Controllers
         {
             if(!ModelState.IsValid)
                 return View(model);
-
-            model.Password = Convert.ToBase64String(
-                model.Password.GetBytes(Encoding.UTF8).ToArray());
+            
+            model.Password = Convert.ToBase64String(model.Password
+                .GetBytes(Encoding.UTF8)
+                .ToArray());
 
             var mappedAccount = Map<RegisterAccountViewModel, Account>(model);
+            var result = await _userManager.CreateAsync(mappedAccount);
+            //model.Password = Convert.ToBase64String(
+            //    model.Password.GetBytes(Encoding.UTF8).ToArray());
 
-            var response = await MediatorService
-                .Send(new RegisterAccountRequest { Account = mappedAccount });
+            //var response = await MediatorService
+            //    .Send(new RegisterAccountRequest { Account = mappedAccount });
 
-            if(response.IsSuccessful)
+            if(result.Succeeded)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
 
-            AddErrorsToModelState(response);
+            AddModelStateErrors(result.Errors);
+            //AddErrorsToModelState(response);
 
             return View(model);
         }
@@ -83,7 +92,7 @@ namespace BudgetPlanner.Web.Controllers
         {
             if(!ModelState.IsValid)
                 return View("Login", model);
-
+            
             var s = await _signInManager.PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, model.Password, false, false);
             if(s.Succeeded)
                 return RedirectToAction("Index", "Home");

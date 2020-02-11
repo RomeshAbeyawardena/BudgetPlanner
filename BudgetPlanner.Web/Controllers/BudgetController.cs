@@ -5,6 +5,7 @@ using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Services.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -19,7 +20,7 @@ namespace BudgetPlanner.Web.Controllers
     {
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         [HttpGet, Route("/[controller]/[action]/{reference}")]
-        [RequiresAccount(DataConstants.AccountSessionCookie)]
+        [Authorize]
         public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=12, [FromQuery]int pageNumber=1)
         {
             var response = await MediatorService
@@ -43,7 +44,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
-        [RequiresAccount(DataConstants.AccountSessionCookie)]
+        [Authorize()]
         public async Task<ActionResult> Create([FromQuery]bool isModal = false)
         {
             await Task.CompletedTask;
@@ -51,7 +52,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        [RequiresAccount(DataConstants.AccountSessionCookie)]
+        [Authorize()]
         public async Task<ActionResult> Create([FromForm]CreateBudgetPlannerViewModel createBudgetPlannerViewModel)
         {
             if(!ModelState.IsValid)
@@ -73,7 +74,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
-        [RequiresAccount(DataConstants.AccountSessionCookie)]
+        [Authorize()]
         public async Task<ActionResult> CreateTransaction([FromRoute]string reference, [FromQuery]bool isModal = false)
         {
             
@@ -93,7 +94,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        [RequiresAccount(DataConstants.AccountSessionCookie)]
+        [Authorize()]
         public async Task<ActionResult> SaveTransaction(AddBudgetTransactionViewModel model)
         {
             model.TransactionTypes = await GetTransactionTypes();
