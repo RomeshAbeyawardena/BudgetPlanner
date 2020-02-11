@@ -2,6 +2,7 @@
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Services.Abstraction;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
 {
-    [Authorize(AuthenticationSchemes = DataConstants.DefaultAuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class HomeController : ControllerBase
     {
         [HttpGet]

@@ -9,6 +9,7 @@ using BudgetPlanner.Web.Attributes;
 using DNI.Shared.Domains;
 using DNI.Shared.Services.Abstraction;
 using DNI.Shared.Shared.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace BudgetPlanner.Web.Controllers
             _signInManager = signInManager;
             _cookieValidationService = cookieValidationService;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("/Register")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
@@ -48,7 +49,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [Route("/Register")]
-        [ValidateAntiForgeryToken, HttpPost]
+        [ValidateAntiForgeryToken, HttpPost, AllowAnonymous]
         public async Task<ActionResult> Register([FromForm]RegisterAccountViewModel model)
         {
             if(!ModelState.IsValid)
@@ -77,7 +78,7 @@ namespace BudgetPlanner.Web.Controllers
 
         [HttpGet]
         [Route("/Login")]
-        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true"), AllowAnonymous]
         public async Task<ActionResult> Login(string emailAddress)
         {
             await Task.CompletedTask;
@@ -87,7 +88,7 @@ namespace BudgetPlanner.Web.Controllers
 
         [HttpPost]
         [Route("/Login")]
-        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true"), AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
             if(!ModelState.IsValid)
@@ -96,6 +97,8 @@ namespace BudgetPlanner.Web.Controllers
             var s = await _signInManager.PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, model.Password, false, false);
             if(s.Succeeded)
                 return RedirectToAction("Index", "Home");
+
+            
             ////var response = await MediatorService
             ////    .Send(new LoginRequest { 
             ////        EmailAddress = model.EmailAddress, 

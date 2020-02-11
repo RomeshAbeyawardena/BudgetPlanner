@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using BudgetPlanner.Domains.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetPlanner.Web
 {
@@ -25,21 +27,24 @@ namespace BudgetPlanner.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
             services
-                .RegisterServiceBroker<ServiceBroker>(options => { 
+                .RegisterServiceBroker<ServiceBroker>(options =>
+                {
                     options.RegisterAutoMappingProviders = true;
                     options.RegisterCacheProviders = true;
                     options.RegisterMessagePackSerialisers = true;
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
-                    }, out var serviceBroker)
+                }, out var serviceBroker)
                 .AddDistributedMemoryCache()
                 .AddSession()
-                .AddAuthorization()
                 .AddAuthentication(configureAuthentication)
-                .AddCookie(DataConstants.DefaultAuthenticationScheme, ConfigureOptions)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, ConfigureOptions)
                 .AddIdentityCookies(ConfigureCookies);
-                //;
+                services.AddAuthorization();
+            
+            //;
 
             services
                 .AddMvc()
@@ -54,18 +59,24 @@ namespace BudgetPlanner.Web
             options.LoginPath = ("/Login");
             options.LogoutPath = ("/Logout");
             options.SlidingExpiration = true;
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+            options.Cookie.MaxAge = TimeSpan.FromMinutes(25);
+            options.Cookie.SameSite = SameSiteMode.Strict;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
         }
 
         private void ConfigureCookies(IdentityCookiesBuilder options)
         {
-
+            options.ExternalCookie.Configure(ConfigureOptions);
+            options.ApplicationCookie.Configure(ConfigureOptions);
         }
 
         private void configureAuthentication(AuthenticationOptions options)
         {
-            options.DefaultAuthenticateScheme = DataConstants.DefaultAuthenticationScheme;
+            options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = DataConstants.DefaultChallengeScheme;
-            options.DefaultScheme = DataConstants.DefaultScheme;
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.RequireAuthenticatedSignIn = true;
         }
 
