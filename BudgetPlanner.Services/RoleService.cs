@@ -52,12 +52,17 @@ namespace BudgetPlanner.Services
 
         public IEnumerable<Role> GetRoles(IEnumerable<Role> roles, IEnumerable<string> roleNames)
         {
-            throw new NotImplementedException();
+            return roles.Where(role => roleNames.Contains(role.Name));
         }
 
-        public Task<IEnumerable<AccountRole>> GetAccountRoles(IEnumerable<Role> roles)
+        public async Task<IEnumerable<AccountRole>> GetAccountRoles(IEnumerable<Role> roles)
         {
-            throw new NotImplementedException();
+            var roleIds = roles.Select(role => role.Id);
+            var accountRolesQuery = from accountRole in DefaultAccountRoleQuery
+            where roleIds.Contains(accountRole.RoleId)
+            select accountRole;
+
+            return await accountRolesQuery.ToArrayAsync();
         }
 
         public RoleService(IRepository<Role> roleRepository, IRepository<AccountRole> accountRoleRepository)

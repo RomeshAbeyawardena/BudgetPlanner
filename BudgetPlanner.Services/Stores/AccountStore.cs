@@ -125,9 +125,9 @@ namespace BudgetPlanner.Services.Stores
             await _accountService.SaveAccount(foundAccount, cancellationToken);
         }
 
-        public Task SetUserNameAsync(Account user, string userName, CancellationToken cancellationToken)
+        public async Task SetUserNameAsync(Account user, string userName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await SetNormalizedUserNameAsync(user, userName, cancellationToken);
         }
 
         public async Task<IdentityResult> UpdateAsync(Account user, CancellationToken cancellationToken)
