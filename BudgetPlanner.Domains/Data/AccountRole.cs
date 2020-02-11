@@ -19,5 +19,8 @@ namespace BudgetPlanner.Domains.Data
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
 
+        public virtual Account Account { get; set; }
+        public virtual Role Role { get; set; }
+
     }
 }

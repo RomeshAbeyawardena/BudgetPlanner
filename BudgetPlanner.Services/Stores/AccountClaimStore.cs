@@ -26,6 +26,7 @@ namespace BudgetPlanner.Services.Stores
         public Task<IList<Account>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+            
         }
 
         public Task RemoveClaimsAsync(Account user, IEnumerable<Claim> claims, CancellationToken cancellationToken)

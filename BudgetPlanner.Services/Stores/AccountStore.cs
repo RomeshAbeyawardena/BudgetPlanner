@@ -14,8 +14,7 @@ using System.Threading.Tasks;
 namespace BudgetPlanner.Services.Stores
 {
     public partial class AccountStore : 
-        IUserStore<Account>, 
-        IUserPasswordStore<Account>
+        IUserStore<Account>
         
     {
         private readonly IEncryptionProvider _encryptionHelper;
@@ -144,33 +143,6 @@ namespace BudgetPlanner.Services.Stores
 
             await _accountService.SaveAccount(encryptedAccount, cancellationToken);
             return IdentityResult.Success;
-        }
-
-        public async Task SetPasswordHashAsync(Account user, string passwordHash, CancellationToken cancellationToken)
-        {
-            user.Password = passwordHash
-                .ToBase64String(Encoding.UTF8)
-                .GetBytes(Encoding.UTF8);
-
-            var account = await GetAccountByEmailAddress(user.EmailAddress);
-            var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
-            account.Password = encryptedAccount.Password;
-            await _accountService.SaveAccount(account);
-        }
-
-        public async Task<string> GetPasswordHashAsync(Account user, CancellationToken cancellationToken)
-        {
-            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
-            if(foundAccount == null)
-                return default;
-            user.Id = foundAccount.Id;
-
-            return Convert.ToBase64String(foundAccount.Password);
-        }
-
-        public async Task<bool> HasPasswordAsync(Account user, CancellationToken cancellationToken)
-        {
-            return await Task.FromResult(true);
         }
 
         public AccountStore(IEncryptionProvider encryptionHelper, IAccountService accountService)

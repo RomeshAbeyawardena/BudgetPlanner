@@ -36,5 +36,7 @@ namespace BudgetPlanner.Domains.Data
         
         [Modifier(ModifierFlag.Modified)]
         public DateTimeOffset? Modified { get; set; }
+
+        public virtual ICollection<AccountRole> AccountRoles { get; set; }
     }
 }
