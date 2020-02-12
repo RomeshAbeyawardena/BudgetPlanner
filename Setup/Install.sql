@@ -8,9 +8,12 @@ GO
 CREATE DATABASE BudgetPlanner;
 GO
 
-CREATE USER [WebUser] FOR LOGIN [WebUser];
-
 USE BudgetPlanner;
+
+CREATE USER [WebUser] FROM LOGIN [WebUser]
+WITH DEFAULT_SCHEMA = dbo
+
+GRANT ALL TO WebUser
 
 CREATE TABLE [dbo].[Account]
 (
