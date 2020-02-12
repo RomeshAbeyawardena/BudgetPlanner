@@ -218,6 +218,7 @@ CREATE TABLE [dbo].[AccountAccess]
         CONSTRAINT FK_AccountAccess_AccessType
         REFERENCES [dbo].[AccessType]
     ,[Succeeded] BIT NOT NULL
+    ,[Active] BIT NOT NULL
     ,[Created] DATETIMEOFFSET NOT NULL
  )
 

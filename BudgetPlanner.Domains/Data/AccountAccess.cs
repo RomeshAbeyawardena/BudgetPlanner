@@ -20,5 +20,6 @@ namespace BudgetPlanner.Domains.Data
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
         public virtual AccessType AccessType { get; set; }
+        public bool Active { get; set; }
     }
 }

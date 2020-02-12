@@ -39,24 +39,43 @@ namespace BudgetPlanner.Services.Stores
             return (await GetLoginAccessFailed(user.Id)).FirstOrDefault()?.Created;
         }
 
-        public Task<int> IncrementAccessFailedCountAsync(Domains.Dto.Account user, CancellationToken cancellationToken)
+        public async Task<int> IncrementAccessFailedCountAsync(Domains.Dto.Account user, CancellationToken cancellationToken)
         {
-            var loginAccessType = GetAccessType(DataConstants.LoginAccess);
+            var loginAccessType = await GetAccessType(DataConstants.LoginAccess);
+            
+            var savedAccountAccess = await _accountAccessService.SaveAccountAccess(new AccountAccess { 
+                AccessTypeId = loginAccessType.Id,
+                AccountId = user.Id,
+                Succeeded = false,
+                Active = true
+            });
+
+            return await GetAccessFailedCountAsync(user, cancellationToken);
         }
 
-        public Task ResetAccessFailedCountAsync(Domains.Dto.Account user, CancellationToken cancellationToken)
+        public async Task ResetAccessFailedCountAsync(Domains.Dto.Account user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var failedAccessAttempts = await GetLoginAccessFailed(user.Id);
+            var index = 0;
+            var length = failedAccessAttempts.Count() - 1;
+            foreach (var failedAccessAttempt in failedAccessAttempts)
+            {
+                failedAccessAttempt.Active = false;
+                await _accountAccessService.SaveAccountAccess(failedAccessAttempt, index == length);
+                index++;
+            }
+
+
         }
 
         public Task SetLockoutEnabledAsync(Domains.Dto.Account user, bool enabled, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task SetLockoutEndDateAsync(Domains.Dto.Account user, DateTimeOffset? lockoutEnd, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }
