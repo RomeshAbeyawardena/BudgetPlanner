@@ -40,12 +40,14 @@ namespace BudgetPlanner.Web
                     options.RegisterMessagePackSerialisers = true;
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
-                }, out var serviceBroker)
-                .ConfigureApplicationCookie(ConfigureOptions)
-                .ConfigureExternalCookie(ConfigureOptions);
+                }, out var serviceBroker);
             
             ServiceBroker.ConfigureIdentity(services
                 .AddIdentity<Domains.Dto.Account, Role>());
+
+            services
+                .ConfigureApplicationCookie(ConfigureOptions)
+                .ConfigureExternalCookie(ConfigureOptions);
 
             services
                 .AddDistributedMemoryCache()
@@ -68,6 +70,7 @@ namespace BudgetPlanner.Web
         {
             options.LoginPath = new PathString("/Login");
             options.LogoutPath = new PathString("/Logout");
+            options.Cookie.Name = DataConstants.AccountSessionCookie;
             options.SlidingExpiration = true;
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;

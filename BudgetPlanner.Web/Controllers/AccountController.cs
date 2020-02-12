@@ -74,7 +74,7 @@ namespace BudgetPlanner.Web.Controllers
             return View(model);
         }
 
-        [HttpGet, AllowAnonymous]
+        [HttpGet, AllowAnonymous, Route("/login")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Login(string emailAddress)
         {
@@ -83,7 +83,7 @@ namespace BudgetPlanner.Web.Controllers
             return View(loginViewModel);
         }
 
-        [HttpPost, AllowAnonymous]
+        [HttpPost, AllowAnonymous, Route("/login")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
