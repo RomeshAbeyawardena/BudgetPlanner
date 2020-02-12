@@ -17,6 +17,7 @@ namespace BudgetPlanner.Services.Providers
     {
         private readonly ICacheProvider _cacheProvider;
         private readonly IAccountService _accountService;
+        private readonly IAccountAccessService _accountAccessService;
         private readonly IRoleService _roleService;
         private readonly ITransactionTypeService _transactionTypeService;
 
@@ -91,13 +92,28 @@ namespace BudgetPlanner.Services.Providers
             return roles.SingleOrDefault(role => role.Name == name);
         }
 
+        public async Task<IEnumerable<AccessType>> GetAccessTypes()
+        {
+            return await _cacheProvider
+                .GetOrSet(CacheType.DistributedMemoryCache, CacheConstants.AccessTypes, 
+                async() => await _accountAccessService.GetAccessTypes());
+        }
+
+        public async Task<AccessType> GetAccessType(string name)
+        {
+            var accessTypes = await GetAccessTypes();
+            return _accountAccessService.GetAccessType(accessTypes, name);
+        }
+
         public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, 
             IAccountService accountService, 
+            IAccountAccessService accountAccessService,
             IRoleService roleService,
             ITransactionTypeService transactionTypeService)
         {
             _cacheProvider = cacheProvider;
             _accountService = accountService;
+            _accountAccessService = accountAccessService;
             _roleService = roleService;
             _transactionTypeService = transactionTypeService;
         }

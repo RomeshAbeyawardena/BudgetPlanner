@@ -43,7 +43,7 @@ namespace BudgetPlanner.Services.Stores
         {
             var loginAccessType = await GetAccessType(DataConstants.LoginAccess);
             
-            var savedAccountAccess = await _accountAccessService.SaveAccountAccess(new AccountAccess { 
+            await _accountAccessService.SaveAccountAccess(new AccountAccess { 
                 AccessTypeId = loginAccessType.Id,
                 AccountId = user.Id,
                 Succeeded = false,
