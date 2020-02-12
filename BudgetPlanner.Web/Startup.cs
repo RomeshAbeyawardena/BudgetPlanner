@@ -40,7 +40,9 @@ namespace BudgetPlanner.Web
                     options.RegisterMessagePackSerialisers = true;
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
-                }, out var serviceBroker).ConfigureApplicationCookie(ConfigureOptions);
+                }, out var serviceBroker)
+                .ConfigureApplicationCookie(ConfigureOptions)
+                .ConfigureExternalCookie(ConfigureOptions);
             
             ServiceBroker.ConfigureIdentity(services
                 .AddIdentity<Domains.Dto.Account, Role>());
@@ -73,13 +75,6 @@ namespace BudgetPlanner.Web
             options.Cookie.SameSite = SameSiteMode.Strict;
             options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
         }
-
-        private void ConfigureCookies(IdentityCookiesBuilder options)
-        {
-            options.ExternalCookie.Configure(ConfigureOptions);
-            options.ApplicationCookie.Configure(ConfigureOptions);
-        }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -64,6 +65,8 @@ namespace BudgetPlanner.Web.Controllers
             
             if(result.Succeeded)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
+
+            await _userManager.AddClaimAsync(await CurrentAccount, new Claim("Fart", "Smelly") );
 
             AddModelStateErrors(result.Errors);
             //AddErrorsToModelState(response);

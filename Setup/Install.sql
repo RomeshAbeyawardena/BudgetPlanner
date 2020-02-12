@@ -13,7 +13,11 @@ USE BudgetPlanner;
 CREATE USER [WebUser] FROM LOGIN [WebUser]
 WITH DEFAULT_SCHEMA = dbo
 
-GRANT ALL TO WebUser
+ALTER ROLE db_datareader
+ADD MEMBER [WebUser]
+
+ALTER ROLE db_datawriter
+ADD MEMBER [WebUser]
 
 CREATE TABLE [dbo].[Account]
 (
@@ -181,4 +185,4 @@ CREATE TABLE [dbo].[AccountClaim]
     ,[Created] DATETIMEOFFSET NOT NULL
 );
 
-SELECT * FROM dbo.Budget
+SELECT * FROM dbo.Claim
