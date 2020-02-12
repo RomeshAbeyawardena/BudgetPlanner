@@ -151,8 +151,10 @@ namespace BudgetPlanner.Services.Stores
             return IdentityResult.Success;
         }
 
-        public AccountStore(IEncryptionProvider encryptionHelper, IBudgetPlannerCacheProvider budgetPlannerCacheProvider, 
-            IAccountService accountService, IRoleService roleService, IClaimService claimService)
+        public AccountStore(IEncryptionProvider encryptionHelper, 
+            IBudgetPlannerCacheProvider budgetPlannerCacheProvider, 
+            IAccountService accountService, IRoleService roleService, 
+            IClaimService claimService)
         {
             _encryptionHelper = encryptionHelper;
             _budgetPlannerCacheProvider = budgetPlannerCacheProvider;
