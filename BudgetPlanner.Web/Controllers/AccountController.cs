@@ -87,9 +87,10 @@ namespace BudgetPlanner.Web.Controllers
             if(!ModelState.IsValid)
                 return View("Login", model);
             
-            var s = await _signInManager.PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, model.Password, false, false);
+            var result = await _signInManager
+                .PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, model.Password, false, false);
             
-            if(s.Succeeded)
+            if(result.Succeeded)
                 return RedirectToAction("Index", "Home");
             
             return View("Login", model);
@@ -99,8 +100,7 @@ namespace BudgetPlanner.Web.Controllers
         
         public async Task<ActionResult> Logout()
         {
-            await Task.CompletedTask;
-            Response.Cookies.Delete(DataConstants.AccountSessionCookie);
+            await _signInManager.SignOutAsync();
             return View();
         }
 

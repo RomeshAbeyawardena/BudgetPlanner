@@ -25,7 +25,7 @@ namespace BudgetPlanner.Web.Controllers
         {
             var response = await MediatorService
                 .Send(new RetrieveBudgetPlannerRequest { 
-                    AccountId = CurrentAccount.Id, 
+                    AccountId = (await CurrentAccount).Id, 
                     Reference = reference 
                 });
 
@@ -101,9 +101,9 @@ namespace BudgetPlanner.Web.Controllers
 
             if (!ModelState.IsValid)
                 return View("CreateTransaction", model);
-
+            
             var createTransactionRequest = Map<AddBudgetTransactionViewModel, CreateTransactionRequest>(model);
-
+            createTransactionRequest.AccountId = (await CurrentAccount).Id;
             var response = await MediatorService.Send(createTransactionRequest);
             
             if(response.IsSuccessful)
