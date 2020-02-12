@@ -24,19 +24,14 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class AccountController : ControllerBase
     {
-        private readonly ApplicationSettings _applicationSettings;
         private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
-        private readonly ICookieValidationService _cookieValidationService;
 
-        public AccountController(ApplicationSettings applicationSettings, 
-            UserManager<Account> userManager, 
-            SignInManager<Account> signInManager, ICookieValidationService cookieValidationService)
+        public AccountController(UserManager<Account> userManager, 
+            SignInManager<Account> signInManager)
         {
-            _applicationSettings = applicationSettings;
             _userManager = userManager;
             _signInManager = signInManager;
-            _cookieValidationService = cookieValidationService;
         }
         [AllowAnonymous]
         [HttpGet]
@@ -91,7 +86,10 @@ namespace BudgetPlanner.Web.Controllers
                 return View("Login", model);
             
             var result = await _signInManager
-                .PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, model.Password, false, false);
+                .PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, 
+                    model.Password, 
+                    model.RememberMe, 
+                    false);
             
             if(result.Succeeded)
                 return RedirectToAction("Index", "Home");
