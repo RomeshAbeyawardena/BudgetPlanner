@@ -25,5 +25,6 @@ namespace BudgetPlanner.Domains
         public double CookieExpiryPeriodInMinutes { get; set; }
         public double SessionExpiryPeriodInMinutes { get; set; }
         public double SessionIOExpiryPeriodInMinutes { get; set; }
+        public double AccountLockoutPeriodInMinutes { get; set; }
     }
 }

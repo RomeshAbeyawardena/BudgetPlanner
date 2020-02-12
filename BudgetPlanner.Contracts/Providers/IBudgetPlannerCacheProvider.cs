@@ -13,6 +13,8 @@ namespace BudgetPlanner.Contracts.Providers
         Task<Account> GetAccount(int accountId);
         Task<Account> GetAccount(IEnumerable<byte> emailAddress);
         Task<IEnumerable<Role>> GetRoles();
+        Task<IEnumerable<AccessType>> GetAccessTypes();
+        Task<AccessType> GetAccessType(string name);
         Task<Role> GetRole(int id);
         Task<Role> GetRole(string name);
     }

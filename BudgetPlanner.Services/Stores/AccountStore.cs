@@ -1,6 +1,7 @@
 ﻿using BudgetPlanner.Contracts.Enumeration;
 using BudgetPlanner.Contracts.Providers;
 using BudgetPlanner.Contracts.Services;
+using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Dto;
 using DNI.Shared.Contracts.Providers;
 using DNI.Shared.Shared.Extensions;
@@ -17,11 +18,14 @@ namespace BudgetPlanner.Services.Stores
     public partial class AccountStore : 
         IUserStore<Account>
     {
+        private readonly ApplicationSettings _applicationSettings;
         private readonly IEncryptionProvider _encryptionHelper;
+        private readonly IClockProvider _clockProvider;
         private readonly IBudgetPlannerCacheProvider _budgetPlannerCacheProvider;
         private readonly IAccountService _accountService;
         private readonly IRoleService _roleService;
         private readonly IClaimService _claimService;
+        private readonly IAccountAccessService _accountAccessService;
 
         private async Task<Domains.Data.Account> GetAccount(int userId)
         {
@@ -151,16 +155,22 @@ namespace BudgetPlanner.Services.Stores
             return IdentityResult.Success;
         }
 
-        public AccountStore(IEncryptionProvider encryptionHelper, 
+        public AccountStore(ApplicationSettings applicationSettings,
+            IEncryptionProvider encryptionHelper, 
+            IClockProvider clockProvider,
             IBudgetPlannerCacheProvider budgetPlannerCacheProvider, 
             IAccountService accountService, IRoleService roleService, 
-            IClaimService claimService)
+            IClaimService claimService, 
+            IAccountAccessService accountAccessService)
         {
+            _applicationSettings = applicationSettings;
             _encryptionHelper = encryptionHelper;
+            _clockProvider = clockProvider;
             _budgetPlannerCacheProvider = budgetPlannerCacheProvider;
             _accountService = accountService;
             _roleService = roleService;
             _claimService = claimService;
+            _accountAccessService = accountAccessService;
         }
     }
 }
