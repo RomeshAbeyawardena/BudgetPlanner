@@ -61,12 +61,7 @@ namespace BudgetPlanner.Web.Controllers
 
             var mappedAccount = Map<RegisterAccountViewModel, Account>(model);
             var result = await _userManager.CreateAsync(mappedAccount);
-            //model.Password = Convert.ToBase64String(
-            //    model.Password.GetBytes(Encoding.UTF8).ToArray());
-
-            //var response = await MediatorService
-            //    .Send(new RegisterAccountRequest { Account = mappedAccount });
-
+            
             if(result.Succeeded)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
 
@@ -93,39 +88,10 @@ namespace BudgetPlanner.Web.Controllers
                 return View("Login", model);
             
             var s = await _signInManager.PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, model.Password, false, false);
+            
             if(s.Succeeded)
                 return RedirectToAction("Index", "Home");
-
             
-            ////var response = await MediatorService
-            ////    .Send(new LoginRequest { 
-            ////        EmailAddress = model.EmailAddress, 
-            ////        Password = model.Password 
-            ////    });
-            
-            //if(response.IsSuccessful)
-            //{
-            //    var cookieToken = await _cookieValidationService
-            //        .CreateCookieToken(config => { 
-            //            config.Audience = _applicationSettings.Audiences.FirstOrDefault();
-            //            config.Issuer = _applicationSettings.Issuers.FirstOrDefault();
-            //            }, response.Account, 
-            //        _applicationSettings.SessionExpiryInMinutes);
-
-
-            //    _cookieValidationService.AppendSessionCookie(Response.Cookies, 
-            //        DataConstants.AccountSessionCookie, cookieToken, 
-            //        cookieOptions => { _cookieValidationService
-            //            .ConfigureCookieOptions(cookieOptions, _applicationSettings.SessionExpiryInMinutes); 
-            //            cookieOptions.HttpOnly = true;
-            //            cookieOptions.SameSite = SameSiteMode.Strict;
-            //            cookieOptions.IsEssential = true;
-            //            cookieOptions.Domain = Request.Host.Host;
-            //            });
-            //    return RedirectToAction("Index", "Home");
-            //}
-            //AddErrorsToModelState(response);
-
             return View("Login", model);
         }
 
