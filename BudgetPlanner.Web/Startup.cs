@@ -18,11 +18,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using BudgetPlanner.Domains.Dto;
+using BudgetPlanner.Domains.Data;
 
 namespace BudgetPlanner.Web
 {
     public class Startup
     {
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -36,14 +39,18 @@ namespace BudgetPlanner.Web
                     options.RegisterMessagePackSerialisers = true;
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
-                }, out var serviceBroker)
+                }, out var serviceBroker);
+            
+            ServiceBroker.ConfigureIdentity(services
+                .AddIdentity<Domains.Dto.Account, Role>());
+
+            services
                 .AddDistributedMemoryCache()
                 .AddSession()
-                .AddAuthentication(configureAuthentication)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, ConfigureOptions)
-                .AddIdentityCookies(ConfigureCookies);
-                services.AddAuthorization();
-            
+                .AddAuthentication();
+            services
+                .AddAuthorization();
+
             //;
 
             services
@@ -56,8 +63,8 @@ namespace BudgetPlanner.Web
 
         private void ConfigureOptions(CookieAuthenticationOptions options)
         {
-            options.LoginPath = ("/Login");
-            options.LogoutPath = ("/Logout");
+            options.LoginPath = ("~/Login");
+            options.LogoutPath = ("~/Logout");
             options.SlidingExpiration = true;
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
@@ -72,13 +79,6 @@ namespace BudgetPlanner.Web
             options.ApplicationCookie.Configure(ConfigureOptions);
         }
 
-        private void configureAuthentication(AuthenticationOptions options)
-        {
-            options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = DataConstants.DefaultChallengeScheme;
-            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            options.RequireAuthenticatedSignIn = true;
-        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -89,14 +89,16 @@ namespace BudgetPlanner.Web
             }
             app.UseSession();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseStaticFiles();
             app.UseStatusCodePagesWithRedirects("/Default/Error/{0}");
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
-            }).UseAuthentication();
+
+            });
         }
 
     }

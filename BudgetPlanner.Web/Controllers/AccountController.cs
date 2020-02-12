@@ -77,7 +77,6 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
-        [Route("/Login")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true"), AllowAnonymous]
         public async Task<ActionResult> Login(string emailAddress)
         {
@@ -87,7 +86,6 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost]
-        [Route("/Login")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true"), AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
@@ -132,7 +130,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
-        [Route("/Logout")]
+        
         public async Task<ActionResult> Logout()
         {
             await Task.CompletedTask;

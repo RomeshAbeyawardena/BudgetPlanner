@@ -5,10 +5,10 @@ using BudgetPlanner.Domains;
 using BudgetPlanner.Services.Providers;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Options;
-using Microsoft.AspNetCore.Identity;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,13 +48,6 @@ namespace BudgetPlanner.Services
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)));
 
-            services
-                .AddIdentityCore<Domains.Dto.Account>()
-                .AddRoles<Role>()
-                .AddUserStore<AccountStore>()
-                .AddRoleStore<RoleStore>()
-                .AddPasswordValidator<AccountPasswordValidator>()
-                .AddDefaultTokenProviders();
         }
 
         private void RegisterCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> factory, 
