@@ -1,17 +1,17 @@
 ﻿@using BudgetPlanner.Domains.Dto;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<Account> accountManager
 
 @{
-    Account account = null;
-
-    Context.Items.TryGetValue(DataConstants.AccountItem, out var accountObject);
-    account = (Account)accountObject;
+    var user = await accountManager.GetUserAsync(User);
 }
 
 
 <nav class="navbar navbar-dark bg-primary">
     <a class="navbar-brand" href="#">Budget Planner</a>
     <span class="navbar-text">
-        @if (account == null)
+        @if (user == null)
         {
             <span>
                 @Html.ActionLink("Login", "Login", "Account")
@@ -20,10 +20,10 @@
         else
         {
             <span>
-                Welcome @account.FirstName @Html.ActionLink("Logout", "Login", "Account", null,
+                Welcome @user.FirstName @Html.ActionLink("Logout", "Login", "Account", null,
 DictionaryBuilder.Create<string, object>
 (builder => builder
-.Add("title", "Logout " + account.LastName)
+.Add("title", "Logout " + @user.FirstName)
 .Add("data-toggle", "tooltip")).ToDictionary())
             </span>
         }

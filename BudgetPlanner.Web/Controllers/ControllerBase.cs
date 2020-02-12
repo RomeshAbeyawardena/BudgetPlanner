@@ -12,9 +12,8 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class ControllerBase : DefaultControllerBase
     {
-        protected Account CurrentAccount => HttpContext.Items.TryGetValue(DataConstants.AccountItem, out var value) 
-            && value is Account account ? account : null; 
-
+        protected Task<Account> CurrentAccount => User.Identity.IsAuthenticated ? AccountManager.GetUserAsync(User) : default; 
+        protected UserManager<Account> AccountManager => GetService<UserManager<Account>>();
         protected void AddModelStateErrors(IEnumerable<IdentityError> identityErrors)
         {
             foreach (var item in identityErrors)

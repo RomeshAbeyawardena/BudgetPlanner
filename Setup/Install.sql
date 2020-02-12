@@ -178,4 +178,4 @@ CREATE TABLE [dbo].[AccountClaim]
     ,[Created] DATETIMEOFFSET NOT NULL
 );
 
-SELECT * FROM dbo.Account
+SELECT * FROM dbo.Budget
