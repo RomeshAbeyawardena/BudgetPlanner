@@ -12,5 +12,8 @@ namespace BudgetPlanner.Contracts.Providers
         Task<IEnumerable<TransactionType>> GetTransactionTypes();
         Task<Account> GetAccount(int accountId);
         Task<Account> GetAccount(IEnumerable<byte> emailAddress);
+        Task<IEnumerable<Role>> GetRoles();
+        Task<Role> GetRole(int id);
+        Task<Role> GetRole(string name);
     }
 }

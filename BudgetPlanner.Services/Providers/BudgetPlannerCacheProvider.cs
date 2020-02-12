@@ -17,6 +17,7 @@ namespace BudgetPlanner.Services.Providers
     {
         private readonly ICacheProvider _cacheProvider;
         private readonly IAccountService _accountService;
+        private readonly IRoleService _roleService;
         private readonly ITransactionTypeService _transactionTypeService;
 
         public async Task<IEnumerable<TransactionType>> GetTransactionTypes()
@@ -72,10 +73,32 @@ namespace BudgetPlanner.Services.Providers
                 async () => await _accountService.GetAccount(emailAddress));
         }
 
-        public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, IAccountService accountService, ITransactionTypeService transactionTypeService)
+        public async Task<IEnumerable<Role>> GetRoles()
+        {
+            return await _cacheProvider
+                .GetOrSet(CacheType.DistributedMemoryCache, CacheConstants.Roles, async() => await _roleService.GetRoles());
+        }
+
+        public async Task<Role> GetRole(int id)
+        {
+            var roles = await GetRoles();
+            return roles.SingleOrDefault(role => role.Id == id);
+        }
+
+        public async Task<Role> GetRole(string name)
+        {
+            var roles = await GetRoles();
+            return roles.SingleOrDefault(role => role.Name == name);
+        }
+
+        public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, 
+            IAccountService accountService, 
+            IRoleService roleService,
+            ITransactionTypeService transactionTypeService)
         {
             _cacheProvider = cacheProvider;
             _accountService = accountService;
+            _roleService = roleService;
             _transactionTypeService = transactionTypeService;
         }
     }

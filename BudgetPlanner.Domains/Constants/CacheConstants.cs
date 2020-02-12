@@ -10,5 +10,6 @@ namespace BudgetPlanner.Domains.Constants
     {
         public const string TransactionTypes = nameof(TransactionTypes);
         public const string CurrentAccount = nameof(CurrentAccount);
+        public const string Roles = nameof(Roles);
     }
 }

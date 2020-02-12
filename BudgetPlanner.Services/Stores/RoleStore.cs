@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Services;
+﻿using BudgetPlanner.Contracts.Providers;
+using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -12,6 +13,7 @@ namespace BudgetPlanner.Services.Stores
 {
     public class RoleStore : IRoleStore<Role>
     {
+        private readonly IBudgetPlannerCacheProvider _budgetPlannerCacheProvider;
         private readonly IRoleService _roleService;
 
         public async Task<IdentityResult> CreateAsync(Role role, CancellationToken cancellationToken)
@@ -56,12 +58,12 @@ namespace BudgetPlanner.Services.Stores
             if(!int.TryParse(roleId, out var id))
                 return default;
 
-            return await _roleService.GetRole(id);
+            return await _budgetPlannerCacheProvider.GetRole(id);
         }
 
         public async Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            return await _roleService.GetRole(normalizedRoleName);
+            return await _budgetPlannerCacheProvider.GetRole(normalizedRoleName);
         }
 
         public async Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
@@ -105,8 +107,9 @@ namespace BudgetPlanner.Services.Stores
             return IdentityResult.Success;
         }
 
-        public RoleStore(IRoleService roleService)
+        public RoleStore(IBudgetPlannerCacheProvider budgetPlannerCacheProvider, IRoleService roleService)
         {
+            _budgetPlannerCacheProvider = budgetPlannerCacheProvider;
             _roleService = roleService;
         }
     }
