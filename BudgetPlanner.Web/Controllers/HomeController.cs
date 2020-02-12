@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
 {
-    [Authorize]
     public class HomeController : ControllerBase
     {
         [HttpGet]

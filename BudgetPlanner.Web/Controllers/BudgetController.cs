@@ -20,7 +20,6 @@ namespace BudgetPlanner.Web.Controllers
     {
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         [HttpGet, Route("/[controller]/[action]/{reference}")]
-        [Authorize]
         public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=12, [FromQuery]int pageNumber=1)
         {
             var response = await MediatorService
@@ -44,7 +43,6 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize()]
         public async Task<ActionResult> Create([FromQuery]bool isModal = false)
         {
             await Task.CompletedTask;
@@ -52,7 +50,6 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        [Authorize()]
         public async Task<ActionResult> Create([FromForm]CreateBudgetPlannerViewModel createBudgetPlannerViewModel)
         {
             if(!ModelState.IsValid)
@@ -74,7 +71,6 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
-        [Authorize()]
         public async Task<ActionResult> CreateTransaction([FromRoute]string reference, [FromQuery]bool isModal = false)
         {
             
@@ -94,7 +90,6 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        [Authorize()]
         public async Task<ActionResult> SaveTransaction(AddBudgetTransactionViewModel model)
         {
             model.TransactionTypes = await GetTransactionTypes();

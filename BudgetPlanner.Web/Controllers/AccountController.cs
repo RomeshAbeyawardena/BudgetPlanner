@@ -71,8 +71,8 @@ namespace BudgetPlanner.Web.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true"), AllowAnonymous]
+        [HttpGet, AllowAnonymous]
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Login(string emailAddress)
         {
             await Task.CompletedTask;
@@ -80,8 +80,8 @@ namespace BudgetPlanner.Web.Controllers
             return View(loginViewModel);
         }
 
-        [HttpPost]
-        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true"), AllowAnonymous]
+        [HttpPost, AllowAnonymous]
+        [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
             if(!ModelState.IsValid)

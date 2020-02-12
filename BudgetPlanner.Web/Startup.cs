@@ -25,7 +25,8 @@ namespace BudgetPlanner.Web
 {
     public class Startup
     {
-        
+        private AuthorizationPolicyBuilder Policies => new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser();
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -39,7 +40,7 @@ namespace BudgetPlanner.Web
                     options.RegisterMessagePackSerialisers = true;
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
-                }, out var serviceBroker);
+                }, out var serviceBroker).ConfigureApplicationCookie(ConfigureOptions);
             
             ServiceBroker.ConfigureIdentity(services
                 .AddIdentity<Domains.Dto.Account, Role>());
@@ -54,7 +55,7 @@ namespace BudgetPlanner.Web
             //;
 
             services
-                .AddMvc()
+                .AddMvc(options => options.Filters.Add(new AuthorizeFilter(Policies.Build())))
                 .AddSessionStateTempDataProvider()
                 .AddFluentValidation(configuration => configuration
                 .RegisterValidatorsFromAssemblies(serviceBroker.Assemblies));
@@ -63,8 +64,8 @@ namespace BudgetPlanner.Web
 
         private void ConfigureOptions(CookieAuthenticationOptions options)
         {
-            options.LoginPath = ("~/Login");
-            options.LogoutPath = ("~/Logout");
+            options.LoginPath = new PathString("/Login");
+            options.LogoutPath = new PathString("/Logout");
             options.SlidingExpiration = true;
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
