@@ -183,6 +183,42 @@ CREATE TABLE [dbo].[AccountClaim]
 	,[Value] VARCHAR(2000) NOT NULL
     ,[Active] BIT NOT NULL
     ,[Created] DATETIMEOFFSET NOT NULL
-);
+)
+
+CREATE TABLE [dbo].[AccessType]
+(
+    [Id] INT NOT NULL IDENTITY(1,1)
+        CONSTRAINT PK_AccessType PRIMARY KEY
+    ,[Name] VARCHAR(200) NOT NULL
+    ,[Created] DATETIMEOFFSET NOT NULL
+    ,[Modified] DATETIMEOFFSET NOT NULL
+)
+
+INSERT INTO dbo.AccessType
+    (
+        [Name],
+        Created,
+        Modified
+    )
+VALUES
+    (
+        'Login',                  -- Name - varchar(200)
+        SYSDATETIMEOFFSET(), -- Created - datetimeoffset
+        SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
+    )
+
+CREATE TABLE [dbo].[AccountAccess]
+(
+    [Id] INT NOT NULL IDENTITY(1,1)
+        CONSTRAINT PK_AccountAccess PRIMARY KEY
+    ,[AccountId] INT NOT NULL
+        CONSTRAINT FK_AccountAccess_Account
+        REFERENCES [dbo].[Account]
+    ,[AccessTypeId] INT NOT NULL
+        CONSTRAINT FK_AccountAccess_AccessType
+        REFERENCES [dbo].[AccessType]
+    ,[Succeeded] BIT NOT NULL
+    ,[Created] DATETIMEOFFSET NOT NULL
+ )
 
 SELECT * FROM dbo.Claim
