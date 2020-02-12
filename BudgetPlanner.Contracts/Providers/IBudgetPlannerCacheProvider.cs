@@ -10,5 +10,7 @@ namespace BudgetPlanner.Contracts.Providers
     public interface IBudgetPlannerCacheProvider
     {
         Task<IEnumerable<TransactionType>> GetTransactionTypes();
+        Task<Account> GetAccount(int accountId);
+        Task<Account> GetAccount(IEnumerable<byte> emailAddress);
     }
 }

@@ -12,6 +12,7 @@ namespace BudgetPlanner.Domains.Data
 {
     //Entity framework does not accept IEnumerable byte properties
     #pragma warning disable CA1819
+    [MessagePack.MessagePackObject(true)]
     public class Account
     {
         [Key]

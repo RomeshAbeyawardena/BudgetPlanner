@@ -1,4 +1,5 @@
 ﻿using BudgetPlanner.Contracts.Enumeration;
+using BudgetPlanner.Contracts.Providers;
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Dto;
 using DNI.Shared.Contracts.Providers;
@@ -17,13 +18,14 @@ namespace BudgetPlanner.Services.Stores
         IUserStore<Account>
     {
         private readonly IEncryptionProvider _encryptionHelper;
+        private readonly IBudgetPlannerCacheProvider _budgetPlannerCacheProvider;
         private readonly IAccountService _accountService;
         private readonly IRoleService _roleService;
         private readonly IClaimService _claimService;
 
         private async Task<Domains.Data.Account> GetAccount(int userId)
         {
-            var foundAccount = await _accountService.GetAccount(userId, EntityUsage.SaveToDatabase);
+            var foundAccount = await _budgetPlannerCacheProvider.GetAccount(userId);
             return foundAccount;
         }
 
@@ -31,7 +33,7 @@ namespace BudgetPlanner.Services.Stores
         {
             var account = new Account { EmailAddress = emailAddress };
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(account);
-            var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress);
+            var foundAccount = await _budgetPlannerCacheProvider.GetAccount(encryptedAccount.EmailAddress);
             return foundAccount;
         }
 
@@ -149,9 +151,11 @@ namespace BudgetPlanner.Services.Stores
             return IdentityResult.Success;
         }
 
-        public AccountStore(IEncryptionProvider encryptionHelper, IAccountService accountService, IRoleService roleService, IClaimService claimService)
+        public AccountStore(IEncryptionProvider encryptionHelper, IBudgetPlannerCacheProvider budgetPlannerCacheProvider, 
+            IAccountService accountService, IRoleService roleService, IClaimService claimService)
         {
             _encryptionHelper = encryptionHelper;
+            _budgetPlannerCacheProvider = budgetPlannerCacheProvider;
             _accountService = accountService;
             _roleService = roleService;
             _claimService = claimService;

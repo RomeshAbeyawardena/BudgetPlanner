@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Contracts.Providers;
+﻿using BudgetPlanner.Contracts.Enumeration;
+using BudgetPlanner.Contracts.Providers;
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Data;
@@ -15,18 +16,66 @@ namespace BudgetPlanner.Services.Providers
     public class BudgetPlannerCacheProvider : IBudgetPlannerCacheProvider
     {
         private readonly ICacheProvider _cacheProvider;
+        private readonly IAccountService _accountService;
         private readonly ITransactionTypeService _transactionTypeService;
 
         public async Task<IEnumerable<TransactionType>> GetTransactionTypes()
         {
-            return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache, 
+            return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache,
                 CacheConstants.TransactionTypes,
-                async() => await _transactionTypeService.GetTransactionTypes());
+                async () => await _transactionTypeService.GetTransactionTypes());
         }
 
-        public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, ITransactionTypeService transactionTypeService)
+        public async Task<Account> GetAccount(int id)
+        {
+            var account = await _cacheProvider.Get<Account>(CacheType.SessionCache, CacheConstants.CurrentAccount);
+
+            if (account == null)
+                return await SetAccount(id);
+
+            if(account.Id == id)
+                return account;
+
+            return await SetAccount(id);
+        }
+
+        public async Task<Account> GetAccount(IEnumerable<byte> emailAddress)
+        {
+            var account = await _cacheProvider.Get<Account>(CacheType.SessionCache, CacheConstants.CurrentAccount);
+
+            if (account == null)
+                return await SetAccount(emailAddress);
+
+            var originalHash = Convert.ToBase64String(account.EmailAddress);
+            var newHash = Convert.ToBase64String(emailAddress.ToArray());
+
+            if (originalHash == newHash)
+                return account;
+
+            return await SetAccount(emailAddress);
+
+        }
+
+        private async Task<Account> SetAccount(int id)
+        {
+            return await _cacheProvider
+                .Set(CacheType.SessionCache,
+                CacheConstants.CurrentAccount,
+                async () => await _accountService.GetAccount(id, EntityUsage.UseLocally));
+        }
+
+        private async Task<Account> SetAccount(IEnumerable<byte> emailAddress)
+        {
+            return await _cacheProvider
+                .Set(CacheType.SessionCache,
+                CacheConstants.CurrentAccount,
+                async () => await _accountService.GetAccount(emailAddress));
+        }
+
+        public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, IAccountService accountService, ITransactionTypeService transactionTypeService)
         {
             _cacheProvider = cacheProvider;
+            _accountService = accountService;
             _transactionTypeService = transactionTypeService;
         }
     }

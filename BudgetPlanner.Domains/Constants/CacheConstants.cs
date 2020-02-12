@@ -9,5 +9,6 @@ namespace BudgetPlanner.Domains.Constants
     public static class CacheConstants
     {
         public const string TransactionTypes = nameof(TransactionTypes);
+        public const string CurrentAccount = nameof(CurrentAccount);
     }
 }

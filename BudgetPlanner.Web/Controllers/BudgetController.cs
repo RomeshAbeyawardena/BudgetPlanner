@@ -58,7 +58,7 @@ namespace BudgetPlanner.Web.Controllers
             if(!ModelState.IsValid)
                 return View(createBudgetPlannerViewModel);
 
-            createBudgetPlannerViewModel.AccountId = CurrentAccount.Id;
+            createBudgetPlannerViewModel.AccountId =  (await CurrentAccount).Id;
 
             var createBudgetPlannerRequest = Map<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>(createBudgetPlannerViewModel);
 
@@ -80,7 +80,7 @@ namespace BudgetPlanner.Web.Controllers
             
             var budgetResponse = await MediatorService
                 .Send(new RetrieveBudgetPlannerRequest { 
-                    AccountId = CurrentAccount.Id, 
+                    AccountId = (await CurrentAccount).Id, 
                     Reference = reference });
 
             if(budgetResponse.BudgetPlanner == null)

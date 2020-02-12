@@ -20,14 +20,14 @@ namespace BudgetPlanner.Web.Controllers
         public async Task<ActionResult> TransactionList([FromQuery] TransactionListRequestViewModel request)
         {
             await Task.CompletedTask;
-            request.AccountId = CurrentAccount.Id;
+            request.AccountId = (await CurrentAccount).Id;
             return ViewComponent(typeof(TransactionListViewComponent), request);
         }
         [Authorize]
         public async Task<ActionResult> BudgetPlannerListDashboard(BudgetPanelDashboardListViewModel request)
         {
             await Task.CompletedTask;
-            request.AccountId = CurrentAccount.Id;
+            request.AccountId = (await CurrentAccount).Id;
             return ViewComponent(typeof(BudgetPlannerViewComponent), request);
         }
     }
