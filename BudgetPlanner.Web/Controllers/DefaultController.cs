@@ -1,4 +1,5 @@
 ﻿using DNI.Shared.Services.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class DefaultController : DefaultControllerBase
     {
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         [Route("/Default/Error/{statusCode}")]
         public async Task<ActionResult> Error([FromRoute]int statusCode)
         {
