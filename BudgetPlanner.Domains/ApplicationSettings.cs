@@ -22,5 +22,8 @@ namespace BudgetPlanner.Domains
         public IDictionary<string, ApiSetting> Apis { get; set; }
         public IDictionary<string, EncryptionKey> EncryptionKeys { get; set; }
         public string DefaultConnectionString { get; set; }
+        public double CookieExpiryPeriodInMinutes { get; set; }
+        public double SessionExpiryPeriodInMinutes { get; set; }
+        public double SessionIOExpiryPeriodInMinutes { get; set; }
     }
 }

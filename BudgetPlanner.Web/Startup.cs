@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Data;
+using BudgetPlanner.Domains;
 
 namespace BudgetPlanner.Web
 {
@@ -27,6 +28,9 @@ namespace BudgetPlanner.Web
     {
         private AuthorizationPolicyBuilder Policies => new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser();
+
+        public ApplicationSettings ApplicationSettings { get; private set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -51,7 +55,7 @@ namespace BudgetPlanner.Web
 
             services
                 .AddDistributedMemoryCache()
-                .AddSession()
+                .AddSession(ConfigureSession)
                 .AddAuthentication();
             services
                 .AddAuthorization();
@@ -66,22 +70,35 @@ namespace BudgetPlanner.Web
 
         }
 
+        private void ConfigureSession(SessionOptions sessionOptions)
+        {
+            ConfigureCookieOptions(sessionOptions.Cookie);
+            sessionOptions.IdleTimeout = TimeSpan.FromMinutes(ApplicationSettings.SessionExpiryPeriodInMinutes);
+            sessionOptions.IOTimeout = TimeSpan.FromMinutes(ApplicationSettings.SessionIOExpiryPeriodInMinutes);
+        }
+
         private void ConfigureOptions(CookieAuthenticationOptions options)
         {
             options.LoginPath = new PathString("/Login");
             options.LogoutPath = new PathString("/Logout");
             options.Cookie.Name = DataConstants.AccountSessionCookie;
             options.SlidingExpiration = true;
-            options.Cookie.HttpOnly = true;
-            options.Cookie.IsEssential = true;
-            options.Cookie.MaxAge = TimeSpan.FromMinutes(25);
-            options.Cookie.SameSite = SameSiteMode.Strict;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            ConfigureCookieOptions(options.Cookie);
+        }
+
+        public void ConfigureCookieOptions(CookieBuilder cookieBuilder)
+        {
+            cookieBuilder.HttpOnly = true;
+            cookieBuilder.IsEssential = true;
+            cookieBuilder.MaxAge = TimeSpan.FromMinutes(ApplicationSettings.CookieExpiryPeriodInMinutes);
+            cookieBuilder.SameSite = SameSiteMode.Strict;
+            cookieBuilder.SecurePolicy = CookieSecurePolicy.SameAsRequest;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationSettings applicationSettings)
         {
+            ApplicationSettings = applicationSettings;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
