@@ -1,10 +1,15 @@
 ﻿@using BudgetPlanner.Domains.Dto;
 @using Microsoft.AspNetCore.Identity;
+@using Humanizer;
 
 @inject UserManager<Account> accountManager
 
 @{
     var user = await accountManager.GetUserAsync(User);
+    var name = string.Empty;
+
+    if(user != null)
+        name = $"{user.FirstName.ToLower().Transform(To.TitleCase)} {user.LastName.ToLower().Transform(To.TitleCase)}";
 }
 
 
@@ -20,10 +25,10 @@
         else
         {
             <span>
-                Welcome @user.FirstName @Html.ActionLink("Logout", "Logout", "Account", null,
+                Welcome @name @Html.ActionLink("Logout", "Logout", "Account", null,
 DictionaryBuilder.Create<string, object>
 (builder => builder
-.Add("title", "Logout " + @user.FirstName)
+.Add("title", "Logout " + @name)
 .Add("data-toggle", "tooltip")).ToDictionary())
             </span>
         }

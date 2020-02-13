@@ -16,7 +16,7 @@ namespace BudgetPlanner.Services
     {
         private readonly IRepository<Transaction> _transactionRepository;
 
-        private IQueryable<Transaction> DefaultTransactionQuery => _transactionRepository.Query(transaction => transaction.Active == true);
+        private IQueryable<Transaction> DefaultTransactionQuery => _transactionRepository.Query(transaction => transaction.Active == true, false);
         
         private IQueryable<Transaction> BudgetTransactionQuery(int budgetId, IQueryable<Transaction> transactionQuery) => transactionQuery
             .Where(transaction => transaction.BudgetId == budgetId);

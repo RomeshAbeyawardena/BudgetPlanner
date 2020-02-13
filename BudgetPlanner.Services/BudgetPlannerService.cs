@@ -15,7 +15,7 @@ namespace BudgetPlanner.Services
     {
         private readonly IRepository<Budget> _budgetRepository;
 
-        private IQueryable<Budget> DefaultBudgetQuery => _budgetRepository.Query(budget => budget.Active == true);
+        private IQueryable<Budget> DefaultBudgetQuery => _budgetRepository.Query(budget => budget.Active == true, false);
         private IQueryable<Budget> DefaultAccountBudgetQuery(int accountId) => from budget in DefaultBudgetQuery
                                                                               where budget.AccountId == accountId
                                                                               select budget;

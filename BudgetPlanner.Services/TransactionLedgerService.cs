@@ -21,7 +21,7 @@ namespace BudgetPlanner.Services
 
         public async Task<TransactionLedger> GetTransactionLedger(int transactionId)
         {
-            var transactionLedgerQuery = from transactionLedger in _transactionLedgerRepository.Query()
+            var transactionLedgerQuery = from transactionLedger in _transactionLedgerRepository.Query(enableTracking: false)
                                          where transactionLedger.TransactionId == transactionId
                                          select transactionLedger;
 
