@@ -24,25 +24,33 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
         
-        private async Task<AccountAccess> AuditAccountAccess(Microsoft.AspNetCore.Identity.SignInResult identityResult)
+        private async Task<Domains.Data.AccountAccess> AuditAccountAccess(string emailAddress, Microsoft.AspNetCore.Identity.SignInResult identityResult)
         {
             var succeeded = identityResult.Succeeded;
             
-            var loginAccessType = _budgetCacheProvider
+            var loginAccessType = await BudgetPlannerCacheProvider.GetAccessType(DataConstants.LoginAccess);
 
-            return await MediatorService.Send(new CreateAccountAccessRequest { 
-                AccountAccessModel = new Domains.Data.AccountAccess { Succeeded = succeeded, AccessTypeId = }});
+            var account = await AccountManager.FindByNameAsync(emailAddress);
+
+            if(account == null)
+                return default;
+
+            var response =  await MediatorService.Send(new CreateAccountAccessRequest { 
+                AccountAccessModel = new Domains.Data.AccountAccess { Succeeded = succeeded, AccountId = account.Id, AccessTypeId = loginAccessType.Id }});
+
+            if(response.IsSuccessful)
+                return response.AccountAccessModel;
+
+            return default;
         }
 
-        public AccountController(UserManager<Account> userManager, 
-            SignInManager<Account> signInManager)
+        public AccountController(SignInManager<Account> signInManager)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
         }
+
         [AllowAnonymous]
         [HttpGet]
         [Route("/Register")]
@@ -66,7 +74,7 @@ namespace BudgetPlanner.Web.Controllers
                 .ToArray());
 
             var mappedAccount = Map<RegisterAccountViewModel, Account>(model);
-            var result = await _userManager.CreateAsync(mappedAccount);
+            var result = await AccountManager.CreateAsync(mappedAccount);
             
             if(result.Succeeded)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
@@ -99,6 +107,8 @@ namespace BudgetPlanner.Web.Controllers
                     model.RememberMe, 
                     false);
             
+            await AuditAccountAccess(model.EmailAddress, result);
+
             if(result.Succeeded)
                 return RedirectToAction("Index", "Home");
             

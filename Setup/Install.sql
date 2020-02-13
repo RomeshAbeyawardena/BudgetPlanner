@@ -225,4 +225,4 @@ CREATE TABLE [dbo].[AccountAccess]
     ,[Created] DATETIMEOFFSET NOT NULL
  )
 
-SELECT * FROM dbo.Claim
+SELECT * FROM dbo.AccountAccess
