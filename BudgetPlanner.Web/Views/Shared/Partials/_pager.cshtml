@@ -28,7 +28,7 @@
                 <a class="page-link" href="@GeneratePageUrl(i)">@i</a>
             </li>
         }
-        @if(Model.PageNumber < Model.PageNumber)
+        @if(Model.PageNumber < Model.TotalPages)
         { 
             <li class="page-item"><a class="page-link" href="@nextPageUrl">Next</a></li>
         }

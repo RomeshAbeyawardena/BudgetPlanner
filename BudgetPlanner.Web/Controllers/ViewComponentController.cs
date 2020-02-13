@@ -16,14 +16,16 @@ namespace BudgetPlanner.Web.Controllers
 {
     public class ViewComponentController : ControllerBase
     {
-        
+        [DisallowUntrustedReferrers("Details", "Budget")]
         public async Task<ActionResult> TransactionList([FromQuery] TransactionListRequestViewModel request)
         {
+            
             await Task.CompletedTask;
             request.AccountId = (await CurrentAccount).Id;
             return ViewComponent(typeof(TransactionListViewComponent), request);
         }
         
+        [DisallowUntrustedReferrers("Index", "Home")]
         public async Task<ActionResult> BudgetPlannerListDashboard(BudgetPanelDashboardListViewModel request)
         {
             await Task.CompletedTask;
