@@ -26,6 +26,16 @@ namespace BudgetPlanner.Web.Controllers
     {
         private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
+        
+        private async Task<AccountAccess> AuditAccountAccess(Microsoft.AspNetCore.Identity.SignInResult identityResult)
+        {
+            var succeeded = identityResult.Succeeded;
+            
+            var loginAccessType = _budgetCacheProvider
+
+            return await MediatorService.Send(new CreateAccountAccessRequest { 
+                AccountAccessModel = new Domains.Data.AccountAccess { Succeeded = succeeded, AccessTypeId = }});
+        }
 
         public AccountController(UserManager<Account> userManager, 
             SignInManager<Account> signInManager)
