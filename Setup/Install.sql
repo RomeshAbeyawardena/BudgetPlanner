@@ -190,6 +190,7 @@ CREATE TABLE [dbo].[AccessType]
     [Id] INT NOT NULL IDENTITY(1,1)
         CONSTRAINT PK_AccessType PRIMARY KEY
     ,[Name] VARCHAR(200) NOT NULL
+	,[Active] BIT NOT NULL
     ,[Created] DATETIMEOFFSET NOT NULL
     ,[Modified] DATETIMEOFFSET NOT NULL
 )
