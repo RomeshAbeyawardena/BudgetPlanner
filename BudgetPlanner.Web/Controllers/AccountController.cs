@@ -26,24 +26,22 @@ namespace BudgetPlanner.Web.Controllers
     {
         private readonly SignInManager<Account> _signInManager;
         
-        private async Task<Domains.Data.AccountAccess> AuditAccountAccess(string emailAddress, Microsoft.AspNetCore.Identity.SignInResult identityResult)
+        private async Task AuditAccountAccess(Account account, Microsoft.AspNetCore.Identity.SignInResult identityResult)
         {
-            var succeeded = identityResult.Succeeded;
-            
+            if(account == null)
+                return;
+
+            if(!identityResult.Succeeded && !identityResult.IsNotAllowed)
+            {
+                await AccountManager.AccessFailedAsync(account);
+                return;
+            }
+
             var loginAccessType = await BudgetPlannerCacheProvider.GetAccessType(DataConstants.LoginAccess);
 
-            var account = await AccountManager.FindByNameAsync(emailAddress);
+            await MediatorService.Send(new CreateAccountAccessRequest { 
+                AccountAccessModel = new Domains.Data.AccountAccess { Succeeded = true, AccountId = account.Id, AccessTypeId = loginAccessType.Id }});
 
-            if(account == null)
-                return default;
-
-            var response =  await MediatorService.Send(new CreateAccountAccessRequest { 
-                AccountAccessModel = new Domains.Data.AccountAccess { Succeeded = succeeded, AccountId = account.Id, AccessTypeId = loginAccessType.Id }});
-
-            if(response.IsSuccessful)
-                return response.AccountAccessModel;
-
-            return default;
         }
 
         public AccountController(SignInManager<Account> signInManager)
@@ -101,13 +99,23 @@ namespace BudgetPlanner.Web.Controllers
             if(!ModelState.IsValid)
                 return View("Login", model);
             
+            var account = await AccountManager.FindByNameAsync(model.EmailAddress);
+
+            if(account == null)
+                return View("Login", model);
+
+            var failedAttempts = await AccountManager.GetAccessFailedCountAsync(account);
+
+            if(failedAttempts > 5)
+                return View("Login", model);
+
             var result = await _signInManager
                 .PasswordSignInAsync(new Account { EmailAddress = model.EmailAddress }, 
                     model.Password, 
                     model.RememberMe, 
                     false);
             
-            await AuditAccountAccess(model.EmailAddress, result);
+            await AuditAccountAccess(account, result);
 
             if(result.Succeeded)
                 return RedirectToAction("Index", "Home");

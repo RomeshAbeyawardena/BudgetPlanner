@@ -142,17 +142,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<IdentityResult> UpdateAsync(Account user, CancellationToken cancellationToken)
         {
-            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
-                
-            if(foundAccount == null)
-                return IdentityResult.Failed(IdentityErrors.AccountNotFound);
-
-            var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
-
-            encryptedAccount.Id = foundAccount.Id;
-
-            await _accountService.SaveAccount(encryptedAccount, cancellationToken);
-            return IdentityResult.Success;
+            return await Task.FromResult(IdentityResult.Success);
         }
 
         public AccountStore(ApplicationSettings applicationSettings,

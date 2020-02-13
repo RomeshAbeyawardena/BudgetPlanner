@@ -18,6 +18,7 @@ namespace BudgetPlanner.Services
 
         private IQueryable<AccountAccess> DefaultAccountAccessQuery => _accountAccessRepository.Query(accountAccess => accountAccess.Active, false);
         private IQueryable<AccessType> DefaultAccessTypeQuery => _accessTypeRepository.Query(accountAccess => accountAccess.Active, false);
+
         public AccessType GetAccessType(IEnumerable<AccessType> accessTypes, string name)
         {
             return accessTypes.FirstOrDefault(accessType => accessType.Name == name);

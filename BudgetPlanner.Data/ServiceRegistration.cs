@@ -21,6 +21,7 @@ namespace BudgetPlanner.Data
                 .AddDbContextPool<BudgetPlannerDbContext>((serviceProvider, setup) => { 
                 var applicationSettings = serviceProvider.GetRequiredService<ApplicationSettings>();
                 setup
+                    .EnableSensitiveDataLogging()
                     .UseSqlServer(applicationSettings.DefaultConnectionString); 
             }).RegisterDbContentRepositories<BudgetPlannerDbContext>(ServiceLifetime.Transient, 
                 typeof(Account), typeof(Role), typeof(AccountRole), typeof(Claim),

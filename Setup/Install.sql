@@ -224,5 +224,4 @@ CREATE TABLE [dbo].[AccountAccess]
     ,[Active] BIT NOT NULL
     ,[Created] DATETIMEOFFSET NOT NULL
  )
-
 SELECT * FROM dbo.AccountAccess

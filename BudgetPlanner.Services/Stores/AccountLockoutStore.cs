@@ -19,7 +19,7 @@ namespace BudgetPlanner.Services.Stores
         }
         private async Task <IEnumerable<AccountAccess>> GetLoginAccessFailed(int accountId)
         {
-            var fromDate = _clockProvider.DateTime.AddMinutes(_applicationSettings.AccountLockoutPeriodInMinutes);
+            var fromDate = _clockProvider.DateTime.AddMinutes(-_applicationSettings.AccountLockoutPeriodInMinutes);
             var loginAccessType = await GetAccessType(DataConstants.LoginAccess);
             return (await _accountAccessService.GetAccountAccess(accountId, loginAccessType.Id, 
                 fromDate, false));
