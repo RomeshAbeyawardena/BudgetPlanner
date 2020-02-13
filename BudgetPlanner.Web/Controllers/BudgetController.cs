@@ -20,7 +20,7 @@ namespace BudgetPlanner.Web.Controllers
     {
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         [HttpGet, Route("/[controller]/[action]/{reference}")]
-        public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=12, [FromQuery]int pageNumber=1)
+        public async Task<ActionResult> Details([FromRoute]string reference, [FromQuery]int pageSize=8, [FromQuery]int pageNumber=1)
         {
             var response = await MediatorService
                 .Send(new RetrieveBudgetPlannerRequest { 

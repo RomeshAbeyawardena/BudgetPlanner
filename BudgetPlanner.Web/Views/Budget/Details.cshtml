@@ -2,13 +2,17 @@
 
 @{
     ViewBag.Title = "Details";
+    var pageQuery = string.Concat("?pageSize=", Model.PageSize, "&pageNumber={0}");
     var transactionRequestData = Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel
     {
         Reference = Model.Reference,
         FromDate = Model.FromDate,
         ToDate = Model.ToDate,
         PageSize = Model.PageSize,
-        PageNumber = Model.PageNumber
+        PageNumber = Model.PageNumber,
+        PreviousPageUrl = pageQuery,
+        NextPageUrl = pageQuery,
+        SelectPageUrl = pageQuery
     }), Encoding.UTF8);
 }
 

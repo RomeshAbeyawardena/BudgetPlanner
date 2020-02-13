@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
-    public class TransactionListViewModel
+    public class TransactionListViewModel : PagerViewModel
     {
-        public int PageNumber { get; set; }
-        public int TotalPages { get; set; }
         public IEnumerable<Transaction> Transactions { get; set; }
     }
 }

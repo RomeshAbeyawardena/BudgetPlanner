@@ -1,12 +1,36 @@
 ﻿@model PagerViewModel
 
+@{
+    string GeneratePageUrl(int pageNumber)
+    {
+        return string.IsNullOrEmpty(Model.SelectPageUrl) 
+            ? string.Empty 
+            : string.Format(Model.SelectPageUrl, pageNumber);
+    }
+
+    var previousPageUrl = string.IsNullOrEmpty(Model.PreviousPageUrl) 
+        ? string.Empty 
+        : string.Format(@Model.PreviousPageUrl, Model.PageNumber - 1);
+    var nextPageUrl = string.IsNullOrEmpty(Model.PreviousPageUrl) 
+        ? string.Empty 
+        : string.Format(@Model.PreviousPageUrl, Model.PageNumber + 1);
+}
+
 <nav aria-label="Page navigation example">
     <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        @if (Model.PageNumber > 1)
+        { 
+            <li class="page-item"><a class="page-link" href="@previousPageUrl">Previous</a></li>
+        }
         @for(var i=1; i <= Model.TotalPages; i++)
         {
-            <li class="page-item @Html.DisplayIf(Model.PageNumber == i, "active")"><a class="page-link" href="#">@i</a></li>
+            <li class="page-item @Html.DisplayIf(Model.PageNumber == i, "active")">
+                <a class="page-link" href="@GeneratePageUrl(i)">@i</a>
+            </li>
         }
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        @if(Model.PageNumber < Model.PageNumber)
+        { 
+            <li class="page-item"><a class="page-link" href="@nextPageUrl">Next</a></li>
+        }
     </ul>
 </nav>

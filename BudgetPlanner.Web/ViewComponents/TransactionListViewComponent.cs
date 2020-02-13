@@ -25,7 +25,13 @@ namespace BudgetPlanner.Web.ViewComponents
                         ToDate = model.ToDate 
                     });
 
-            return View(Map<RetrieveTransactionsResponse, TransactionListViewModel>(response));
+            var responseModel = Map<RetrieveTransactionsResponse, TransactionListViewModel>(response);
+
+            responseModel.SelectPageUrl = model.SelectPageUrl;
+            responseModel.PreviousPageUrl = model.PreviousPageUrl;
+            responseModel.NextPageUrl = model.NextPageUrl;
+
+            return View(responseModel);
         }
     }
 }
