@@ -23,16 +23,9 @@ namespace BudgetPlanner.Data
                 setup
                     .UseSqlServer(applicationSettings.DefaultConnectionString); 
             }).RegisterDbContentRepositories<BudgetPlannerDbContext>(ServiceLifetime.Transient, 
-                typeof(Account),
-                typeof(Role),
-                typeof(AccountRole),
-                typeof(Claim),
-                typeof(AccountClaim),
-                typeof(Budget), 
-                typeof(Transaction),
-                typeof(TransactionType),
-                typeof(TransactionLedger),
-                typeof(RequestToken));
+                typeof(Account), typeof(Role), typeof(AccountRole), typeof(Claim),
+                typeof(AccountClaim), typeof(Budget), typeof(Transaction), typeof(TransactionType),
+                typeof(TransactionLedger), typeof(RequestToken), typeof(AccessType), typeof(AccountAccess));
         }
     }
 }

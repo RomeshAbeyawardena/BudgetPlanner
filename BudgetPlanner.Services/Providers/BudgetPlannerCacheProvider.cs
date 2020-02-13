@@ -105,6 +105,12 @@ namespace BudgetPlanner.Services.Providers
             return _accountAccessService.GetAccessType(accessTypes, name);
         }
 
+        public async Task<AccessType> GetAccessType(int id)
+        {
+            var accessTypes = await GetAccessTypes();
+            return _accountAccessService.GetAccessType(accessTypes, id);
+        }
+
         public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, 
             IAccountService accountService, 
             IAccountAccessService accountAccessService,

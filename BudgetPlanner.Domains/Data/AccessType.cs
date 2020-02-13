@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Data
 {
+    [MessagePack.MessagePackObject(true)]
     public class AccessType
     {
         [Key]

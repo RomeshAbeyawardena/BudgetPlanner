@@ -61,8 +61,6 @@ namespace BudgetPlanner.Web.Controllers
             if(result.Succeeded)
                 return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
 
-            await _userManager.AddClaimAsync(await CurrentAccount, new Claim("Fart", "Smelly") );
-
             AddModelStateErrors(result.Errors);
             //AddErrorsToModelState(response);
 
@@ -98,7 +96,6 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
-        
         public async Task<ActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

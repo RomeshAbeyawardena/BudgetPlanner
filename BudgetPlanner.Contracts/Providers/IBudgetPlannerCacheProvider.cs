@@ -15,6 +15,7 @@ namespace BudgetPlanner.Contracts.Providers
         Task<IEnumerable<Role>> GetRoles();
         Task<IEnumerable<AccessType>> GetAccessTypes();
         Task<AccessType> GetAccessType(string name);
+        Task<AccessType> GetAccessType(int id);
         Task<Role> GetRole(int id);
         Task<Role> GetRole(string name);
     }

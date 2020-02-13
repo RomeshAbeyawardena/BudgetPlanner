@@ -198,12 +198,14 @@ CREATE TABLE [dbo].[AccessType]
 INSERT INTO dbo.AccessType
     (
         [Name],
+		[Active],
         Created,
         Modified
     )
 VALUES
     (
         'Login',                  -- Name - varchar(200)
+		1,
         SYSDATETIMEOFFSET(), -- Created - datetimeoffset
         SYSDATETIMEOFFSET()  -- Modified - datetimeoffset
     )

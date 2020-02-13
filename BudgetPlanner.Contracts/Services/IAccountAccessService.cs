@@ -19,5 +19,6 @@ namespace BudgetPlanner.Contracts.Services
             bool saveChanges = true, 
             CancellationToken cancellationToken = default);
         AccessType GetAccessType(IEnumerable<AccessType> accessTypes, string name);
+        AccessType GetAccessType(IEnumerable<AccessType> accessTypes, int id);
     }
 }

@@ -48,6 +48,11 @@ namespace BudgetPlanner.Services
             return await _accountAccessRepository.SaveChanges(accountAccess, saveChanges, cancellationToken);
         }
 
+        public AccessType GetAccessType(IEnumerable<AccessType> accessTypes, int id)
+        {
+            return accessTypes.FirstOrDefault(accessType => accessType.Id == id);
+        }
+
         public AccountAccessService(IRepository<AccessType> accessTypeRepository, 
             IRepository<AccountAccess> accountAccessRepository)
         {
