@@ -6,8 +6,8 @@ using  Umbraco.Core.Models;
 using  Umbraco.Core.Models.PublishedContent;
 using  Umbraco.Web;
 using  Umbraco.ModelsBuilder.Embedded;
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "9d982d31f834875b")]
-[assembly:System.Reflection.AssemblyVersion("0.0.0.2")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "9afb13c8e31c5020")]
+[assembly:System.Reflection.AssemblyVersion("0.0.0.3")]
 
 
 // FILE: models.generated.cs
@@ -36,9 +36,22 @@ using  Umbraco.ModelsBuilder.Embedded;
 
 namespace Umbraco.Web.PublishedModels
 {
+	// Mixin Content Type with alias "page"
+	/// <summary>Page</summary>
+	public partial interface IPage : IPublishedContent
+	{
+		/// <summary>Meta Tags</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		global::System.Collections.Generic.IEnumerable<string> MetaTags { get; }
+
+		/// <summary>Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		string Title { get; }
+	}
+
 	/// <summary>Page</summary>
 	[PublishedModel("page")]
-	public partial class Page : PublishedContentModel
+	public partial class Page : PublishedContentModel, IPage
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -66,14 +79,22 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
 		[ImplementPropertyType("metaTags")]
-		public global::Umbraco.Core.Models.PublishedContent.IPublishedContent MetaTags => this.Value<global::Umbraco.Core.Models.PublishedContent.IPublishedContent>("metaTags");
+		public global::System.Collections.Generic.IEnumerable<string> MetaTags => GetMetaTags(this);
+
+		/// <summary>Static getter for Meta Tags</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		public static global::System.Collections.Generic.IEnumerable<string> GetMetaTags(IPage that) => that.Value<global::System.Collections.Generic.IEnumerable<string>>("metaTags");
 
 		///<summary>
 		/// Title
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
 		[ImplementPropertyType("title")]
-		public string Title => this.Value<string>("title");
+		public string Title => GetTitle(this);
+
+		/// <summary>Static getter for Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		public static string GetTitle(IPage that) => that.Value<string>("title");
 	}
 
 	/// <summary>Tag</summary>
@@ -102,11 +123,11 @@ namespace Umbraco.Web.PublishedModels
 		// properties
 
 		///<summary>
-		/// Value
+		/// Values
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
 		[ImplementPropertyType("value")]
-		public string Value => this.Value<string>("value");
+		public global::System.Collections.Generic.IEnumerable<string> Value => this.Value<global::System.Collections.Generic.IEnumerable<string>>("value");
 	}
 
 	/// <summary>Section</summary>
@@ -133,6 +154,67 @@ namespace Umbraco.Web.PublishedModels
 		{ }
 
 		// properties
+	}
+
+	/// <summary>Login</summary>
+	[PublishedModel("login")]
+	public partial class Login : PublishedContentModel, IPage
+	{
+		// helpers
+#pragma warning disable 0109 // new is redundant
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		public new const string ModelTypeAlias = "login";
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		public new static IPublishedContentType GetModelContentType()
+			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Login, TValue>> selector)
+			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+#pragma warning restore 0109
+
+		// ctor
+		public Login(IPublishedContent content)
+			: base(content)
+		{ }
+
+		// properties
+
+		///<summary>
+		/// EmailAddressLabel
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		[ImplementPropertyType("emailAddressField")]
+		public string EmailAddressField => this.Value<string>("emailAddressField");
+
+		///<summary>
+		/// IntroContent
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		[ImplementPropertyType("introContent")]
+		public global::System.Web.IHtmlString IntroContent => this.Value<global::System.Web.IHtmlString>("introContent");
+
+		///<summary>
+		/// PasswordLabel
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		[ImplementPropertyType("passwordLabel")]
+		public string PasswordLabel => this.Value<string>("passwordLabel");
+
+		///<summary>
+		/// Meta Tags
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		[ImplementPropertyType("metaTags")]
+		public global::System.Collections.Generic.IEnumerable<string> MetaTags => global::Umbraco.Web.PublishedModels.Page.GetMetaTags(this);
+
+		///<summary>
+		/// Title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.3")]
+		[ImplementPropertyType("title")]
+		public string Title => global::Umbraco.Web.PublishedModels.Page.GetTitle(this);
 	}
 
 	/// <summary>Folder</summary>
