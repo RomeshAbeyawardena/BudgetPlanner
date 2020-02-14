@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetPlanner.WebApp", "BudgetPlanner.WebApp\BudgetPlanner.WebApp.csproj", "{F124B648-5F2D-418D-8C46-FC494AD6E21B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetPlanner.Cms", "BudgetPlanner.Cms\BudgetPlanner.Cms.csproj", "{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,18 @@ Global
 		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|x64.Build.0 = Release|Any CPU
 		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|x86.ActiveCfg = Release|Any CPU
 		{F124B648-5F2D-418D-8C46-FC494AD6E21B}.Release|x86.Build.0 = Release|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Debug|x64.Build.0 = Debug|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Debug|x86.Build.0 = Debug|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Release|x64.ActiveCfg = Release|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Release|x64.Build.0 = Release|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Release|x86.ActiveCfg = Release|Any CPU
+		{EDB8DB14-1E59-4F17-B56D-12CC4F0F071F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

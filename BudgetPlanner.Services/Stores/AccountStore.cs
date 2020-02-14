@@ -37,7 +37,7 @@ namespace BudgetPlanner.Services.Stores
         {
             var account = new Account { EmailAddress = emailAddress };
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(account);
-            var foundAccount = await _budgetPlannerCacheProvider.GetAccount(encryptedAccount.EmailAddress);
+            var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress);
             return foundAccount;
         }
 
