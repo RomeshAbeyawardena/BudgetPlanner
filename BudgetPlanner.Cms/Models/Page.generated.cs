@@ -20,22 +20,9 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace BudgetPlanner.Cms.Models
 {
-	// Mixin Content Type with alias "page"
-	/// <summary>Page</summary>
-	public partial interface IPage : IPublishedContent
-	{
-		/// <summary>Meta Tags</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		IEnumerable<string> MetaTags { get; }
-
-		/// <summary>Title</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		string Title { get; }
-	}
-
 	/// <summary>Page</summary>
 	[PublishedModel("page")]
-	public partial class Page : PublishedContentModel, IPage
+	public partial class Page : PublishedContentModel
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -59,25 +46,24 @@ namespace BudgetPlanner.Cms.Models
 		// properties
 
 		///<summary>
+		/// Content
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
+		[ImplementPropertyType("content")]
+		public IHtmlString Content => this.Value<IHtmlString>("content");
+
+		///<summary>
 		/// Meta Tags
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("metaTags")]
-		public IEnumerable<string> MetaTags => GetMetaTags(this);
-
-		/// <summary>Static getter for Meta Tags</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		public static IEnumerable<string> GetMetaTags(IPage that) => that.Value<IEnumerable<string>>("metaTags");
+		public IEnumerable<string> MetaTags => this.Value<IEnumerable<string>>("metaTags");
 
 		///<summary>
 		/// Title
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("title")]
-		public string Title => GetTitle(this);
-
-		/// <summary>Static getter for Title</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		public static string GetTitle(IPage that) => that.Value<string>("title");
+		public string Title => this.Value<string>("title");
 	}
 }

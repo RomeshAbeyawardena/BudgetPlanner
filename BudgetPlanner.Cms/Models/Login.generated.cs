@@ -22,7 +22,7 @@ namespace BudgetPlanner.Cms.Models
 {
 	/// <summary>Login</summary>
 	[PublishedModel("login")]
-	public partial class Login : PublishedContentModel, IPage
+	public partial class Login : Page
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -49,15 +49,8 @@ namespace BudgetPlanner.Cms.Models
 		/// EmailAddressLabel
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("emailAddressField")]
-		public string EmailAddressField => this.Value<string>("emailAddressField");
-
-		///<summary>
-		/// IntroContent
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("introContent")]
-		public IHtmlString IntroContent => this.Value<IHtmlString>("introContent");
+		[ImplementPropertyType("emailAddressLabel")]
+		public string EmailAddressLabel => this.Value<string>("emailAddressLabel");
 
 		///<summary>
 		/// PasswordLabel
@@ -65,19 +58,5 @@ namespace BudgetPlanner.Cms.Models
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("passwordLabel")]
 		public string PasswordLabel => this.Value<string>("passwordLabel");
-
-		///<summary>
-		/// Meta Tags
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("metaTags")]
-		public IEnumerable<string> MetaTags => Page.GetMetaTags(this);
-
-		///<summary>
-		/// Title
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("title")]
-		public string Title => Page.GetTitle(this);
 	}
 }

@@ -447,11 +447,14 @@
       <DependentUpon>Models1.mb</DependentUpon>
     </Compile>
     <Compile Include="Models\Models1.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>Models1.mb</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\Page.generated.cs">
+      <DependentUpon>Models1.mb</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Register.generated.cs">
       <DependentUpon>Models1.mb</DependentUpon>
     </Compile>
     <Compile Include="Models\Section.generated.cs">
