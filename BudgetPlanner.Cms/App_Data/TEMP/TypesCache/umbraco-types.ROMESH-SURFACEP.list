@@ -279,6 +279,7 @@ Umbraco.Web.Cache.PublicAccessCacheRefresher, Umbraco.Web, Version=8.0.0.0, Cult
 Umbraco.Web.Cache.TemplateCacheRefresher, Umbraco.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.Web.Cache.UserCacheRefresher, Umbraco.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.ModelsBuilder.Api.ModelsBuilderApiComposer, Umbraco.ModelsBuilder.Api, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Controllers.ContentApiController, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.ModelsBuilder.Embedded.ModelsBuilderDashboard, Umbraco.ModelsBuilder.Embedded, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.ModelsBuilder.Embedded.Compose.ModelsBuilderComposer, Umbraco.ModelsBuilder.Embedded, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.ModelsBuilder.Embedded.BackOffice.MediaTypeModelValidator, Umbraco.ModelsBuilder.Embedded, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -432,6 +433,7 @@ Umbraco.Web.Editors.ContentTypeController, Umbraco.Web, Version=8.0.0.0, Culture
 Umbraco.Web.Editors.MediaTypeController, Umbraco.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.Web.Editors.SectionController, Umbraco.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.Web.Editors.MediaController, Umbraco.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Controllers.ContentApiController, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 Umbraco.ModelsBuilder.Embedded.BackOffice.ModelsBuilderDashboardController, Umbraco.ModelsBuilder.Embedded, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null
 
 Umbraco.Web.Mvc.SurfaceController
@@ -585,4 +587,12 @@ Umbraco.Core.Models.PublishedContent.PublishedElementModel
 
 Umbraco.Core.Models.PublishedContent.PublishedContentModel
 
+BudgetPlanner.Cms.Models.File, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Models.Folder, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Models.Image, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Models.Login, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Models.Member, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Models.Page, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Models.Section, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+BudgetPlanner.Cms.Models.Tag, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
