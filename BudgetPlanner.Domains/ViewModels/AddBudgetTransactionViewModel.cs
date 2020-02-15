@@ -26,6 +26,9 @@ namespace BudgetPlanner.Domains.ViewModels
         [Content(ContentConstants.AmountLabel)]
         public string AmountLabel { get; set; }
 
+        [Content(ContentConstants.ActiveLabel)]
+        public string ActiveLabel { get; set; }
+
         [HiddenInput]
         public int Id { get; set; }
 

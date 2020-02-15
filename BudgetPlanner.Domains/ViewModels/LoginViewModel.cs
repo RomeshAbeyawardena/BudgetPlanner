@@ -24,9 +24,6 @@ namespace BudgetPlanner.Domains.ViewModels
 
         public bool RememberMe { get; set; }
 
-        [Content(ContentConstants.Content)]
-        public string Content { get; set; }
-
         [Content(ContentConstants.RememberMeLabel)]
         public string RememberMeLabel { get; set; }
     }

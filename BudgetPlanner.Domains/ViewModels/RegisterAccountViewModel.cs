@@ -51,9 +51,6 @@ namespace BudgetPlanner.Domains.ViewModels
         [Content(ContentConstants.AcceptTermsOfUseLabel)]
         public string AcceptTermsOfUseLabel { get; set; }
 
-        [Content(ContentConstants.Content)]
-        public string Content { get; set; }
-
         public DateTimeOffset Created { get; set; }
         
         public DateTimeOffset? Modified { get; set; }

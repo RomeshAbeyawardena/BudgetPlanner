@@ -8,6 +8,13 @@ namespace BudgetPlanner.Domains.Constants
 {
     public static class ContentConstants
     {
+        //page
+        public const string Title = "title";
+        public const string Content = "content";
+        public const string MetaDescription = "metaDescription";
+        public const string MetaTags = "metaTags";
+
+
         public const string RegisterContentPath = "pages/account/register";
         public const string ConfirmPasswordLabel = "confirmPasswordLabel";
         public const string FirstNameLabel = "firstNameLabel";
@@ -18,8 +25,7 @@ namespace BudgetPlanner.Domains.Constants
         public const string EmailAddressLabel = "emailAddressLabel";
         public const string PasswordLabel = "passwordLabel";
         public const string RememberMeLabel = "rememberMeLabel";
-        public const string Content = "content";
-
+        
         public const string BudgetPlannerEditor = "pages/budgetplanner/editor";
         public const string ReferenceLabel = "referenceLabel";
         public const string NameLabel = "nameLabel";

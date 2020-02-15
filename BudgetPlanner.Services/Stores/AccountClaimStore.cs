@@ -14,13 +14,6 @@ namespace BudgetPlanner.Services.Stores
 {
     public partial class AccountStore : IUserClaimStore<Domains.Dto.Account>
     {
-        private async Task<IEnumerable<Role>> GetRoleNamesFromSeparatedList(char separator, string roles)
-        {
-            var existingRoles = await _roleService.GetRoles();
-            var splitString = roles.Split(separator);
-            return _roleService.GetRoles(existingRoles, splitString);
-        }
-
         private async Task<IEnumerable<Account>> GetAccountsWithClaims(SecurityClaim claim)
         {
             var foundClaim = await _claimService.GetClaim(claim.Type);

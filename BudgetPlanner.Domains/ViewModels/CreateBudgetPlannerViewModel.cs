@@ -33,10 +33,6 @@ namespace BudgetPlanner.Domains.ViewModels
         [Content(ContentConstants.ActiveLabel)]
         public string ActiveLabel { get; set; }
 
-        [Content(ContentConstants.Content)]
-        public string Content { get; set; }
-
-
         [HiddenInput]
         public DateTimeOffset? LastUpdated { get; set; }
 
