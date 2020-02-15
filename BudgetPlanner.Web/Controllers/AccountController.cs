@@ -57,9 +57,8 @@ namespace BudgetPlanner.Web.Controllers
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Register(bool isModal = false)
         {
-            await Task.CompletedTask;
             var registerAccountViewModel = new RegisterAccountViewModel { IsModal = isModal };
-            return View(registerAccountViewModel);
+            return await ViewWithContent(ContentConstants.RegisterContentPath, registerAccountViewModel);
         }
 
         [Route("/Register")]
@@ -82,7 +81,7 @@ namespace BudgetPlanner.Web.Controllers
             AddModelStateErrors(result.Errors);
             //AddErrorsToModelState(response);
 
-            return View(model);
+            return await ViewWithContent(ContentConstants.RegisterContentPath, model);
         }
 
         [HttpGet, AllowAnonymous, Route("/login")]
@@ -90,8 +89,8 @@ namespace BudgetPlanner.Web.Controllers
         public async Task<ActionResult> Login(string emailAddress)
         {
             var loginViewModel = new LoginViewModel { EmailAddress = emailAddress };
-            loginViewModel = await CmsContentProvider.PopulateContent(ContentConstants.LoginContentPath, loginViewModel);
-            return View(loginViewModel);
+            
+            return await ViewWithContent(ContentConstants.LoginContentPath, loginViewModel);
         }
 
         [HttpPost, AllowAnonymous, Route("/login")]
@@ -128,8 +127,10 @@ namespace BudgetPlanner.Web.Controllers
             }
             catch (ArgumentException ex)
             {
-                ModelState.AddModelError(ex.ParamName, ex.Message);
-                return View("Login", model);
+                if(ex.ParamName != null)
+                    ModelState.AddModelError(ex.ParamName, ex.Message);
+
+                return await ViewWithContent(ContentConstants.LoginContentPath, model);
             }
         }
 

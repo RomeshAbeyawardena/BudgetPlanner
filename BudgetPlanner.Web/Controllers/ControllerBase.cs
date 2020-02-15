@@ -4,6 +4,7 @@ using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Dto;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,19 @@ namespace BudgetPlanner.Web.Controllers
         protected UserManager<Account> AccountManager => GetService<UserManager<Account>>();
         protected IBudgetPlannerCacheProvider BudgetPlannerCacheProvider => GetService<IBudgetPlannerCacheProvider>();
         protected ICmsContentProvider CmsContentProvider => GetService<ICmsContentProvider>();
+
+        protected async Task<ViewResult> ViewWithContent<TModel>(string contentPath, string viewName, TModel model)
+        {
+            model = await CmsContentProvider.PopulateContent(contentPath, model);
+            return View(viewName, model);
+        }
+
+        protected async Task<ViewResult> ViewWithContent<TModel>(string contentPath, TModel model)
+        {
+            model = await CmsContentProvider.PopulateContent(contentPath, model);
+            return View(model);
+        }
+
         protected void AddModelStateErrors(IEnumerable<IdentityError> identityErrors)
         {
             foreach (var item in identityErrors)

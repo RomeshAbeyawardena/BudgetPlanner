@@ -8,6 +8,7 @@ namespace BudgetPlanner.Domains.Constants
 {
     public static class ContentConstants
     {
+        public const string RegisterContentPath = "pages/account/register";
         public const string LoginContentPath = "pages/account/login";
         public const string EmailAddressLabel = "emailAddressLabel";
         public const string PasswordLabel = "passwordLabel";
