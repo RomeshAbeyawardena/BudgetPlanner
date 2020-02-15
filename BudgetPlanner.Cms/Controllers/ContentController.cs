@@ -14,15 +14,27 @@ using Umbraco.Web.WebApi;
 
 namespace BudgetPlanner.Cms.Controllers
 {
-    [Route("api/content/{controller}")]
-    public class ContentApiController : UmbracoApiController
+    
+    public class ContentResult
+    {
+        public bool Succeeded { get; set; }
+        public IDictionary<string, string> Result { get; set; }
+    }
+
+    public class ContentController : UmbracoApiController
     {
         [HttpGet]
-        public JsonResult<IDictionary<string, string>> Get(string contentPath)
+        public JsonResult<ContentResult> Get(string contentPath)
         {
-            var content = Umbraco.ContentSingleAtXPath($"//{contentPath}");
             
-            return Json(ToDictionary(content.Properties));
+            var content = Umbraco.ContentSingleAtXPath($"//{contentPath}");
+
+                if(content == null)
+                return Json(new ContentResult { Succeeded = false });
+
+            return Json(new ContentResult { 
+                Succeeded = true, 
+                Result = ToDictionary(content.Properties) });
         }
 
         private IDictionary<string, string> ToDictionary(IEnumerable<IPublishedProperty> publishedProperties)
