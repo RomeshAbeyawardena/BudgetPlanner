@@ -10,6 +10,7 @@ namespace BudgetPlanner.Domains.Constants
     {
         public const string AuthenticateAccount = "AuthenticateAccount";
         public const string DefaultApiKey = "Default";
+        public const string ContentApiKey = "Content";
         public const string GetRequestToken = "GenerateRequestToken";
     }
 }

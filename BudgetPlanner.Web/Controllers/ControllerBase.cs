@@ -17,7 +17,7 @@ namespace BudgetPlanner.Web.Controllers
         protected Task<Account> CurrentAccount => User.Identity.IsAuthenticated ? AccountManager.GetUserAsync(User) : default; 
         protected UserManager<Account> AccountManager => GetService<UserManager<Account>>();
         protected IBudgetPlannerCacheProvider BudgetPlannerCacheProvider => GetService<IBudgetPlannerCacheProvider>();
-
+        protected ICmsContentProvider CmsContentProvider => GetService<ICmsContentProvider>();
         protected void AddModelStateErrors(IEnumerable<IdentityError> identityErrors)
         {
             foreach (var item in identityErrors)

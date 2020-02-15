@@ -33,7 +33,7 @@ namespace BudgetPlanner.Services.Providers
                 if(!content.TryGetValue(contentName, out var contentValue) || string.IsNullOrEmpty(contentValue))
                     continue;
 
-                property.SetValue(model, contentName);
+                property.SetValue(model, contentValue);
             }
 
             return model;

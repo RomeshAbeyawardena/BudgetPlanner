@@ -89,8 +89,8 @@ namespace BudgetPlanner.Web.Controllers
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
         public async Task<ActionResult> Login(string emailAddress)
         {
-            await Task.CompletedTask;
             var loginViewModel = new LoginViewModel { EmailAddress = emailAddress };
+            loginViewModel = await CmsContentProvider.PopulateContent(ContentConstants.LoginContentPath, loginViewModel);
             return View(loginViewModel);
         }
 

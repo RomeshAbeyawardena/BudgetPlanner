@@ -3,19 +3,21 @@
 @Html.AntiForgeryToken()
 @Html.HiddenFor(model => model.IsModal)
 
+@Html.Raw(Model.Content)
+
 <div class="form-group">
-    @Html.LabelFor(model => model.EmailAddress)
+    @Html.LabelFor(model => model.EmailAddress, Model.EmailAddressLabel)
     @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.EmailAddress)
 </div>
 <div class="form-group">
-    @Html.LabelFor(model => model.Password)
+    @Html.LabelFor(model => model.Password, Model.PasswordLabel)
     @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.Password)
 </div>
 <div class="form-group form-check">
     @Html.CheckBoxFor(model => model.RememberMe, new { @class = "form-check-input" })
-    @Html.LabelFor(model => model.RememberMe)
+    @Html.LabelFor(model => model.RememberMe, Model.RememberMeLabel)
 </div>
 <div class="form-group">
     @Html.ValidationSummary()

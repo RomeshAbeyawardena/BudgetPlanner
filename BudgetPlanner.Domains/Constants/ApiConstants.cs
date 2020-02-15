@@ -8,6 +8,6 @@ namespace BudgetPlanner.Domains.Constants
 {
     public static class ApiConstants
     {
-        public const string GetCmsContent = "umbraco/api/content/get?contentPath=";
+        public const string GetCmsContent = "umbraco/api/content/get?contentPath={0}";
     }
 }

@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Services.Stores;
 using BudgetPlanner.Services.Validators;
+using BudgetPlanner.Contracts.HttpServices;
+using BudgetPlanner.Services.HttpServices;
 
 namespace BudgetPlanner.Services
 {
@@ -32,9 +34,11 @@ namespace BudgetPlanner.Services
             services
                 .AddSingleton<ApplicationSettings>()
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(RegisterCryptographicCredentialsFactory)
+                .AddSingleton<ICmsHttpService, CmsHttpService>()
                 .AddTransient<ICookieValidationService, CookieValidationService>()
                 .AddTransient<IAccountService, AccountService>()
                 .AddTransient<IBudgetPlannerCacheProvider, BudgetPlannerCacheProvider>()
+                .AddTransient<ICmsContentProvider, CmsContentProvider>()
                 .AddTransient<IClaimService, ClaimService>()
                 .AddTransient<IRoleService, RoleService>()
                 .AddTransient<ITransactionProvider, TransactionProvider>()

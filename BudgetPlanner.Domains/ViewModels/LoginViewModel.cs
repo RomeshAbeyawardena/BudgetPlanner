@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BudgetPlanner.Domains.Attributes;
+using BudgetPlanner.Domains.Constants;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,13 +11,23 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        [Display(Name ="Email Address")]
         [Required, EmailAddress]
         public string EmailAddress { get; set; }
-        [Required]
+
+        [Content(ContentConstants.EmailAddressLabel)]
+        public string EmailAddressLabel { get; set; }
+
         public string Password { get; set; }
 
-        [Display(Name ="Remember me")]
+        [Content(ContentConstants.PasswordLabel)]
+        public string PasswordLabel { get; set; }
+
         public bool RememberMe { get; set; }
+
+        [Content(ContentConstants.Content)]
+        public string Content { get; set; }
+
+        [Content(ContentConstants.RememberMeLabel)]
+        public string RememberMeLabel { get; set; }
     }
 }
