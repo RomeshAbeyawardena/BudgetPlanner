@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.HttpServices
@@ -35,6 +36,12 @@ namespace BudgetPlanner.Services.HttpServices
             return default;
         }
 
+        protected static async Task<JsonDocument> GetJson(HttpContent content)
+        {
+            return await JsonDocument.ParseAsync(
+                await content.ReadAsStreamAsync());
+        }
+
         protected HttpClient GetHttpClient(string name, Action<HttpRequestMessage> configuration)
         {
             var apiName = name;
@@ -42,7 +49,7 @@ namespace BudgetPlanner.Services.HttpServices
             return _httpClientFactory.GetHttpClient(apiName, api.Uri, configuration);
         }
 
-        protected MultipartFormDataContent CreateForm(IDictionary<string, object> formData)
+        protected static MultipartFormDataContent CreateForm(IDictionary<string, object> formData)
         {
             var httpContent = new MultipartFormDataContent();
             foreach (var (key, value) in formData)
