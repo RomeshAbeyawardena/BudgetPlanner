@@ -26,9 +26,8 @@ namespace BudgetPlanner.Cms.Controllers
         [HttpGet]
         public JsonResult<ContentResult> Get(string contentPath)
         {
-            
             var content = Umbraco.ContentSingleAtXPath($"//{contentPath}");
-
+                
                 if(content == null)
                 return Json(new ContentResult { Succeeded = false });
 
@@ -36,6 +35,7 @@ namespace BudgetPlanner.Cms.Controllers
                 Succeeded = true, 
                 Result = ToDictionary(content.Properties) });
         }
+
 
         private IDictionary<string, string> ToDictionary(IEnumerable<IPublishedProperty> publishedProperties)
         {

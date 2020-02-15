@@ -597,3 +597,6 @@ BudgetPlanner.Cms.Models.Register, BudgetPlanner.Cms, Version=1.0.0.0, Culture=n
 BudgetPlanner.Cms.Models.Section, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 BudgetPlanner.Cms.Models.Tag, BudgetPlanner.Cms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
+Umbraco.Core.Deploy.IServiceConnector
+
+
