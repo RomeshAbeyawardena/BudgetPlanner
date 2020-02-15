@@ -20,57 +20,50 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace BudgetPlanner.Cms.Models
 {
-	/// <summary>Page</summary>
-	[PublishedModel("page")]
-	public partial class Page : PublishedContentModel
+	/// <summary>Budget Planner</summary>
+	[PublishedModel("budgetPlanner")]
+	public partial class BudgetPlanner : Page
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		public new const string ModelTypeAlias = "page";
+		public new const string ModelTypeAlias = "budgetPlanner";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		public new static IPublishedContentType GetModelContentType()
 			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Page, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<BudgetPlanner, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 #pragma warning restore 0109
 
 		// ctor
-		public Page(IPublishedContent content)
+		public BudgetPlanner(IPublishedContent content)
 			: base(content)
 		{ }
 
 		// properties
 
 		///<summary>
-		/// Content
+		/// Active Label
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("content")]
-		public IHtmlString Content => this.Value<IHtmlString>("content");
+		[ImplementPropertyType("activeLabel")]
+		public string ActiveLabel => this.Value<string>("activeLabel");
 
 		///<summary>
-		/// Meta Description
+		/// Name Label
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("metaDescription")]
-		public string MetaDescription => this.Value<string>("metaDescription");
+		[ImplementPropertyType("nameLabel")]
+		public string NameLabel => this.Value<string>("nameLabel");
 
 		///<summary>
-		/// Meta Tags
+		/// Reference Label
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("metaTags")]
-		public IEnumerable<string> MetaTags => this.Value<IEnumerable<string>>("metaTags");
-
-		///<summary>
-		/// Title
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
-		[ImplementPropertyType("title")]
-		public string Title => this.Value<string>("title");
+		[ImplementPropertyType("referenceLabel")]
+		public string ReferenceLabel => this.Value<string>("referenceLabel");
 	}
 }

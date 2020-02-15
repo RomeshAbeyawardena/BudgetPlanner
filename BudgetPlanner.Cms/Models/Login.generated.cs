@@ -20,7 +20,7 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace BudgetPlanner.Cms.Models
 {
-	/// <summary>Login</summary>
+	/// <summary>Account</summary>
 	[PublishedModel("login")]
 	public partial class Login : Page
 	{

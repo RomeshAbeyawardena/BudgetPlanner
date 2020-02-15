@@ -5,17 +5,20 @@
 @Html.HiddenFor(model => model.Created)
 @Html.HiddenFor(model => model.LastUpdated)
 @Html.AntiForgeryToken()
+
+@Html.Raw(Model.Content)
+
 <div class="form-group">
-    @Html.LabelFor(model => model.Reference)
+    @Html.LabelFor(model => model.Reference, Model.ReferenceLabel)
     @Html.TextBoxFor(model => model.Reference, null, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.Reference)
 </div>
 <div class="form-group">
-    @Html.LabelFor(model => model.Name)
+    @Html.LabelFor(model => model.Name, Model.NameLabel)
     @Html.TextBoxFor(model => model.Name, null, new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.Name)
 </div>
 <div class="form-group form-check">
     @Html.CheckBoxFor(model => model.Active, new { @class = "form-check-input" })
-    @Html.LabelFor(model => model.Active)
+    @Html.LabelFor(model => model.Active, Model.ActiveLabel)
 </div>

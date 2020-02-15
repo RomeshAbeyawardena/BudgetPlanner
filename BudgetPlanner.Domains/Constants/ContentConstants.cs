@@ -19,5 +19,10 @@ namespace BudgetPlanner.Domains.Constants
         public const string PasswordLabel = "passwordLabel";
         public const string RememberMeLabel = "rememberMeLabel";
         public const string Content = "content";
+
+        public const string BudgetPlannerEditor = "pages/budgetplanner/editor";
+        public const string ReferenceLabel = "referenceLabel";
+        public const string NameLabel = "nameLabel";
+        public const string ActiveLabel = "activeLabel";
     }
 }

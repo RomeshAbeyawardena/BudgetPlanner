@@ -45,29 +45,30 @@ namespace BudgetPlanner.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Create([FromQuery]bool isModal = false)
         {
-            await Task.CompletedTask;
-            return View(new CreateBudgetPlannerViewModel { Active = true, IsModal = isModal });
+            return await ViewWithContent(ContentConstants.BudgetPlannerEditor, 
+                new CreateBudgetPlannerViewModel { Active = true, IsModal = isModal });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([FromForm]CreateBudgetPlannerViewModel createBudgetPlannerViewModel)
+        public async Task<ActionResult> Create([FromForm]CreateBudgetPlannerViewModel model)
         {
             if(!ModelState.IsValid)
-                return View(createBudgetPlannerViewModel);
+                return await ViewWithContent(ContentConstants.BudgetPlannerEditor,
+                    model);
 
-            createBudgetPlannerViewModel.AccountId =  (await CurrentAccount).Id;
+            model.AccountId =  (await CurrentAccount).Id;
 
-            var createBudgetPlannerRequest = Map<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>(createBudgetPlannerViewModel);
+            var createBudgetPlannerRequest = Map<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>(model);
 
             var saveResponse = await MediatorService
                 .Send(createBudgetPlannerRequest);
 
             if(saveResponse.IsSuccessful)
-                return RedirectToAction("Details", "Budget", new { reference = createBudgetPlannerViewModel.Reference });
+                return RedirectToAction("Details", "Budget", new { reference = model.Reference });
 
             AddErrorsToModelState(saveResponse);
 
-            return View(createBudgetPlannerViewModel);
+            return await ViewWithContent(ContentConstants.BudgetPlannerEditor, model);
         }
 
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
