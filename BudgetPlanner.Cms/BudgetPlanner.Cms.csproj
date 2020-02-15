@@ -431,6 +431,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BudgetPlanner.generated.cs">
+      <DependentUpon>Models1.mb</DependentUpon>
+    </Compile>
     <Compile Include="Models\File.generated.cs">
       <DependentUpon>Models1.mb</DependentUpon>
     </Compile>
@@ -441,6 +444,9 @@
       <DependentUpon>Models1.mb</DependentUpon>
     </Compile>
     <Compile Include="Models\Login.generated.cs">
+      <DependentUpon>Models1.mb</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Login1.generated.cs">
       <DependentUpon>Models1.mb</DependentUpon>
     </Compile>
     <Compile Include="Models\Member.generated.cs">
@@ -460,7 +466,16 @@
     <Compile Include="Models\Section.generated.cs">
       <DependentUpon>Models1.mb</DependentUpon>
     </Compile>
+    <Compile Include="Models\SubPage.generated.cs">
+      <DependentUpon>Models1.mb</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tag.generated.cs">
+      <DependentUpon>Models1.mb</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Transaction.generated.cs">
+      <DependentUpon>Models1.mb</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TransactionList.generated.cs">
       <DependentUpon>Models1.mb</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

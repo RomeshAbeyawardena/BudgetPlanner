@@ -24,5 +24,10 @@ namespace BudgetPlanner.Domains.Constants
         public const string ReferenceLabel = "referenceLabel";
         public const string NameLabel = "nameLabel";
         public const string ActiveLabel = "activeLabel";
+
+        public const string TransactionEditor = "pages/budgetplanner/transactioneditor";
+        public const string TransactionTypeLabel = "transactionTypeLabel";
+        public const string DescriptionLabel = "descriptionLabel";
+        public const string AmountLabel = "amountLabel";
     }
 }
