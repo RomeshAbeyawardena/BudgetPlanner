@@ -23,7 +23,7 @@
 else
 {
     <div class="card-body">
-        <p>No Budget Planners available</p> 
+        @Html.Raw(Model.Content)
         @Html.ActionLink("Create one", "Create", "Budget", null, DictionaryBuilder
                 .Create<string, object>(dictionaryBuilder => dictionaryBuilder
                     .Add("class", "btn btn-primary")

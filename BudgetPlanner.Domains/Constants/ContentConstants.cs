@@ -14,7 +14,6 @@ namespace BudgetPlanner.Domains.Constants
         public const string MetaDescription = "metaDescription";
         public const string MetaTags = "metaTags";
 
-
         public const string RegisterContentPath = "pages/account/register";
         public const string ConfirmPasswordLabel = "confirmPasswordLabel";
         public const string FirstNameLabel = "firstNameLabel";
@@ -35,5 +34,7 @@ namespace BudgetPlanner.Domains.Constants
         public const string TransactionTypeLabel = "transactionTypeLabel";
         public const string DescriptionLabel = "descriptionLabel";
         public const string AmountLabel = "amountLabel";
+
+        public const string EmptyDashboard = "pages/dashboard/emptydashboard";
     }
 }

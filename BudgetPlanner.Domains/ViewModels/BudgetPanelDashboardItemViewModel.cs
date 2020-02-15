@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
-    public class BudgetPanelDashboardItemViewModel
+    public class BudgetPanelDashboardItemViewModel : BaseViewModel
     {
         public string Name { get; set; }
         public decimal Balance { get; set; }

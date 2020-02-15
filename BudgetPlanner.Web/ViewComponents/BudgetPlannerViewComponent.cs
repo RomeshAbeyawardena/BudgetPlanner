@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.ViewComponents
 {
-    public class BudgetPlannerViewComponent : DefaultViewComponentBase
+    public class BudgetPlannerViewComponent : ViewComponentBase
     {
         public async Task<IViewComponentResult> InvokeAsync(object viewModel)
         {
@@ -37,7 +37,7 @@ namespace BudgetPlanner.Web.ViewComponents
 
             budgetPanelDashboardViewModel.BudgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.BudgetPlanners);
 
-            return View("List", budgetPanelDashboardViewModel);
+            return await ViewWithContent(ContentConstants.EmptyDashboard, "List", budgetPanelDashboardViewModel);
         }
     }
 }
