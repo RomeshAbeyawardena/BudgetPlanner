@@ -83,7 +83,7 @@ namespace BudgetPlanner.Web.Controllers
             if(budgetResponse.BudgetPlanner == null)
                 return RedirectToAction("Index","Home");
 
-            return View(new AddBudgetTransactionViewModel { 
+            return await ViewWithContent(ContentConstants.TransactionEditor, new AddBudgetTransactionViewModel { 
                 IsModal = isModal,
                 BudgetId = budgetResponse.BudgetPlanner.Id,
                 Active = true,
@@ -91,7 +91,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> SaveTransaction(AddBudgetTransactionViewModel model)
+        public async Task<ActionResult> CreateTransaction(AddBudgetTransactionViewModel model)
         {
             model.TransactionTypes = await GetTransactionTypes();
 
@@ -105,7 +105,7 @@ namespace BudgetPlanner.Web.Controllers
             if(response.IsSuccessful)
                 return RedirectToAction("Details", "Budget", new { reference = response.Reference });
 
-            return View("CreateTransaction", model);
+            return await ViewWithContent(ContentConstants.TransactionEditor, model);
         }
 
         private async Task<SelectList> GetTransactionTypes()

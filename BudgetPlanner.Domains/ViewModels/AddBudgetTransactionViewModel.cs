@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Domains.Attributes;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
@@ -15,7 +17,15 @@ namespace BudgetPlanner.Domains.ViewModels
     {
         public SelectList TransactionTypes { get; set; }
 
-        
+        [Content(ContentConstants.TransactionTypeLabel)]
+        public string TransactionTypeLabel { get; set; }
+
+        [Content(ContentConstants.DescriptionLabel)]
+        public string DescriptionLabel { get; set; }
+
+        [Content(ContentConstants.AmountLabel)]
+        public string AmountLabel { get; set; }
+
         [HiddenInput]
         public int Id { get; set; }
 
@@ -31,7 +41,7 @@ namespace BudgetPlanner.Domains.ViewModels
         [HiddenInput]
         public DateTimeOffset Created { get; set; }
         
-        [Required, Display(Name = "Transaction Type")]
+        [Required]
         public int TransactionTypeId { get; set; }
 
         [Required]
