@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 
@@ -23,7 +24,9 @@ namespace BudgetPlanner.Shared
 
         public static IPublishedContent GetContentAtNode(UmbracoHelper helper, string node, IPublishedContent rootContent = null)
         {
-            var root = rootContent == null ? helper.ContentAtRoot() : rootContent.Children;
+            var root = rootContent == null 
+                ? helper.ContentAtRoot() 
+                : rootContent.Children;
 
             foreach(var content in root)
             {
@@ -32,6 +35,27 @@ namespace BudgetPlanner.Shared
             }
 
             return default;
+        }
+
+        public static IDictionary<string, string> ToDictionary(this IEnumerable<IPublishedProperty> publishedProperties)
+        {
+            var dictionary = new Dictionary<string, string>();
+            foreach (var property in publishedProperties)
+            {
+                if (!property.HasValue())
+                    continue;
+
+                var propertyValue = property.Value();
+                var propertyValueType = propertyValue.GetType();
+
+                propertyValue = propertyValueType.IsArray
+                    ? string.Join(",", (object[])propertyValue)
+                    : property.Value<string>();
+
+                dictionary.Add(property.Alias, propertyValue.ToString());
+            }
+
+            return dictionary;
         }
     }
 }

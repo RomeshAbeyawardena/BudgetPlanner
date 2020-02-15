@@ -36,30 +36,8 @@ namespace BudgetPlanner.Cms.Controllers
             return Json(new ContentResult
             {
                 Succeeded = true,
-                Result = ToDictionary(publishedContent.Properties)
+                Result = publishedContent.Properties.ToDictionary()
             });
-        }
-        
-
-        private IDictionary<string, string> ToDictionary(IEnumerable<IPublishedProperty> publishedProperties)
-        {
-            var dictionary = new Dictionary<string, string>();
-            foreach (var property in publishedProperties)
-            {
-                if (!property.HasValue())
-                    continue;
-
-                var propertyValue = property.Value();
-                var propertyValueType = propertyValue.GetType();
-
-                propertyValue = propertyValueType.IsArray
-                    ? string.Join(",", (object[])propertyValue)
-                    : property.Value<string>();
-
-                dictionary.Add(property.Alias, propertyValue.ToString());
-            }
-
-            return dictionary;
         }
     }
 }

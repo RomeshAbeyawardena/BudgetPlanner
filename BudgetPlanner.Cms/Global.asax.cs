@@ -12,8 +12,6 @@ namespace BudgetPlanner.Cms
     {
         protected void Application_Start()
         {
-            var config = GlobalConfiguration.Configuration;
-            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
