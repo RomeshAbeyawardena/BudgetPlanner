@@ -26,8 +26,6 @@ namespace BudgetPlanner.Cms.Controllers
         [HttpGet]
         public JsonResult<ContentResult> Get(string contentPath)
         {
-            //var content = Umbraco.ContentSingleAtXPath($"//{contentPath}");
-            
             IPublishedContent publishedContent = Umbraco.FindByPath('/', contentPath);
             
             if (publishedContent == null)
