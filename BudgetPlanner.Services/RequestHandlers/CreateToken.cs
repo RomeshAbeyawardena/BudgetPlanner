@@ -5,6 +5,7 @@ using BudgetPlanner.Domains.Responses;
 using DNI.Shared.Contracts.Enumerations;
 using DNI.Shared.Contracts.Generators;
 using DNI.Shared.Contracts.Providers;
+using DNI.Shared.Domains;
 using DNI.Shared.Shared.Extensions;
 using MediatR;
 using System;
@@ -37,10 +38,8 @@ namespace BudgetPlanner.Services.RequestHandlers
             var savedRequestToken = await _requestTokenService.SaveRequestToken(await _encryptionProvider
                 .Encrypt<Domains.Dto.RequestToken, RequestToken>(requestToken));
 
-            return new CreateTokenResponse { 
-                IsSuccessful = true, 
-                TokenRequest = await _encryptionProvider.Decrypt<RequestToken, Domains.Dto.RequestToken>(savedRequestToken) 
-            };
+            return Response.Success<CreateTokenResponse>(await _encryptionProvider
+                .Decrypt<RequestToken, Domains.Dto.RequestToken>(savedRequestToken));
         }
 
         public CreateToken(IClockProvider clockProvider, 

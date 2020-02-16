@@ -2,6 +2,7 @@
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using DNI.Shared.Domains;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace BudgetPlanner.Services.RequestHandlers
                 budget = await _budgetPlannerService.GetBudgetPlanner(request.Reference);
 
             if(budget.AccountId == request.AccountId)
-                return new RetrieveBudgetPlannerResponse { BudgetPlanner = budget  };
+                return Response.Success<RetrieveBudgetPlannerResponse>(budget);
 
-            return new RetrieveBudgetPlannerResponse { IsSuccessful = false  };
+            return Response.Failed<RetrieveBudgetPlannerResponse>();
         }
 
         public RetrieveBudgetPlanner(IBudgetPlannerService budgetPlannerService)

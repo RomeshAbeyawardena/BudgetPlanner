@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class RetrieveTransactionTypesResponse  : ResponseBase
+    public class RetrieveTransactionTypesResponse  : ResponseBase<IEnumerable<TransactionType>>
     {
-        public IEnumerable<TransactionType> TransactionTypes { get; set; }
+        
     }
 }

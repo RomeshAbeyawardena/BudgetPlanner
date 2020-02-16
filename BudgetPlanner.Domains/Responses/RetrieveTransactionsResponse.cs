@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class RetrieveTransactionsResponse : ResponseBase
+    public class RetrieveTransactionsResponse : ResponseBase<IEnumerable<Transaction>>
     {
         public int PageNumber { get; set; }
         public int TotalPages { get; set; }
-        public IEnumerable<Transaction> Transactions { get; set; }
     }
 }

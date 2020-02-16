@@ -36,10 +36,10 @@ namespace BudgetPlanner.Web.ViewComponents
             var response = await MediatorService
                 .Send(retrieveBudgetPlannersRequest);
 
-            budgetPanelDashboardViewModel.BudgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.BudgetPlanners);
+            budgetPanelDashboardViewModel.BudgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.Result);
 
             return await ViewWithContent(
-                (response.BudgetPlanners.Any()) 
+                (response.Result.Any()) 
                 ? ContentConstants.Dashboard
                 : ContentConstants.EmptyDashboard, "List", budgetPanelDashboardViewModel, DictionaryBuilder
                 .Create<string, string>(dictionaryBuilder => dictionaryBuilder.Add("date", model.LastUpdated.ToString(FormatConstants.LongDateFormat)))

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DomainResponse = DNI.Shared.Domains.Response;
 
 namespace BudgetPlanner.Web.Controllers
 {
@@ -31,7 +32,7 @@ namespace BudgetPlanner.Web.Controllers
             if(!response.IsSuccessful)
                 return RedirectToAction("Index","Home");
 
-            var budgetPlannerDetailsViewModel = Map<Budget, BudgetPlannerDetailsViewModel>(response.BudgetPlanner);
+            var budgetPlannerDetailsViewModel = Map<Budget, BudgetPlannerDetailsViewModel>(response.Result);
 
             budgetPlannerDetailsViewModel.PageSize = pageSize;
             budgetPlannerDetailsViewModel.PageNumber = pageNumber;
@@ -107,12 +108,12 @@ namespace BudgetPlanner.Web.Controllers
                     AccountId = (await CurrentAccount).Id, 
                     Reference = reference });
 
-            if(!budgetResponse.IsSuccessful || budgetResponse.BudgetPlanner == null)
+            if(!DomainResponse.IsSuccessful(budgetResponse))
                 return RedirectToAction("Index","Home");
 
             return await ViewWithContent(ContentConstants.TransactionEditor, new AddBudgetTransactionViewModel { 
                 IsModal = isModal,
-                BudgetId = budgetResponse.BudgetPlanner.Id,
+                BudgetId = budgetResponse.Result.Id,
                 Active = true,
                 TransactionTypes = await GetTransactionTypes() });
         }
@@ -140,7 +141,7 @@ namespace BudgetPlanner.Web.Controllers
             var response = await MediatorService
                 .Send(new RetrieveTransactionTypesRequest());
 
-            return new SelectList(response.TransactionTypes, nameof(TransactionType.Id), nameof(TransactionType.Name));
+            return new SelectList(response.Result, nameof(TransactionType.Id), nameof(TransactionType.Name));
         }
     }
 }

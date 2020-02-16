@@ -2,6 +2,7 @@
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using DNI.Shared.Domains;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<RetrieveTransactionTypesResponse> Handle(RetrieveTransactionTypesRequest request, CancellationToken cancellationToken)
         {
-            return new RetrieveTransactionTypesResponse { TransactionTypes = await _budgetPlannerCacheProvider.GetTransactionTypes() };
+            var transactionTypes = await _budgetPlannerCacheProvider.GetTransactionTypes();
+
+            return Response.Success<RetrieveTransactionTypesResponse>(transactionTypes);
         }
 
         public RetrieveTransactionTypes(IBudgetPlannerCacheProvider budgetPlannerCacheProvider)

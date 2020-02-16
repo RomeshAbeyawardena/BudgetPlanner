@@ -8,8 +8,8 @@ using DNI.Shared.Domains;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class CreateBudgetPlannerResponse : ResponseBase
+    public class CreateBudgetPlannerResponse : ResponseBase<Budget>
     {
-        public Budget BudgetPlanner { get; set; }
+
     }
 }

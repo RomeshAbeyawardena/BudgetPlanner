@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using BudgetPlanner.Domains.Constants;
+using DNI.Shared.Domains;
 
 namespace BudgetPlanner.Services.RequestHandlers
 {
@@ -25,16 +26,13 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<RegisterAccountResponse> Handle(RegisterAccountRequest request, CancellationToken cancellationToken)
         {
-            
-            var password = request.Account.Password.GetString(Encoding.UTF8);
-
             var encryptedAccount = await _encryptionProvider.Encrypt<Account, Domains.Data.Account>(request.Account);
 
             var savedAccount = await _accountService.SaveAccount(encryptedAccount);
 
             var account = await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(savedAccount);
 
-            return new RegisterAccountResponse { IsSuccessful = true, SavedAccount = account };
+            return Response.Success<RegisterAccountResponse>(account);
         }
 
         public RegisterAccount(IHashingProvider hashingProvider, 

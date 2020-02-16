@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DNI.Shared.Domains;
 
 namespace BudgetPlanner.Services.RequestHandlers
 {
@@ -22,7 +23,7 @@ namespace BudgetPlanner.Services.RequestHandlers
             var budgetPlanners = await _budgetPlannerService.GetBudgetPlanners(request.AccountId, request.LastUpdated);
             var budgets = _mapperProvider.Map<Domains.Data.Budget, Domains.Dto.Budget>(budgetPlanners);
 
-            return new RetrieveBudgetPlannersResponse { BudgetPlanners = budgets };
+            return Response.Success<RetrieveBudgetPlannersResponse>(budgets);
         }
 
         public RetrieveBudgetPlanners(IMapperProvider mapperProvider, IBudgetPlannerService budgetPlannerService)

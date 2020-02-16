@@ -1,6 +1,7 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using DNI.Shared.Domains;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -20,15 +21,20 @@ namespace BudgetPlanner.Services.RequestHandlers
             var transactionsPager = _transactionService
                 .GetPagedTransactionsWithLedgers(request.Reference, request.FromDate, request.ToDate);
 
-            return new RetrieveTransactionsResponse { 
-                PageNumber = request.PageNumber,
-                TotalPages = await transactionsPager.GetTotalNumberOfPages(request.PageSize),
-                Transactions = await transactionsPager
+            var transactions = await transactionsPager
                     .GetPagedItems(builder => { 
                         builder.PageNumber = request.PageNumber;
                         builder.MaximumRowsPerPage = request.PageSize; 
                         builder.UseAsync = true;
-                    }, cancellationToken: cancellationToken) };
+                    }, cancellationToken: cancellationToken);
+
+            var totalPages = await transactionsPager.GetTotalNumberOfPages(request.PageSize);
+
+            var response = Response.Success<RetrieveTransactionsResponse>(transactions);
+            response.TotalPages = totalPages;
+            response.PageNumber = request.PageNumber;
+            return response;
+
         }
 
         public RetrieveTransactions(ITransactionService transactionService)

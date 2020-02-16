@@ -36,7 +36,7 @@ namespace BudgetPlanner.Services
         public async Task<Account> GetAccount(int accountId, EntityUsage findUsage)
         {
             if(findUsage == EntityUsage.SaveToDatabase)
-                return await _accountRepository.Find(CancellationToken.None, false, accountId);
+                return await _accountRepository.Find(false, CancellationToken.None, accountId);
 
             return await (from account in DefaultAccountQuery
                    where account.Id == accountId

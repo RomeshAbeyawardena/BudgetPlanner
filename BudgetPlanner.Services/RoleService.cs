@@ -68,7 +68,7 @@ namespace BudgetPlanner.Services
 
         public async Task<Role> GetRole(int id, CancellationToken cancellationToken)
         {
-            return await _roleRepository.Find(cancellationToken, false, id);
+            return await _roleRepository.Find(false, cancellationToken, id);
         }
 
         public async Task<Role> GetRole(string normalizedRoleName)

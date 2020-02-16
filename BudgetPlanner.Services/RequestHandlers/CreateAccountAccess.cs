@@ -1,6 +1,7 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using DNI.Shared.Domains;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace BudgetPlanner.Services.RequestHandlers
         {
            var savedAccountAccess = await _accountAccessService.SaveAccountAccess(request.AccountAccessModel);
 
-            return new CreateAccountAccessResponse { IsSuccessful = true, AccountAccessModel = savedAccountAccess  };
+            return Response.Success<CreateAccountAccessResponse>(savedAccountAccess);
         }
 
         public CreateAccountAccess(IAccountAccessService accountAccessService)

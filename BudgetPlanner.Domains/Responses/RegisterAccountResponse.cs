@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class RegisterAccountResponse : ResponseBase
+    public class RegisterAccountResponse : ResponseBase<Account>
     {
         public  Exception Exception { get; set; }
-        public Account SavedAccount { get; set; }
     }
 }

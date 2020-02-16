@@ -3,6 +3,7 @@ using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using DNI.Shared.Contracts;
+using DNI.Shared.Domains;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace BudgetPlanner.Services.RequestHandlers
             var budgetPlanner = _mapperProvider.Map<CreateBudgetPlannerRequest, Budget>(request);
             budgetPlanner = await _budgetPlannerService.Save(budgetPlanner);
 
-            return new CreateBudgetPlannerResponse { IsSuccessful = true, BudgetPlanner = budgetPlanner };
+            return Response.Success<CreateBudgetPlannerResponse>(budgetPlanner);
         }
 
         public CreateBudgetPlanner(IMapperProvider mapperProvider, IBudgetPlannerService budgetPlannerService)

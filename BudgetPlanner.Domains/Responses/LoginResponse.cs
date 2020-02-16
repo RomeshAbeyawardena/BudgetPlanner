@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class LoginResponse : ResponseBase
+    public class LoginResponse : ResponseBase<Account>
     {
-        public Account Account { get; set; }
+
     }
 }

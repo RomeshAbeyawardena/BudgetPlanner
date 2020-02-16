@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class CreateTokenResponse : ResponseBase
+    public class CreateTokenResponse : ResponseBase<Dto.RequestToken>
     {
-        public Dto.RequestToken TokenRequest { get; set; }
     }
 }

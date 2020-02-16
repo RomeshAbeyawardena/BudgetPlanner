@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class RetrieveBudgetPlannerResponse : ResponseBase
+    public class RetrieveBudgetPlannerResponse : ResponseBase<Budget>
     {
-        public Budget BudgetPlanner { get; set; }
         public decimal OldAmount { get; set; }
         public decimal Amount { get; set; }
     }

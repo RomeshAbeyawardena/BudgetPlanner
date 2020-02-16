@@ -1,6 +1,7 @@
 ﻿using BudgetPlanner.Contracts.Providers;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
+using DNI.Shared.Domains;
 using MediatR.Pipeline;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace BudgetPlanner.Services.PostProcessors
 
         public async Task Process(RetrieveBudgetPlannerRequest request, RetrieveBudgetPlannerResponse response, CancellationToken cancellationToken)
         {
-            if(response.BudgetPlanner == null)
+            if(!Response.IsSuccessful(response))
                 return;
 
-            response.Amount = await _transactionProvider.GetBalance(response.BudgetPlanner.Id);
+            response.Amount = await _transactionProvider.GetBalance(response.Result.Id);
             response.IsSuccessful = true;
         }
 

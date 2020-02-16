@@ -6,6 +6,7 @@ using BudgetPlanner.Domains.Responses;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Enumerations;
 using DNI.Shared.Contracts.Services;
+using DNI.Shared.Domains;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace BudgetPlanner.Services.RequestHandlers
             if(transaction.Id != default)
             {
                 transaction = await _transactionService.SaveTransaction(transaction);
-                return new CreateTransactionResponse { IsSuccessful = true, Transaction = transaction };
+                return Response.Success<CreateTransactionResponse>(transaction);
             }
 
             transaction = await _transactionService.SaveTransaction(transaction, false);
@@ -55,10 +56,10 @@ namespace BudgetPlanner.Services.RequestHandlers
                     : previousBalance + transaction.Amount
             };
 
-            transactionLedger = await _transactionLedgerService
+            await _transactionLedgerService
                 .SaveTransactionLedger(transactionLedger, true);
 
-            return new CreateTransactionResponse { IsSuccessful = true, Transaction = transaction };
+            return Response.Success<CreateTransactionResponse>(transaction);
         }
 
         public CreateBudgetTransaction(IBudgetPlannerService budgetPlannerService, 

@@ -18,9 +18,8 @@ namespace BudgetPlanner.Services.PostProcessors
 
         public async Task Process(RetrieveBudgetPlannersRequest request, RetrieveBudgetPlannersResponse response, CancellationToken cancellationToken)
         {
-            foreach (var budget in response.BudgetPlanners)
+            foreach (var budget in response.Result)
                 budget.Balance = await _transactionProvider.GetBalance(budget.Id);
-            
         }
 
         public RetrieveBudgetPlanners(ITransactionProvider transactionProvider)

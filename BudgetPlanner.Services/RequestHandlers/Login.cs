@@ -4,6 +4,7 @@ using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using DNI.Shared.Contracts;
 using DNI.Shared.Contracts.Providers;
+using DNI.Shared.Domains;
 using DNI.Shared.Shared.Extensions;
 using FluentValidation.Results;
 using MediatR;
@@ -42,7 +43,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
                 account = await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(foundAccount);
 
-                return new LoginResponse { IsSuccessful = true, Account = account };
+                return Response.Success<LoginResponse>(account);
             }
             catch (Exception ex)
             { 

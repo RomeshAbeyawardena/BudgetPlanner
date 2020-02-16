@@ -107,7 +107,7 @@ namespace BudgetPlanner.Services
 
         public async Task<Transaction> GetTransaction(int transactionId, CancellationToken cancellationToken)
         {
-            return await _transactionRepository.Find(cancellationToken, false, transactionId);
+            return await _transactionRepository.Find(false, cancellationToken, transactionId);
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)

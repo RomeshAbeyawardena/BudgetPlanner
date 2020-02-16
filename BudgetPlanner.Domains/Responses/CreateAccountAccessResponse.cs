@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Responses
 {
-    public class CreateAccountAccessResponse : ResponseBase
+    public class CreateAccountAccessResponse : ResponseBase<AccountAccess>
     {
-        public AccountAccess AccountAccessModel { get; set; }
+        
     }
 }
