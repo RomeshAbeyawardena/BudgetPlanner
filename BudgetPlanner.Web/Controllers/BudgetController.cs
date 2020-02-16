@@ -4,6 +4,7 @@ using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Web.Attributes;
+using DNI.Shared.Services;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,11 @@ namespace BudgetPlanner.Web.Controllers
             budgetPlannerDetailsViewModel.ToDate = DateTime.Now;
             budgetPlannerDetailsViewModel.Balance = response.Amount;
 
-            return View(budgetPlannerDetailsViewModel);
+            return await ViewWithContent(ContentConstants.DetailsContentPath, budgetPlannerDetailsViewModel, 
+                DictionaryBuilder.Create<string, string>(dictionaryBuilder => dictionaryBuilder
+                    .Add("startDate", budgetPlannerDetailsViewModel.FromDate.ToString(FormatConstants.LongDateFormat))
+                    .Add("endDate", budgetPlannerDetailsViewModel.ToDate.ToString(FormatConstants.LongDateFormat)))
+                .ToDictionary());
         }
 
         [HttpGet]

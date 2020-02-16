@@ -20,11 +20,8 @@
 
 <h1>@Model.Name</h1>
 <h3>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), Model.Balance)</h3>
-<p>
-    <span>Displaying transactions from </span>
-    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.FromDate) - </span>
-    <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.LongDateFormat), Model.ToDate)</span>
-</p>
+
+@Html.Raw(Model.Content)
 
 <section data-src="@Url.Action("TransactionList","ViewComponent")"
          data-parameters="@transactionRequestData">
