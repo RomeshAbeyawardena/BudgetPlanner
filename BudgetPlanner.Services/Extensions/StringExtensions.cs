@@ -12,6 +12,7 @@ namespace BudgetPlanner.Services.Extensions
         public static string ReplaceByKey(this string value, string replaceParameterStart,
             string replaceParameterEnd, IDictionary<string, string> dictionary)
         {
+            //remove html 
             var wordSource = Regex.Replace(value, "([<][/]{0,1}[a-z]{0,}[>])", string.Empty, RegexOptions.ECMAScript | RegexOptions.Multiline);
 
             Func<string, bool> ContainsKeys = (word => word
