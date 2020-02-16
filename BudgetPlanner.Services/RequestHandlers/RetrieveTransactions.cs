@@ -30,11 +30,12 @@ namespace BudgetPlanner.Services.RequestHandlers
 
             var totalPages = await transactionsPager.GetTotalNumberOfPages(request.PageSize);
 
-            var response = Response.Success<RetrieveTransactionsResponse>(transactions);
-            response.TotalPages = totalPages;
-            response.PageNumber = request.PageNumber;
+            var response = Response.Success<RetrieveTransactionsResponse>(transactions, response => { 
+                response.TotalPages = totalPages;
+                response.PageNumber = request.PageNumber; 
+            });
+            
             return response;
-
         }
 
         public RetrieveTransactions(ITransactionService transactionService)
