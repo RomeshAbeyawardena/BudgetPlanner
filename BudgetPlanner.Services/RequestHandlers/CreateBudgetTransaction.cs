@@ -35,6 +35,12 @@ namespace BudgetPlanner.Services.RequestHandlers
             
             var previousBalance = await _transactionProvider.GetBalance(transaction.BudgetId, true);
 
+            if(transaction.Id != default)
+            {
+                transaction = await _transactionService.SaveTransaction(transaction);
+                return new CreateTransactionResponse { IsSuccessful = true, Transaction = transaction };
+            }
+
             transaction = await _transactionService.SaveTransaction(transaction, false);
 
             var transactionLedger = new TransactionLedger

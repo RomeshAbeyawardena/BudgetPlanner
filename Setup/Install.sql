@@ -228,5 +228,5 @@ SELECT * FROM dbo.AccountAccess
 
 SELECT * FROM dbo.Account
 
-DELETE FROM dbo.[Transaction]
+SELECT * FROM dbo.[Transaction]
 DELETE FROM dbo.TransactionLedger

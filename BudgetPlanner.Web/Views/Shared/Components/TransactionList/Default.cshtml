@@ -18,7 +18,13 @@
 
             <tr>
                 <th scope="row">
-                    <span>@transaction.Id</span>
+                    <span>
+                        @Html.ActionLink("Edit", "EditTransaction", "Budget", new { id = transaction.Id }, DictionaryBuilder
+                                        .Create<string, object>(dictionaryBuilder => dictionaryBuilder
+                                            .Add("class", "btn btn-primary")
+                                            .Add("popup", "modal")
+                                            .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())
+                                        </span>
                 </th>
                 <td>
                     <span>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.ShortDateFormat), transaction.Created)</span>

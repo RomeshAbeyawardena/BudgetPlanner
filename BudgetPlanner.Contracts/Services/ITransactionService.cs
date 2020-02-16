@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Contracts.Services
@@ -15,7 +16,7 @@ namespace BudgetPlanner.Contracts.Services
 
         Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate);
         Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate);
-
+        Task<Transaction> GetTransaction(int transactionId, CancellationToken cancellationToken);
         Task<decimal> GetTotal(int budgetId, Domains.Enumerations.TransactionType transactionType);
         Task<Transaction> SaveTransaction(Transaction transaction, bool saveChanges = true);
         Task<Transaction> GetLastTransaction(int budgetId, bool includeLedger = false);

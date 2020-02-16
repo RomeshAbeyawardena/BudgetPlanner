@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services
@@ -102,6 +103,11 @@ namespace BudgetPlanner.Services
                                    select transaction;
 
             return _transactionRepository.GetPager(transactionQuery);
+        }
+
+        public async Task<Transaction> GetTransaction(int transactionId, CancellationToken cancellationToken)
+        {
+            return await _transactionRepository.Find(cancellationToken, false, transactionId);
         }
 
         public TransactionService(IRepository<Transaction> transactionRepository)

@@ -1,0 +1,14 @@
+﻿@model AddBudgetTransactionViewModel
+
+@{
+    ViewBag.Title = "Eit Budget";
+    if (Model.IsModal)
+        Layout = null;
+}
+
+@using (Html.BeginForm("SaveTransaction", "Budget", FormMethod.Post))
+{
+    @await Html.PartialAsync("Partials/Editors/_transactionEditor", Model)
+    <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-primary">Save Transaction</button>
+}

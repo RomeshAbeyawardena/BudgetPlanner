@@ -53,8 +53,8 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
             const $dynamicPanel = $(context.dymamicPanelSelector);
             const $template = $(modeData.templateSelector);
             
-            $element.text("Saving...");
-            $element.attr("disabled", "disabled");
+            //$element.text("Saving...");
+            //$element.attr("disabled", "disabled");
 
             $dynamicPanel.html($template.html());
             
@@ -66,7 +66,11 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
             return request.get(args).then((e) => {
                 const contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
-                $dynamicPanel.find(".modal").show();
+                var modal =  $dynamicPanel.find(".modal");
+
+                modal.show();
+
+                $(contentPlaceholder).find("[data-dismiss|='modal']").click(() => modal.hide());
                 const defaultForm = new form(contentPlaceholder, "form", "DismissModals");
                 defaultForm.capture(0, true);
                 context._onLoad();

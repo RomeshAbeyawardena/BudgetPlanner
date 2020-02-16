@@ -43,6 +43,13 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> Edit([FromQuery]bool isModal)
+        {
+            return await ViewWithContent(ContentConstants.BudgetPlannerEditor, 
+                new CreateBudgetPlannerViewModel { Active = true, IsModal = isModal });
+        }
+
+        [HttpGet]
         public async Task<ActionResult> Create([FromQuery]bool isModal = false)
         {
             return await ViewWithContent(ContentConstants.BudgetPlannerEditor, 
@@ -71,6 +78,26 @@ namespace BudgetPlanner.Web.Controllers
             return await ViewWithContent(ContentConstants.BudgetPlannerEditor, model);
         }
 
+        [HttpGet, Route("/[controller]/Details/Edit/{id}")]
+        public async Task<ActionResult> EditTransaction([FromRoute] int id, [FromQuery]bool isModal = false)
+        {
+            var response = await MediatorService
+                .Send(new RetrieveTransactionRequest { 
+                    AccountId = (await CurrentAccount).Id, 
+                    TransactionId = id
+                });
+
+            if(!response.IsSuccessful || response.Result == null)
+                return RedirectToAction("Index","Home");
+
+            var viewModel = Map<Transaction, AddBudgetTransactionViewModel>(response.Result);
+
+            viewModel.TransactionTypes = await GetTransactionTypes();
+            viewModel.IsModal = isModal;
+
+            return await ViewWithContent(ContentConstants.TransactionEditor, viewModel);
+        }
+
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
         public async Task<ActionResult> CreateTransaction([FromRoute]string reference, [FromQuery]bool isModal = false)
         {
@@ -80,7 +107,7 @@ namespace BudgetPlanner.Web.Controllers
                     AccountId = (await CurrentAccount).Id, 
                     Reference = reference });
 
-            if(budgetResponse.BudgetPlanner == null)
+            if(!budgetResponse.IsSuccessful || budgetResponse.BudgetPlanner == null)
                 return RedirectToAction("Index","Home");
 
             return await ViewWithContent(ContentConstants.TransactionEditor, new AddBudgetTransactionViewModel { 
