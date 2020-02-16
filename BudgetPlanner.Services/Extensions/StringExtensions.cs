@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services.Extensions
@@ -11,13 +12,15 @@ namespace BudgetPlanner.Services.Extensions
         public static string ReplaceByKey(this string value, string replaceParameterStart,
             string replaceParameterEnd, IDictionary<string, string> dictionary)
         {
+            var wordSource = Regex.Replace(value, "([<][/]{0,1}[a-z]{0,}[>])", string.Empty, RegexOptions.ECMAScript | RegexOptions.Multiline);
+
             Func<string, bool> ContainsKeys = (word => word
                     .StartsWith(replaceParameterStart)
                         && word.EndsWith(replaceParameterEnd)
                         && dictionary.ContainsKey(word
                             .GetKey(replaceParameterStart, replaceParameterEnd)));
 
-            var words = value.Split(' ')
+            var words = wordSource.Split(' ')
                 .Where(ContainsKeys);
 
             if (!words.Any())
