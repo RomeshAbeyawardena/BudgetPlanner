@@ -57,7 +57,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([FromForm]CreateBudgetPlannerViewModel model)
+        public async Task<ActionResult> Save([FromForm]CreateBudgetPlannerViewModel model)
         {
             if(!ModelState.IsValid)
                 return await ViewWithContent(ContentConstants.BudgetPlannerEditor,

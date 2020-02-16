@@ -227,6 +227,6 @@ CREATE TABLE [dbo].[AccountAccess]
 SELECT * FROM dbo.AccountAccess
 
 SELECT * FROM dbo.Account
-
+SELECT * FROM dbo.Budget
 SELECT * FROM dbo.[Transaction]
 DELETE FROM dbo.TransactionLedger
