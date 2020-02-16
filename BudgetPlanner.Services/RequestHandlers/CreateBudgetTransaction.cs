@@ -33,13 +33,13 @@ namespace BudgetPlanner.Services.RequestHandlers
             
             budgetPlanner.LastUpdated = SqlDateTime.MinValue.Value;
             
-            var lastTransaction = await _transactionService.GetLastTransaction(transaction.BudgetId);
-
             var previousBalance = await _transactionProvider.GetBalance(transaction.BudgetId, true);
+
+            transaction = await _transactionService.SaveTransaction(transaction, false);
 
             var transactionLedger = new TransactionLedger
             {
-                TransactionId = lastTransaction?.Id,
+                Transaction = transaction,
                 Amount = transaction.Type == Domains.Enumerations.TransactionType.Expense 
                     ? -transaction.Amount
                     : transaction.Amount,
@@ -50,14 +50,7 @@ namespace BudgetPlanner.Services.RequestHandlers
             };
 
             transactionLedger = await _transactionLedgerService
-                .SaveTransactionLedger(transactionLedger, false);
-
-            if(transaction.TransactionLedgers == null)
-                transaction.TransactionLedgers = new List<TransactionLedger>();
-
-            transaction.TransactionLedgers.Add(transactionLedger);
-            
-            transaction = await _transactionService.SaveTransaction(transaction);
+                .SaveTransactionLedger(transactionLedger, true);
 
             return new CreateTransactionResponse { IsSuccessful = true, Transaction = transaction };
         }

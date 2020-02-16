@@ -91,7 +91,7 @@ namespace BudgetPlanner.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateTransaction(AddBudgetTransactionViewModel model)
+        public async Task<ActionResult> SaveTransaction(AddBudgetTransactionViewModel model)
         {
             model.TransactionTypes = await GetTransactionTypes();
 

@@ -1,5 +1,5 @@
 ﻿USE master;
-CREATE DATABASE BudgetPlanner_CMS
+--CREATE DATABASE BudgetPlanner_CMS
 ALTER DATABASE BudgetPlanner SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 
 DROP DATABASE BudgetPlanner;
@@ -80,7 +80,7 @@ CREATE TABLE [dbo].[TransactionLedger]
 (
     [Id] INT NOT NULL IDENTITY(1, 1)
         CONSTRAINT PK_TransactionLedger PRIMARY KEY,
-    [TransactionId] INT NULL
+    [TransactionId] INT NOT NULL
         CONSTRAINT FK_TransactionLedger_Transaction
         REFERENCES [dbo].[Transaction],
     [Amount] DECIMAL(18, 4) NOT NULL,
@@ -227,3 +227,6 @@ CREATE TABLE [dbo].[AccountAccess]
 SELECT * FROM dbo.AccountAccess
 
 SELECT * FROM dbo.Account
+
+DELETE FROM dbo.[Transaction]
+DELETE FROM dbo.TransactionLedger

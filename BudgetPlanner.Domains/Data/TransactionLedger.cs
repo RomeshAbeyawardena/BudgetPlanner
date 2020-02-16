@@ -27,5 +27,7 @@ namespace BudgetPlanner.Domains.Data
 
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
+
+        public virtual Transaction Transaction { get; set; }
     }
 }

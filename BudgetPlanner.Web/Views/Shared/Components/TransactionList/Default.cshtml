@@ -32,13 +32,13 @@
                 <td>
                     <span>
                         @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
-                 transledger.PreviousBalance)
+                 transledger?.PreviousBalance)
                     </span>
                 </td>
                 <td>
                     <span>
                         @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
-                 transledger.NewBalance)
+                 transledger?.NewBalance)
                     </span>
                 </td>
             </tr>

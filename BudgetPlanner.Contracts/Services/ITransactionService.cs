@@ -17,7 +17,7 @@ namespace BudgetPlanner.Contracts.Services
         Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate);
 
         Task<decimal> GetTotal(int budgetId, Domains.Enumerations.TransactionType transactionType);
-        Task<Transaction> SaveTransaction(Transaction transaction);
+        Task<Transaction> SaveTransaction(Transaction transaction, bool saveChanges = true);
         Task<Transaction> GetLastTransaction(int budgetId, bool includeLedger = false);
     }
 }

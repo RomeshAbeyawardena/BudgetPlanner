@@ -46,7 +46,7 @@ namespace BudgetPlanner.Services
 
         public async Task<AccountAccess> SaveAccountAccess(AccountAccess accountAccess, bool saveChanges = true, CancellationToken cancellationToken = default)
         {
-            return await _accountAccessRepository.SaveChanges(accountAccess, saveChanges, cancellationToken);
+            return await _accountAccessRepository.SaveChanges(accountAccess, saveChanges, cancellationToken: cancellationToken);
         }
 
         public AccessType GetAccessType(IEnumerable<AccessType> accessTypes, int id)

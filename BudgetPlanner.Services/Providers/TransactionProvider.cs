@@ -24,7 +24,7 @@ namespace BudgetPlanner.Services.Providers
             if (transaction == null)
                 return 0;
 
-            return transaction.TransactionLedgers?.FirstOrDefault().NewBalance ?? 0;
+            return transaction.TransactionLedgers?.FirstOrDefault()?.NewBalance ?? 0;
         }
 
         private async Task<decimal> GetBalanceFromRealtimeData(int budgetPlannerId)
