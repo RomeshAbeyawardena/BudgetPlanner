@@ -35,6 +35,10 @@ namespace BudgetPlanner.Domains.Constants
         public const string DescriptionLabel = "descriptionLabel";
         public const string AmountLabel = "amountLabel";
 
+        public const string Dashboard = "pages/dashboard/dashboarditem";
         public const string EmptyDashboard = "pages/dashboard/emptydashboard";
+
+        public const string ReplaceParameterStart = "#{";
+        public const string ReplaceParameterEnd = "}";
     }
 }

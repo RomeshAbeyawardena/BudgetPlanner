@@ -3,6 +3,7 @@
     @if (Model.BudgetPlanners.Any())
     {
         <div class="card-body">
+            @Html.Raw(Model.Content)
             <div class="row">
                 @foreach (var budgetPlanner in Model.BudgetPlanners)
                 {

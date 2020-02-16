@@ -13,15 +13,21 @@ namespace BudgetPlanner.Web.ViewComponents
     { 
         protected ICmsContentProvider CmsContentProvider => GetService<ICmsContentProvider>();
 
-        protected async Task<IViewComponentResult> ViewWithContent<TModel>(string contentPath, TModel model)
+        protected async Task<IViewComponentResult> ViewWithContent<TModel>(string contentPath, TModel model,
+            IDictionary<string, string> placeholders = null, 
+            string replaceParameterStart = default,
+            string replaceParameterEnd = default)
         {
-            model = await CmsContentProvider.PopulateContent(contentPath, model);
+            model = await CmsContentProvider.PopulateContent(contentPath, model, placeholders, replaceParameterStart, replaceParameterEnd);
             return View(model);
         }
 
-        protected async Task<IViewComponentResult> ViewWithContent<TModel>(string contentPath, string viewName, TModel model)
+        protected async Task<IViewComponentResult> ViewWithContent<TModel>(string contentPath, string viewName, TModel model,
+            IDictionary<string, string> placeholders = null, 
+            string replaceParameterStart = default,
+            string replaceParameterEnd = default)
         {
-            model = await CmsContentProvider.PopulateContent(contentPath, model);
+            model = await CmsContentProvider.PopulateContent(contentPath, model, placeholders, replaceParameterStart, replaceParameterEnd);
             return View(viewName, model);
         }
 

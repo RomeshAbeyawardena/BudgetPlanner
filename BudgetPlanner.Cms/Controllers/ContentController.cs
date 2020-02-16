@@ -26,11 +26,12 @@ namespace BudgetPlanner.Cms.Controllers
         [HttpGet]
         public JsonResult<ContentResult> Get(string contentPath)
         {
+            
             IPublishedContent publishedContent = Umbraco.FindByPath('/', contentPath);
             
             if (publishedContent == null)
                 return Json(new ContentResult { Succeeded = false });
-
+            
             return Json(new ContentResult
             {
                 Succeeded = true,

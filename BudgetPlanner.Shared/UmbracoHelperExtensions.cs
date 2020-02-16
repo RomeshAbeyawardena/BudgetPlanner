@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 
+
 namespace BudgetPlanner.Shared
 {
     public static class UmbracoHelperExtensions
@@ -44,13 +45,15 @@ namespace BudgetPlanner.Shared
             {
                 if (!property.HasValue())
                     continue;
-
-                var propertyValue = property.Value();
+                
+                var sourceValue = property.GetSourceValue();
+                var propertyValue = property.GetValue();
                 var propertyValueType = propertyValue.GetType();
-
+                //Placeholders
+                //placeholderKey=\"piss\"
                 propertyValue = propertyValueType.IsArray
                     ? string.Join(",", (object[])propertyValue)
-                    : property.Value<string>();
+                    : propertyValue;
 
                 dictionary.Add(property.Alias, propertyValue.ToString());
             }

@@ -2,6 +2,7 @@
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
+using DNI.Shared.Services;
 using DNI.Shared.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,18 +27,23 @@ namespace BudgetPlanner.Web.ViewComponents
             throw new NotSupportedException();
         }
 
-        private async Task<IViewComponentResult> List(BudgetPanelDashboardListViewModel budgetPanelDashboardListViewModel)
+        private async Task<IViewComponentResult> List(BudgetPanelDashboardListViewModel model)
         {
             var budgetPanelDashboardViewModel = new BudgetPanelDashboardViewModel();
 
-            var retrieveBudgetPlannersRequest = Map<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>(budgetPanelDashboardListViewModel);
+            var retrieveBudgetPlannersRequest = Map<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>(model);
 
             var response = await MediatorService
                 .Send(retrieveBudgetPlannersRequest);
 
             budgetPanelDashboardViewModel.BudgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.BudgetPlanners);
 
-            return await ViewWithContent(ContentConstants.EmptyDashboard, "List", budgetPanelDashboardViewModel);
+            return await ViewWithContent(
+                (response.BudgetPlanners.Any()) 
+                ? ContentConstants.Dashboard
+                : ContentConstants.EmptyDashboard, "List", budgetPanelDashboardViewModel, DictionaryBuilder
+                .Create<string, string>(dictionaryBuilder => dictionaryBuilder.Add("date", model.LastUpdated.ToString(FormatConstants.LongDateFormat)))
+                .ToDictionary());
         }
     }
 }

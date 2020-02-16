@@ -1,6 +1,8 @@
 ﻿using BudgetPlanner.Contracts.HttpServices;
 using BudgetPlanner.Contracts.Providers;
 using BudgetPlanner.Domains.Attributes;
+using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Services.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,9 @@ namespace BudgetPlanner.Services.Providers
     {
         private readonly ICmsHttpService _cmsHttpService;
 
-        public async Task<T> PopulateContent<T>(string contentPath, T model)
+        public async Task<T> PopulateContent<T>(string contentPath, T model, 
+            IDictionary<string, string> placeholders = null, string replaceParameterStart = default,
+            string replaceParameterEnd = default)
         {
             var type = typeof(T);
             var properties = type.GetProperties();
@@ -30,8 +34,19 @@ namespace BudgetPlanner.Services.Providers
                     ? property.Name 
                     : contentAttribute.ContentName;
 
-                if(!content.TryGetValue(contentName, out var contentValue) || string.IsNullOrEmpty(contentValue))
+                if(!content.TryGetValue(contentName, out var contentValue) 
+                    || string.IsNullOrEmpty(contentValue))
                     continue;
+
+                if(replaceParameterStart == default)
+                    replaceParameterStart = ContentConstants.ReplaceParameterStart;
+
+                if(replaceParameterEnd == default)
+                    replaceParameterEnd = ContentConstants.ReplaceParameterEnd;
+
+                if(placeholders != null)
+                    contentValue = contentValue.
+                        ReplaceByKey(replaceParameterStart, replaceParameterEnd, placeholders);
 
                 property.SetValue(model, contentValue);
             }

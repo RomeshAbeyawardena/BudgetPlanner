@@ -8,6 +8,9 @@ namespace BudgetPlanner.Contracts.Providers
 {
     public interface ICmsContentProvider
     {
-        Task<T> PopulateContent<T>(string contentPath, T model);
+        Task<T> PopulateContent<T>(string contentPath, T model, 
+            IDictionary<string, string> placeholders = null, 
+            string replaceParameterStart = default,
+            string replaceParameterEnd = default);
     }
 }
