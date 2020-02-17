@@ -54,6 +54,9 @@ CREATE TABLE [dbo].[BudgetLimit]
 (
     [Id] INT NOT NULL IDENTITY(1,1)
         CONSTRAINT PK_BudgetLimit PRIMARY KEY
+    ,[BudgetId] INT NOT NULL
+        CONSTRAINT FK_BudgetLimit_Budget
+        REFERENCES [dbo].[Budget]([Id])
     ,[Description] VARCHAR(200) NOT NULL
     ,[Amount] DECIMAL(18, 4) NOT NULL
     ,[FromDate] DATETIME NOT NULL
