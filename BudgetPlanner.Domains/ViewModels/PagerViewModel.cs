@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
-    public class PagerViewModel
+    public class PagerViewModel : BaseViewModel
     {
         public int PageSize { get; set; }
         public int PageNumber { get; set; }

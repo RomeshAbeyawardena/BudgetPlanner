@@ -50,6 +50,18 @@ CREATE TABLE [dbo].[Budget]
     INDEX Idx_Budget_Reference NONCLUSTERED ([Reference])
 );
 
+CREATE TABLE [dbo].[BudgetLimit]
+(
+    [Id] INT NOT NULL IDENTITY(1,1)
+        CONSTRAINT PK_BudgetLimit PRIMARY KEY
+    ,[Description] VARCHAR(200) NOT NULL
+    ,[Amount] DECIMAL(18, 4) NOT NULL
+    ,[FromDate] DATETIME NOT NULL
+    ,[ToDate] DATETIME NULL
+    ,[Created] DATETIMEOFFSET NOT NULL
+    ,[Modified] DATETIMEOFFSET NOT NULL
+)
+
 CREATE TABLE [dbo].[TransactionType]
 (
     [Id] INT NOT NULL IDENTITY(1, 1)
