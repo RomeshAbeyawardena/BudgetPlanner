@@ -1,4 +1,5 @@
-﻿using BudgetPlanner.Domains.Requests;
+﻿using BudgetPlanner.Domains.Constants;
+using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
 using DNI.Shared.Services.Abstraction;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.ViewComponents
 {
-    public class TransactionListViewComponent : DefaultViewComponentBase
+    public class TransactionListViewComponent : ViewComponentBase
     {
         public async Task<IViewComponentResult> InvokeAsync(TransactionListRequestViewModel model)
         {
@@ -25,13 +26,13 @@ namespace BudgetPlanner.Web.ViewComponents
                         ToDate = model.ToDate 
                     });
 
-            var responseModel = Map<RetrieveTransactionsResponse, TransactionListViewModel>(response);
+            var viewModel = Map<RetrieveTransactionsResponse, TransactionListViewModel>(response);
 
-            responseModel.SelectPageUrl = model.SelectPageUrl;
-            responseModel.PreviousPageUrl = model.PreviousPageUrl;
-            responseModel.NextPageUrl = model.NextPageUrl;
+            viewModel.SelectPageUrl = model.SelectPageUrl;
+            viewModel.PreviousPageUrl = model.PreviousPageUrl;
+            viewModel.NextPageUrl = model.NextPageUrl;
 
-            return View(responseModel);
+            return await ViewWithContent(ContentConstants.TransactionListContentPath, viewModel);
         }
     }
 }

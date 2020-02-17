@@ -36,6 +36,15 @@ namespace BudgetPlanner.Domains.Constants
         public const string AmountLabel = "amountLabel";
 
         public const string DetailsContentPath = "pages/budgetplanner/details";
+        
+        
+        public const string TransactionListContentPath = "pages/budgetplanner/details/transactionlist";
+        
+        public const string Description = "description";
+        public const string Created = "created";
+        public const string Amount = "amount";
+        public const string OldBalance = "oldBalance";
+        public const string NewBalance = "newBalanceLabel";
 
         public const string Dashboard = "pages/dashboard/dashboarditem";
         public const string EmptyDashboard = "pages/dashboard/emptydashboard";
