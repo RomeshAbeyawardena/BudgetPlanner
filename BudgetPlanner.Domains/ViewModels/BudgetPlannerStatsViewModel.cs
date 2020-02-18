@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.ViewModels
 {
-    public class BudgetPlannerStatsViewModel
+    public class BudgetPlannerStatsViewModel : BaseViewModel
     {
         public IEnumerable<BudgetPlannerStat> Statistics { get; set; }
     }

@@ -17,7 +17,18 @@ $(() => {
         modalPopup
             .configureMode("modal", "#modalDialog", "#content")
             .init()
-            .then(() => { expander.init(true); });
+            .then(() => { 
+                const $estimatedCostPanel = $("#estimatedCost"); 
+                const $costDetailsPanel = $("#costDetails");
+                if(!$estimatedCostPanel)
+                    return;
+
+                if(!$costDetailsPanel)
+                    return;
+
+                $costDetailsPanel.find("input[type='number']")
+                    .change((e) => console.log(e));
+            });
 
     const loader = new asyncLoader("data-src","data-parameters")
         .init()

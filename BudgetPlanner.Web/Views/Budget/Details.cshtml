@@ -14,6 +14,8 @@
         NextPageUrl = pageQuery,
         SelectPageUrl = pageQuery
     }), Encoding.UTF8);
+
+    var budgetPlannerStatsData = Html.Base64Encode(Json.Serialize(Model.BudgetStatisticsRequest), Encoding.UTF8);
 }
 
 @Html.ActionLink("Dashboard", "Index", "Home")
@@ -22,17 +24,21 @@
 
 <h3>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), Model.Balance)</h3>
 
-<div class="card">
+@Html.Raw(Model.Content)
+
+<section class="card">
     <div class="card-header">
         Spending Summary
     </div>
-    <div class="card-body">
-        @await Html.PartialAsync("Partials/_BudgetStats", Model.BudgetPlannerStats)
+    <div class="card-body" data-src="@Url.Action("BudgetStatistics", "ViewComponent")"
+         data-parameters="@budgetPlannerStatsData">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-</div>
+</section>
 
-@Html.Raw(Model.Content)
-<div class="card">
+<section class="card">
     <div class="card-header">Details</div>
     <div class="card-body" data-src="@Url.Action("TransactionList","ViewComponent")"
          data-parameters="@transactionRequestData">
@@ -40,7 +46,7 @@
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-</div>
+</section>
 
 @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference }, DictionaryBuilder
                 .Create<string, object>(dictionaryBuilder => dictionaryBuilder

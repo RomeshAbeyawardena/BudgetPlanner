@@ -50,7 +50,12 @@ namespace BudgetPlanner.Web.Controllers
             budgetPlannerDetailsViewModel.FromDate = DateTime.Now.AddDays(-30);
             budgetPlannerDetailsViewModel.ToDate = DateTime.Now;
             budgetPlannerDetailsViewModel.Balance = response.Amount;
-            budgetPlannerDetailsViewModel.BudgetPlannerStats = new BudgetPlannerStatsViewModel { Statistics  = budgetStatsResponse.Result };
+            budgetPlannerDetailsViewModel.BudgetStatisticsRequest = new BudgetStatisticRequestViewModel 
+            { 
+                FromDate = DateTime.Now.AddDays(-5),
+                ToDate = DateTime.Now,
+                BudgetId = response.Result.Id
+            };
 
             return await ViewWithContent(ContentConstants.DetailsContentPath, budgetPlannerDetailsViewModel, 
                 DictionaryBuilder.Create<string, string>(dictionaryBuilder => dictionaryBuilder

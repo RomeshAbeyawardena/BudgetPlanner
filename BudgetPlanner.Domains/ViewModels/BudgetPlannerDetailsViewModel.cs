@@ -9,7 +9,7 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class BudgetPlannerDetailsViewModel : BaseViewModel
     {
-        public BudgetPlannerStatsViewModel BudgetPlannerStats { get; set; }
+        public BudgetStatisticRequestViewModel BudgetStatisticsRequest { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Reference { get; set; }

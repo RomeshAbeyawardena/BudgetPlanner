@@ -1,5 +1,12 @@
 ﻿@import "~bootstrap/scss/bootstrap";
 
+section
+{
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
 #navHeader {
     &.container-fluid {
         margin: 0;
