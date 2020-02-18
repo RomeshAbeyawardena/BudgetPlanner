@@ -16,6 +16,8 @@ namespace BudgetPlanner.Data
         {
         
         }
+        public DbSet<BudgetPlannerStat> BudgetPlannerStats { get; set; }
+
         public DbSet<RequestToken> RequestTokens { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountAccess> AccountAccesses { get; set; }
@@ -28,5 +30,11 @@ namespace BudgetPlanner.Data
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<TransactionLedger> TransactionLedgers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BudgetPlannerStat>().HasNoKey();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

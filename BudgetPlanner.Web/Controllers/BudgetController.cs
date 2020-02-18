@@ -31,6 +31,16 @@ namespace BudgetPlanner.Web.Controllers
                 });
 
             if(!response.IsSuccessful)
+                return RedirectToAction("Index", "Home");
+
+            var budgetStatsResponse = await MediatorService.Send(new BudgetPlannerStatsRequest
+            {
+                BudgetId = response.Result.Id,
+                FromDate = DateTime.Now.AddDays(-7),
+                ToDate = DateTime.Now
+            });
+
+            if(!budgetStatsResponse.IsSuccessful)
                 return RedirectToAction("Index","Home");
 
             var budgetPlannerDetailsViewModel = Map<Budget, BudgetPlannerDetailsViewModel>(response.Result);
@@ -40,6 +50,7 @@ namespace BudgetPlanner.Web.Controllers
             budgetPlannerDetailsViewModel.FromDate = DateTime.Now.AddDays(-30);
             budgetPlannerDetailsViewModel.ToDate = DateTime.Now;
             budgetPlannerDetailsViewModel.Balance = response.Amount;
+            budgetPlannerDetailsViewModel.BudgetPlannerStats = new BudgetPlannerStatsViewModel { Statistics  = budgetStatsResponse.Result };
 
             return await ViewWithContent(ContentConstants.DetailsContentPath, budgetPlannerDetailsViewModel, 
                 DictionaryBuilder.Create<string, string>(dictionaryBuilder => dictionaryBuilder

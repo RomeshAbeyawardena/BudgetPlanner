@@ -13,6 +13,7 @@ namespace BudgetPlanner.Contracts.Services
         Task<Budget> GetBudgetPlanner(string reference);
         Task<Budget> GetBudgetPlanner(int id);
         Task<bool> IsReferenceUnique(string uniqueReference);
+        Task<IEnumerable<BudgetPlannerStat>> GetBudgetPlannerStats(int budgetId, DateTime fromDate, DateTime toDate);
         Task<Budget> Save(Budget budgetPlanner);
     }
 }

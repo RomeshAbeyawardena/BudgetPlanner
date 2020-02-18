@@ -254,13 +254,13 @@ AS BEGIN
 		DECLARE @totalExpenses DECIMAL(18, 4)
 		DECLARE @totalIncome DECIMAL(18, 4)
 		
-		SELECT @totalExpenses = SUM([Amount])
+		SELECT @totalExpenses = ISNULL(SUM([Amount]), 0)
 		FROM dbo.[Transaction] 
 		WHERE BudgetId = @budgetId 
 				AND TransactionTypeId = 2 
 				AND CONVERT(DATE,Created) = @currentDate
 
-		SELECT @totalIncome = SUM([Amount])
+		SELECT @totalIncome = ISNULL(SUM([Amount]),0)
 		FROM dbo.[Transaction] 
 		WHERE BudgetId = @budgetId 
 				AND TransactionTypeId = 1

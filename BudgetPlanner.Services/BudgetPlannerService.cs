@@ -2,6 +2,7 @@
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Enumerations;
 using DNI.Shared.Contracts;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,17 @@ namespace BudgetPlanner.Services
         public async Task<Budget> GetBudgetPlanner(int id)
         {
             return await _budgetRepository.Find(keys: id);
+        }
+
+        public async Task<IEnumerable<BudgetPlannerStat>> GetBudgetPlannerStats(int budgetId, DateTime fromDate, DateTime toDate)
+        {
+            return await _budgetRepository
+                .FromQuery<BudgetPlannerStat>("SELECT * FROM [dbo].[fn_GetBudgetStats] (@budgetId, @fromDate, @toDate)",
+                new SqlParameter(nameof(budgetId), budgetId),
+                new SqlParameter(nameof(fromDate), fromDate),
+                new SqlParameter(nameof(toDate), toDate))
+                .OrderByDescending(budgetStat => budgetStat.Date)
+                .ToArrayAsync();
         }
 
         public BudgetPlannerService(IRepository<Budget> budgetRepository)

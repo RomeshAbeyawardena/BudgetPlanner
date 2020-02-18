@@ -19,16 +19,28 @@
 @Html.ActionLink("Dashboard", "Index", "Home")
 
 <h1>@Model.Name</h1>
+
 <h3>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), Model.Balance)</h3>
 
-@Html.Raw(Model.Content)
-
-<section data-src="@Url.Action("TransactionList","ViewComponent")"
-         data-parameters="@transactionRequestData">
-    <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+<div class="card">
+    <div class="card-header">
+        Spending Summary
     </div>
-</section>
+    <div class="card-body">
+        @await Html.PartialAsync("Partials/_BudgetStats", Model.BudgetPlannerStats)
+    </div>
+</div>
+
+@Html.Raw(Model.Content)
+<div class="card">
+    <div class="card-header">Details</div>
+    <div class="card-body" data-src="@Url.Action("TransactionList","ViewComponent")"
+         data-parameters="@transactionRequestData">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
 
 @Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference }, DictionaryBuilder
                 .Create<string, object>(dictionaryBuilder => dictionaryBuilder
