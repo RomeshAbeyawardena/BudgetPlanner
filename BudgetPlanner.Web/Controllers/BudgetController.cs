@@ -79,21 +79,24 @@ namespace BudgetPlanner.Web.Controllers
             if(transactionTypeId == 1)
                 newBalance = response.Amount + amount;
 
-            return string.Format("Estimated new balance: {0}", 
-                newBalance.ToString(FormatConstants.CurrencyFormat));
+            return await GetContent(ContentConstants.TransactionEditorPath, 
+                ContentConstants.EstimatedCostCalculatorLabel, 
+                DictionaryBuilder.Create<string, string>(builder => builder
+                    .Add("newBalance", newBalance.ToString(FormatConstants.CurrencyFormat)))
+                .ToDictionary());
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit([FromQuery]bool isModal)
         {
-            return await ViewWithContent(ContentConstants.BudgetPlannerEditor, 
+            return await ViewWithContent(ContentConstants.BudgetPlannerEditorPath, 
                 new CreateBudgetPlannerViewModel { Active = true, IsModal = isModal });
         }
 
         [HttpGet]
         public async Task<ActionResult> Create([FromQuery]bool isModal = false)
         {
-            return await ViewWithContent(ContentConstants.BudgetPlannerEditor, 
+            return await ViewWithContent(ContentConstants.BudgetPlannerEditorPath, 
                 new CreateBudgetPlannerViewModel { Active = true, IsModal = isModal });
         }
 
@@ -101,7 +104,7 @@ namespace BudgetPlanner.Web.Controllers
         public async Task<ActionResult> Save([FromForm]CreateBudgetPlannerViewModel model)
         {
             if(!ModelState.IsValid)
-                return await ViewWithContent(ContentConstants.BudgetPlannerEditor,
+                return await ViewWithContent(ContentConstants.BudgetPlannerEditorPath,
                     model);
 
             model.AccountId =  (await CurrentAccount).Id;
@@ -116,7 +119,7 @@ namespace BudgetPlanner.Web.Controllers
 
             AddErrorsToModelState(saveResponse);
 
-            return await ViewWithContent(ContentConstants.BudgetPlannerEditor, model);
+            return await ViewWithContent(ContentConstants.BudgetPlannerEditorPath, model);
         }
 
         [HttpGet, Route("/[controller]/Details/Edit/{id}")]
@@ -136,7 +139,7 @@ namespace BudgetPlanner.Web.Controllers
             viewModel.TransactionTypes = await GetTransactionTypes();
             viewModel.IsModal = isModal;
 
-            return await ViewWithContent(ContentConstants.TransactionEditor, viewModel);
+            return await ViewWithContent(ContentConstants.TransactionEditorPath, viewModel);
         }
 
         [HttpGet, Route("/[controller]/Details/{reference}/Create")]
@@ -151,7 +154,7 @@ namespace BudgetPlanner.Web.Controllers
             if(!DomainResponse.IsSuccessful(budgetResponse))
                 return RedirectToAction("Index","Home");
 
-            return await ViewWithContent(ContentConstants.TransactionEditor, new AddBudgetTransactionViewModel { 
+            return await ViewWithContent(ContentConstants.TransactionEditorPath, new AddBudgetTransactionViewModel { 
                 IsModal = isModal,
                 BudgetId = budgetResponse.Result.Id,
                 Active = true,
@@ -173,7 +176,7 @@ namespace BudgetPlanner.Web.Controllers
             if(response.IsSuccessful)
                 return RedirectToAction("Details", "Budget", new { reference = response.Reference });
 
-            return await ViewWithContent(ContentConstants.TransactionEditor, model);
+            return await ViewWithContent(ContentConstants.TransactionEditorPath, model);
         }
 
         private async Task<SelectList> GetTransactionTypes()

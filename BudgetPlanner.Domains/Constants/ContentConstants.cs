@@ -25,15 +25,16 @@ namespace BudgetPlanner.Domains.Constants
         public const string PasswordLabel = "passwordLabel";
         public const string RememberMeLabel = "rememberMeLabel";
         
-        public const string BudgetPlannerEditor = "pages/budgetplanner/editor";
+        public const string BudgetPlannerEditorPath = "pages/budgetplanner/editor";
         public const string ReferenceLabel = "referenceLabel";
         public const string NameLabel = "nameLabel";
         public const string ActiveLabel = "activeLabel";
 
-        public const string TransactionEditor = "pages/budgetplanner/transactioneditor";
+        public const string TransactionEditorPath = "pages/budgetplanner/transactioneditor";
         public const string TransactionTypeLabel = "transactionTypeLabel";
         public const string DescriptionLabel = "descriptionLabel";
         public const string AmountLabel = "amountLabel";
+        public const string EstimatedCostCalculatorLabel = "estimatedCostCalculatorLabel";
 
         public const string BudgetStatisticsPanel = "pages/budgetplanner/details/statistics";
 
