@@ -26,7 +26,8 @@ namespace BudgetPlanner.Data
             }).RegisterDbContentRepositories<BudgetPlannerDbContext>(ServiceLifetime.Transient, 
                 typeof(Account), typeof(Role), typeof(AccountRole), typeof(Claim),
                 typeof(AccountClaim), typeof(Budget), typeof(Transaction), typeof(TransactionType),
-                typeof(TransactionLedger), typeof(RequestToken), typeof(AccessType), typeof(AccountAccess));
+                typeof(TransactionLedger), typeof(RequestToken), typeof(AccessType), typeof(AccountAccess),
+                typeof(Tag), typeof(BudgetTag));
         }
     }
 }
