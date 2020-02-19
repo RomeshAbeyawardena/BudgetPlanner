@@ -239,9 +239,56 @@ CREATE TABLE [dbo].[AccountAccess]
     ,[Active] BIT NOT NULL
     ,[Created] DATETIMEOFFSET NOT NULL
  )
-SELECT * FROM dbo.AccountAccess
+ GO
 
-SELECT * FROM dbo.Account
-SELECT * FROM dbo.Budget
-SELECT * FROM dbo.[Transaction]
-DELETE FROM dbo.TransactionLedger
+ CREATE FUNCTION [dbo].[fn_GetBudgetStats](
+@budgetId INT,
+@fromDate DATETIME,
+@toDate DATETIME)
+	RETURNS @statistics TABLE ([Date] DATETIME, 
+		[ClosingBalance] DECIMAL(18, 4), 
+		[TotalExpenses] DECIMAL(18, 4),
+		[TotalIncome] DECIMAL(18,4))
+AS BEGIN
+	DECLARE @currentDate DATETIME = @fromDate
+
+	WHILE @currentDate <= @toDate
+	BEGIN
+		DECLARE @totalExpenses DECIMAL(18, 4)
+		DECLARE @totalIncome DECIMAL(18, 4)
+		
+		SELECT @totalExpenses = ISNULL(SUM([Amount]), 0)
+		FROM dbo.[Transaction] 
+		WHERE BudgetId = @budgetId 
+				AND TransactionTypeId = 2 
+				AND CONVERT(DATE,Created) = @currentDate
+
+		SELECT @totalIncome = ISNULL(SUM([Amount]),0)
+		FROM dbo.[Transaction] 
+		WHERE BudgetId = @budgetId 
+				AND TransactionTypeId = 1
+				AND CONVERT(DATE,Created) = @currentDate
+
+
+		INSERT INTO @statistics
+		    (
+		        [Date],
+		        ClosingBalance,
+		        TotalExpenses,
+				TotalIncome
+		    )
+		SELECT TOP(1) @currentDate [Date], NewBalance [Balance], 
+			@totalExpenses, @totalIncome
+		FROM dbo.TransactionLedger
+		INNER JOIN dbo.[Transaction]
+		ON [Transaction].Id = TransactionLedger.TransactionId
+		WHERE BudgetId = @budgetId
+		AND CONVERT(DATE, [TransactionLedger].[Created]) =  @currentDate
+		ORDER BY TransactionLedger.Created DESC
+
+		SET @currentDate = DATEADD(DAY, 1, @currentDate)
+	END
+
+	RETURN
+END
+GO

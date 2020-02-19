@@ -54,6 +54,32 @@ namespace BudgetPlanner.Services.Providers
             return model;
         }
 
+        public async Task<string> GetContent(string contentPath, string property, 
+            IDictionary<string, string> placeholders, 
+            string replaceParameterStart, 
+            string replaceParameterEnd)
+        {
+            var content = await _cmsHttpService.GetContent(contentPath);
+
+            if(!content.TryGetValue(property, out var propertyContent))
+                return string.Empty;
+
+            
+                if(replaceParameterStart == default)
+                    replaceParameterStart = ContentConstants.ReplaceParameterStart;
+
+                if(replaceParameterEnd == default)
+                    replaceParameterEnd = ContentConstants.ReplaceParameterEnd;
+
+
+            if(placeholders != null)
+                    propertyContent = propertyContent.
+                        ReplaceByKey(replaceParameterStart, replaceParameterEnd, placeholders);
+
+
+            return propertyContent;
+        }
+
         public CmsContentProvider(ICmsHttpService cmsHttpService)
         {
             _cmsHttpService = cmsHttpService;

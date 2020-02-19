@@ -30,6 +30,15 @@ namespace BudgetPlanner.Web.Controllers
             return View(viewName, model);
         }
 
+        public async Task<string> GetContent(string contentPath, string property, 
+            IDictionary<string, string> placeholders = null,
+            string replaceParameterStart = default,
+            string replaceParameterEnd = default)
+        {
+            return await CmsContentProvider.GetContent(contentPath, property, 
+                placeholders, replaceParameterStart, replaceParameterEnd);
+        }
+
         protected async Task<ViewResult> ViewWithContent<TModel>(string contentPath, TModel model,
             IDictionary<string, string> placeholders = null, 
             string replaceParameterStart = default,

@@ -1,5 +1,6 @@
 ﻿import $ from 'jquery';
 import { httpRequest, form } from "../utility";
+import promise from "promise";
 
 export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
     this.dymamicPanelSelector = dymamicPanelSelector;
@@ -44,8 +45,8 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
         $element.attr("data-setup", "true");
         $element.attr("href", "#");
         $element.attr("data-href", href);
-
-        $element.on("click", (e) => {
+        return new promise((resolve, reject) => 
+            $element.on("click", (e) => {
             const $element = $(e.target);
             const href = $element.attr("data-href");
             var args = $element.attr("data-args");
@@ -63,7 +64,8 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
              if(args)
                  args = JSON.parse(args);
 
-            return request.get(args).then((e) => {
+            request.get(args).then((e) => {
+                resolve(e);
                 const contentPlaceholder = $dynamicPanel.find(modeData.contentPlaceholder);
                 contentPlaceholder.html(e);
                 var modal =  $dynamicPanel.find(".modal");
@@ -75,7 +77,7 @@ export default function (dymamicPanelSelector, modesHiddenFieldSelector) {
                 defaultForm.capture(0, true);
                 context._onLoad();
             });
-        });
+        }));
 
     }
 }

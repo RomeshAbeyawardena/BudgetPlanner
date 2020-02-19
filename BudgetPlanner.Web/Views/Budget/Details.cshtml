@@ -14,19 +14,37 @@
         NextPageUrl = pageQuery,
         SelectPageUrl = pageQuery
     }), Encoding.UTF8);
+
+    var budgetPlannerStatsData = Html.Base64Encode(Json.Serialize(Model.BudgetStatisticsRequest), Encoding.UTF8);
 }
 
 @Html.ActionLink("Dashboard", "Index", "Home")
 
 <h1>@Model.Name</h1>
+
 <h3>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), Model.Balance)</h3>
 
 @Html.Raw(Model.Content)
 
-<section data-src="@Url.Action("TransactionList","ViewComponent")"
+<section class="card">
+    <div class="card-header">
+        Spending Summary
+    </div>
+    <div class="card-body" data-src="@Url.Action("BudgetStatistics", "ViewComponent")"
+         data-parameters="@budgetPlannerStatsData">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</section>
+
+<section class="card">
+    <div class="card-header">Details</div>
+    <div class="card-body" data-src="@Url.Action("TransactionList","ViewComponent")"
          data-parameters="@transactionRequestData">
-    <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
 </section>
 

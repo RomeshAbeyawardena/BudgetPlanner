@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BudgetPlanner.Domains.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class BudgetPlannerDetailsViewModel : BaseViewModel
     {
+        public BudgetStatisticRequestViewModel BudgetStatisticsRequest { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Reference { get; set; }

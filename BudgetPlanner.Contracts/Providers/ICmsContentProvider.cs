@@ -12,5 +12,9 @@ namespace BudgetPlanner.Contracts.Providers
             IDictionary<string, string> placeholders = null, 
             string replaceParameterStart = default,
             string replaceParameterEnd = default);
+        Task<string> GetContent(string contentPath, string property, 
+            IDictionary<string, string> placeholders, 
+            string replaceParameterStart, 
+            string replaceParameterEnd);
     }
 }

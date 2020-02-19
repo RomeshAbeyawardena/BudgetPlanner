@@ -19,12 +19,18 @@ namespace BudgetPlanner.Web.Controllers
         [DisallowUntrustedReferrers("Details", "Budget")]
         public async Task<ActionResult> TransactionList([FromQuery] TransactionListRequestViewModel request)
         {
-            
             await Task.CompletedTask;
             request.AccountId = (await CurrentAccount).Id;
             return ViewComponent(typeof(TransactionListViewComponent), request);
         }
         
+        [DisallowUntrustedReferrers("Details", "Budget")]
+        public async Task<ActionResult> BudgetStatistics([FromQuery] BudgetStatisticRequestViewModel request)
+        {
+            await Task.CompletedTask;
+            return ViewComponent(typeof(BudgetStatisticsViewComponent), request);
+        }
+
         [DisallowUntrustedReferrers("Index", "Home")]
         public async Task<ActionResult> BudgetPlannerListDashboard(BudgetPanelDashboardListViewModel request)
         {
