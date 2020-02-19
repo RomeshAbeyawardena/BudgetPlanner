@@ -238,6 +238,30 @@ CREATE TABLE [dbo].[AccountAccess]
  )
  GO
 
+ CREATE TABLE [dbo].[Tag] (
+    [Id] INT NOT NULL IDENTITY(1,1)
+        CONSTRAINT PK_Tag PRIMARY KEY
+    ,[Name] VARCHAR(200) NOT NULL
+        CONSTRAINT IQ_Tag UNIQUE
+    ,[Active] BIT NOT NULL
+    ,[Created] DATETIMEOFFSET NOT NULL
+    ,[Modified] DATETIMEOFFSET NULL
+ )
+
+ CREATE TABLE [dbo].[BudgetTag] (
+    [Id] INT NOT NULL IDENTITY(1,1)
+        CONSTRAINT PK_BudgetTag PRIMARY KEY
+    ,[BudgetId] INT NOT NULL
+        CONSTRAINT FK_BudgetTag_Budget
+        REFERENCES [dbo].[Budget]([Id])
+    ,[TagId] INT NOT NULL
+        CONSTRAINT FK_BudgetTag_Tag
+        REFERENCES [dbo].[Tag]
+    ,[Created] DATETIMEOFFSET NOT NULL
+    ,CONSTRAINT IQ_BudgetTag UNIQUE ([BudgetId], [TagId])
+ )
+
+ GO
  CREATE FUNCTION [dbo].[fn_GetBudgetStats](
 @budgetId INT,
 @fromDate DATETIME,
