@@ -64,6 +64,14 @@ namespace BudgetPlanner.Services.Providers
             if(!content.TryGetValue(property, out var propertyContent))
                 return string.Empty;
 
+            
+                if(replaceParameterStart == default)
+                    replaceParameterStart = ContentConstants.ReplaceParameterStart;
+
+                if(replaceParameterEnd == default)
+                    replaceParameterEnd = ContentConstants.ReplaceParameterEnd;
+
+
             if(placeholders != null)
                     propertyContent = propertyContent.
                         ReplaceByKey(replaceParameterStart, replaceParameterEnd, placeholders);

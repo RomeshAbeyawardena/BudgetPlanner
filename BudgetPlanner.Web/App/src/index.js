@@ -39,8 +39,14 @@ $(() => {
                     return;
 
                 $costDetailsPanel.find("input[type='number']")
-                    .change((e) => { 
-                        params["amount"] = $(e.target).val();
+                    .keyup((e) => { 
+                        var amount = $(e.target).val();
+
+                        if(!amount)
+                            return;
+
+                        params["amount"] = amount;
+
                         params["transactionTypeId"] = $("#transactionDropDown").val();
                         getBalancehttpService.get(params)
                             .then((e) => { $estimatedCostPanel.removeClass("d-none"); $estimatedCostPanel.html(e); }); 
