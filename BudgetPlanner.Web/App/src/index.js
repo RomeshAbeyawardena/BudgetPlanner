@@ -4,6 +4,8 @@ import "bootstrap";
 import popup from "./popup";
 import asyncLoader from "./async-loader";
 import expanderForm from "./expander-form";
+import { httpRequest } from "./utility";
+
 
 require("./scss/index.scss");
 
@@ -20,6 +22,16 @@ $(() => {
             .then(() => { 
                 const $estimatedCostPanel = $("#estimatedCost"); 
                 const $costDetailsPanel = $("#costDetails");
+
+                const sourceUrl = $estimatedCostPanel.data("src");
+                const dataParams = $estimatedCostPanel.data("parameters");
+
+                const getBalancehttpService = new httpRequest(sourceUrl);
+
+                var decodedParams = atob(dataParams);
+
+                var params = JSON.parse(decodedParams);
+
                 if(!$estimatedCostPanel)
                     return;
 
@@ -27,7 +39,12 @@ $(() => {
                     return;
 
                 $costDetailsPanel.find("input[type='number']")
-                    .change((e) => console.log(e));
+                    .change((e) => { 
+                        params["amount"] = $(e.target).val();
+                        params["transactionTypeId"] = $("#transactionDropDown").val();
+                        getBalancehttpService.get(params)
+                            .then((e) => { $estimatedCostPanel.removeClass("d-none"); $estimatedCostPanel.html(e); }); 
+                    });
             });
 
     const loader = new asyncLoader("data-src","data-parameters")

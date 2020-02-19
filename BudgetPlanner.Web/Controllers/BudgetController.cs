@@ -52,6 +52,7 @@ namespace BudgetPlanner.Web.Controllers
             budgetPlannerDetailsViewModel.Balance = response.Amount;
             budgetPlannerDetailsViewModel.BudgetStatisticsRequest = new BudgetStatisticRequestViewModel 
             { 
+                AccountId = (await CurrentAccount).Id,
                 FromDate = DateTime.Now.AddDays(-5),
                 ToDate = DateTime.Now,
                 BudgetId = response.Result.Id
@@ -62,6 +63,24 @@ namespace BudgetPlanner.Web.Controllers
                     .Add("startDate", budgetPlannerDetailsViewModel.FromDate.ToString(FormatConstants.LongDateFormat))
                     .Add("endDate", budgetPlannerDetailsViewModel.ToDate.ToString(FormatConstants.LongDateFormat)))
                 .ToDictionary());
+        }
+
+        [HttpGet]
+        public async Task<string> CalculateNewBalance(int budgetId, int transactionTypeId, decimal amount)
+        {
+            var response = await MediatorService.Send(new RetrieveBudgetPlannerRequest
+            {
+                BudgetPlannerId = budgetId,
+                AccountId = (await CurrentAccount).Id
+            });
+
+            var newBalance = response.Amount - amount;
+
+            if(transactionTypeId == 1)
+                newBalance = response.Amount + amount;
+
+            return string.Format("Estimated new balance: {0}", 
+                newBalance.ToString(FormatConstants.CurrencyFormat));
         }
 
         [HttpGet]

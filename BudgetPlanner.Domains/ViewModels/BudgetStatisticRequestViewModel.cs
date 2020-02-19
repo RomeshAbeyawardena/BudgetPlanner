@@ -11,5 +11,6 @@ namespace BudgetPlanner.Domains.ViewModels
         public int BudgetId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public int AccountId { get; set; }
     }
 }
