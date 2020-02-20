@@ -13,13 +13,13 @@ namespace BudgetPlanner.Services
     public class TagService : ITagService
     {
         private readonly IRepository<Tag> _tagRepository;
-        private readonly IRepository<BudgetTag> _budgetTagRepository;
+        private readonly IRepository<TransactionTag> _budgetTagRepository;
         private IQueryable<Tag> DefaultTagQuery => _tagRepository.Query(tag => tag.Active, enableTracking: false);
-        private IQueryable<BudgetTag> DefaultBudgetTagQuery => _budgetTagRepository.Query(enableTracking: false);
-        public async Task<IEnumerable<BudgetTag>> GetBudgetTags(int budgetId)
+        private IQueryable<TransactionTag> DefaultBudgetTagQuery => _budgetTagRepository.Query(enableTracking: false);
+        public async Task<IEnumerable<TransactionTag>> GetTransactionTags(int transactionId)
         {
             var query = from budgetTag in DefaultBudgetTagQuery
-                        where budgetTag.BudgetId == budgetId
+                        where budgetTag.TransactionId == transactionId
                         select budgetTag;
 
             return await query.ToArrayAsync();
@@ -39,7 +39,7 @@ namespace BudgetPlanner.Services
             return await DefaultTagQuery.ToArrayAsync();
         }
 
-        public async Task<BudgetTag> SaveBudgetTag(BudgetTag budgetTag, bool saveChanges = true)
+        public async Task<TransactionTag> SaveTransactionTag(TransactionTag budgetTag, bool saveChanges = true)
         {
             return await _budgetTagRepository.SaveChanges(budgetTag, saveChanges);
         }
@@ -49,7 +49,31 @@ namespace BudgetPlanner.Services
             return await _tagRepository.SaveChanges(tag, saveChanges);
         }
 
-        public TagService(IRepository<Tag> tagRepository, IRepository<BudgetTag> budgetTagRepository)
+        public IEnumerable<Tag> ParseTags(IEnumerable<Tag> tags, IEnumerable<string> delimitedTags)
+        {
+            var tagList = new List<Tag>();
+            foreach(var tag in delimitedTags)
+            {
+                var foundTag = GetTag(tags, tag);
+                if(foundTag == null)
+                    foundTag = new Tag { Name = tag, Active = true };
+
+                tagList.Add(foundTag);
+            }
+
+            return tagList;
+        }
+
+        public Tag GetTag(IEnumerable<Tag> tags, int tagId)
+        {
+            var query = from tag in tags
+                   where tag.Id == tagId
+                   select tag;
+
+            return query.SingleOrDefault();
+        }
+
+        public TagService(IRepository<Tag> tagRepository, IRepository<TransactionTag> budgetTagRepository)
         {
             _tagRepository = tagRepository;
             _budgetTagRepository = budgetTagRepository;

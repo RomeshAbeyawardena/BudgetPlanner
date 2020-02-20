@@ -248,17 +248,17 @@ CREATE TABLE [dbo].[AccountAccess]
     ,[Modified] DATETIMEOFFSET NULL
  )
 
- CREATE TABLE [dbo].[BudgetTag] (
+ CREATE TABLE [dbo].[TransactionTag] (
     [Id] INT NOT NULL IDENTITY(1,1)
-        CONSTRAINT PK_BudgetTag PRIMARY KEY
-    ,[BudgetId] INT NOT NULL
-        CONSTRAINT FK_BudgetTag_Budget
-        REFERENCES [dbo].[Budget]([Id])
+        CONSTRAINT PK_TransactionTag PRIMARY KEY
+    ,[TransactionId] INT NOT NULL
+        CONSTRAINT FK_TransactionTag_Transaction
+        REFERENCES [dbo].[Transaction]
     ,[TagId] INT NOT NULL
-        CONSTRAINT FK_BudgetTag_Tag
+        CONSTRAINT FK_TransactionTag_Tag
         REFERENCES [dbo].[Tag]
     ,[Created] DATETIMEOFFSET NOT NULL
-    ,CONSTRAINT IQ_BudgetTag UNIQUE ([BudgetId], [TagId])
+    ,CONSTRAINT IQ_TransactionTag UNIQUE ([BudgetId], [TagId])
  )
 
  GO

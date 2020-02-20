@@ -12,8 +12,10 @@ namespace BudgetPlanner.Contracts.Services
         Task<IEnumerable<Tag>> GetTags();
         Task<Tag> SaveTag(Tag tag, bool saveChanges = true);
         
-        Task<IEnumerable<BudgetTag>> GetBudgetTags(int budgetId);
-        Task<BudgetTag> SaveBudgetTag(BudgetTag budgetTag, bool saveChanges = true);
+        Task<IEnumerable<TransactionTag>> GetTransactionTags(int transactionId);
+        Task<TransactionTag> SaveTransactionTag(TransactionTag transactionTag, bool saveChanges = true);
         Tag GetTag(IEnumerable<Tag> tags, string tagName);
+        Tag GetTag(IEnumerable<Tag> tags, int tagId);
+        IEnumerable<Tag> ParseTags(IEnumerable<Tag> tags, IEnumerable<string> delimitedTags); 
     }
 }

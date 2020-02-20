@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace BudgetPlanner.Domains.Data
 {
-    public class BudgetTag
+    public class TransactionTag
     {
         [Key]
         public int Id { get; set; }
-        public int BudgetId { get; set; }
+        public int TransactionId { get; set; }
         public int TagId { get; set; }
 
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
 
-        public virtual Budget Budget { get; set; }
+        public virtual Transaction Transaction { get; set; }
         public virtual Tag Tag { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace BudgetPlanner.Services.Providers
         private readonly ICacheProvider _cacheProvider;
         private readonly IAccountService _accountService;
         private readonly IAccountAccessService _accountAccessService;
+        private readonly ITagService _tagService;
         private readonly IRoleService _roleService;
         private readonly ITransactionTypeService _transactionTypeService;
 
@@ -111,15 +112,22 @@ namespace BudgetPlanner.Services.Providers
             return _accountAccessService.GetAccessType(accessTypes, id);
         }
 
+        public async Task<IEnumerable<Tag>> GetTags()
+        {
+            return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache, 
+                CacheConstants.Tags, async() => await _tagService.GetTags());
+        }
+
         public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, 
             IAccountService accountService, 
             IAccountAccessService accountAccessService,
-            IRoleService roleService,
+            IRoleService roleService, ITagService tagService,
             ITransactionTypeService transactionTypeService)
         {
             _cacheProvider = cacheProvider;
             _accountService = accountService;
             _accountAccessService = accountAccessService;
+            _tagService = tagService;
             _roleService = roleService;
             _transactionTypeService = transactionTypeService;
         }

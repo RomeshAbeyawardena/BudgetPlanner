@@ -31,7 +31,7 @@ namespace BudgetPlanner.Data
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<TransactionLedger> TransactionLedgers { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<BudgetTag> BudgetTags { get; set; }
+        public DbSet<TransactionTag> BudgetTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

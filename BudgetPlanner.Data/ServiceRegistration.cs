@@ -27,7 +27,7 @@ namespace BudgetPlanner.Data
                 typeof(Account), typeof(Role), typeof(AccountRole), typeof(Claim),
                 typeof(AccountClaim), typeof(Budget), typeof(Transaction), typeof(TransactionType),
                 typeof(TransactionLedger), typeof(RequestToken), typeof(AccessType), typeof(AccountAccess),
-                typeof(Tag), typeof(BudgetTag));
+                typeof(Tag), typeof(TransactionTag));
         }
     }
 }
