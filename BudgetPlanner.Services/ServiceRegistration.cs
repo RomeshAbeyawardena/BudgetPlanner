@@ -50,6 +50,7 @@ namespace BudgetPlanner.Services
                 .AddTransient<IAccountAccessService, AccountAccessService>()
                 .AddTransient<SignInManager<Domains.Dto.Account>>()
                 .AddTransient<IPasswordHasher<Domains.Dto.Account>, AccountPasswordHasher>()
+                .AddTransient<ITagService, TagService>()
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)));
 

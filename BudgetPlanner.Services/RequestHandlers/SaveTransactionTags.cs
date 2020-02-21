@@ -27,7 +27,7 @@ namespace BudgetPlanner.Services.RequestHandlers
                 .ParseTags(tags, request.Tags.Split(','))
                 .ToArray();
 
-            var budgetTags = await _tagService.GetTransactionTags(request.TransactionId);
+            var transactionTags = await _tagService.GetTransactionTags(request.TransactionId);
 
             for (var index=0; index<parsedTags.Length; index++)
             {
@@ -37,11 +37,11 @@ namespace BudgetPlanner.Services.RequestHandlers
                     currentTag = await _tagService
                         .SaveTag(currentTag, false);
 
-                if(budgetTags
+                if(transactionTags
                     .Any(budgetTag => budgetTag.TagId == currentTag.Id))
                     continue;
 
-                var savedBudgetTag = await _tagService.SaveTransactionTag(new TransactionTag { 
+                var savedTransactionTag = await _tagService.SaveTransactionTag(new TransactionTag { 
                     Tag = currentTag, 
                     TransactionId = request.TransactionId 
                 });

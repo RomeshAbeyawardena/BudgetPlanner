@@ -23,6 +23,7 @@
     "bootstrap": "4.4.1",
     "jquery": "3.4.1",
     "popper.js": "1.16.1",
-    "promise": "8.0.3"
+    "promise": "8.0.3",
+    "bootstrap4-tagsinput": "4.1.3"
   }
 }

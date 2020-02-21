@@ -6,7 +6,6 @@ import asyncLoader from "./async-loader";
 import expanderForm from "./expander-form";
 import { httpRequest } from "./utility";
 
-
 require("./scss/index.scss");
 
 $(() => {
@@ -22,6 +21,9 @@ $(() => {
             .then(() => { 
                 const $estimatedCostPanel = $("#estimatedCost"); 
                 const $costDetailsPanel = $("#costDetails");
+                const $tagsField = $("#tagsField");
+
+                $tagsField.tagsinput("build");
 
                 const sourceUrl = $estimatedCostPanel.data("src");
                 const dataParams = $estimatedCostPanel.data("parameters");
