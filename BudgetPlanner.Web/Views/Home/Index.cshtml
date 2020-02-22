@@ -5,6 +5,7 @@
 }
 
 <budget-dashboard request-url="@Url.Action("GetBudgetPlanners","Budget")"
+                  details-url="@Url.Action("Details", "Budget", new { reference = "!ref" })"
                   last-updated="2020-01-22"></budget-dashboard>
 
 @Html.Raw(Model.Content)

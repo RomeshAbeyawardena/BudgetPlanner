@@ -1,9 +1,9 @@
 ﻿<div class="card">
 
-    <div v-if="items" class="card-body">
+    <div v-if="items.length" class="card-body">
         <div v-html="listContent"></div>
         <div class="row">
-            <div class="col" v-for="item of items">
+            <div class="col-4" v-for="item of items">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">
@@ -12,15 +12,15 @@
                         <h6 class="card-subtitle mb-2 text-muted">{{ item.reference }}</h6>
                         <p class="card-text">
                             <span>Balance</span>
-                            {{ item.balance }}
+                            {{ item.balance | currency }}
                         </p>
-                        @Html.ActionLink("View Details", "Details", "Budget", new { reference = Model.Reference }, new { @class = "card-link" })
+                        <a class="class-link" :href="getDetailsUrl(item)">View Details</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div v-if="!items" class="card-body" v-html="emptyContent">
+    <div v-if="!items.length" class="card-body" v-html="emptyContent">
         
     </div>
     <div class="card-footer">

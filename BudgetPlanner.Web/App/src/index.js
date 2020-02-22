@@ -6,7 +6,7 @@ import Vue from "vue";
 import Components from "./components";
 import VueAxios from "vue-axios";
 import Axios from "axios";
-
+require("./filters/currency-filter");
 $(() => {
     
     const vue = new Vue({
