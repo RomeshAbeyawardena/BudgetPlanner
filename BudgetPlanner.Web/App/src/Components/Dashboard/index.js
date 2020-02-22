@@ -7,21 +7,32 @@ const defaultComponent = {
         detailsUrl: String,
         dashboardMode: Number,
         lastUpdated: Date,
-        maximumItems: Number
+        maximumItems: Number,
+        maxmimumItemsPerRow: Number
     },
     data() {
         return {
             items: [],
+            maxItemsPerRow: this.maxmimumItemsPerRow,
             emptyContent: "No recent planners available",
             listContent: "Lorem Ipsum"
         };
     },
     template: template,
     methods: {
+        getColumnClass(items) {
+            if (!this.maxItemsPerRow)
+                this.maxItemsPerRow = 3;
+
+            if (items.length >= this.maxItemsPerRow)
+                return "col-xs-12 col-sm-6 col-4";
+
+            return "col";
+        },
         getDetailsUrl(item) {
-            console.log(item);
-            var url = this.detailsUrl.replace("!ref", item.reference);
-            console.log(url);
+            var url = this.detailsUrl
+                .replace("!ref", item.reference);
+
             return url;
         }
     },
@@ -29,8 +40,7 @@ const defaultComponent = {
         const context = this;
         Axios.get(this.requestUrl, {
             params: { lastUpdated: this.lastUpdated }
-        })
-            .then((e) => { context.items = e.data; });
+        }).then((e) => { context.items = e.data; });
     }
 };
 

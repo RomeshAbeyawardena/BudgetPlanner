@@ -3,7 +3,7 @@
     <div v-if="items.length" class="card-body">
         <div v-html="listContent"></div>
         <div class="row">
-            <div class="col-4" v-for="item of items">
+            <div :class="getColumnClass(items)" v-for="item of items">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">
