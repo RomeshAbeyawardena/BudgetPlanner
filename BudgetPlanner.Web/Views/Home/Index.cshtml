@@ -2,15 +2,9 @@
 
 @{
     ViewBag.Title = "Dashboard";
-    var budgetPlannerData = Html.Base64Encode(Json.Serialize(new BudgetPanelDashboardListViewModel {
-        LastUpdated = Model.LastUpdated }), Encoding.UTF8);
 }
 
-<section data-src="@Url.Action("BudgetPlannerListDashboard","ViewComponent")"
-         data-parameters="@budgetPlannerData">
-    <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-</section>
+<budget-dashboard request-url="@Url.Action("GetBudgetPlanners","Budget")"
+                  last-updated="2020-01-22"></budget-dashboard>
 
 @Html.Raw(Model.Content)

@@ -31,19 +31,19 @@ namespace BudgetPlanner.Web.ViewComponents
         {
             var budgetPanelDashboardViewModel = new BudgetPanelDashboardViewModel();
 
-            var retrieveBudgetPlannersRequest = Map<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>(model);
+                var retrieveBudgetPlannersRequest = Map<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>(model);
 
-            var response = await MediatorService
-                .Send(retrieveBudgetPlannersRequest);
+                var response = await MediatorService
+                    .Send(retrieveBudgetPlannersRequest);
 
-            budgetPanelDashboardViewModel.BudgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.Result);
+                budgetPanelDashboardViewModel.BudgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.Result);
 
-            return await ViewWithContent(
-                (response.Result.Any()) 
-                ? ContentConstants.Dashboard
-                : ContentConstants.EmptyDashboard, "List", budgetPanelDashboardViewModel, DictionaryBuilder
-                .Create<string, string>(dictionaryBuilder => dictionaryBuilder.Add("date", model.LastUpdated.ToString(FormatConstants.LongDateFormat)))
-                .ToDictionary());
+                return await ViewWithContent(
+                    (response.Result.Any()) 
+                    ? ContentConstants.Dashboard
+                    : ContentConstants.EmptyDashboard, "List", budgetPanelDashboardViewModel, DictionaryBuilder
+                    .Create<string, string>(dictionaryBuilder => dictionaryBuilder.Add("date", model.LastUpdated.ToString(FormatConstants.LongDateFormat)))
+                    .ToDictionary());
         }
     }
 }

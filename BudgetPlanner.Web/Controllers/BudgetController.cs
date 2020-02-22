@@ -179,6 +179,20 @@ namespace BudgetPlanner.Web.Controllers
             return await ViewWithContent(ContentConstants.TransactionEditorPath, model);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetBudgetPlanners(BudgetPanelDashboardListViewModel model)
+        {
+            model.AccountId = (await CurrentAccount).Id;
+            var retrieveBudgetPlannersRequest = Map<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>(model);
+            
+            var response = await MediatorService
+                .Send(retrieveBudgetPlannersRequest);
+
+            var budgetPlanners = Map<Domains.Dto.Budget, BudgetPanelDashboardItemViewModel>(response.Result);
+            
+            return Json(budgetPlanners);
+        }
+
         private async Task<SelectList> GetTransactionTypes()
         {
             var response = await MediatorService

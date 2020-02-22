@@ -18,7 +18,15 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader'
             }
         ]
+    }, resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js' // 'vue/dist/vue.common.js' for webpack 1
+        }
     }
-}
+};

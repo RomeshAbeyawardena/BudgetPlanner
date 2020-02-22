@@ -1,64 +1,19 @@
-﻿import 'babel-polyfill';
+﻿require("./scss/index.scss");
 import $ from "jquery";
-import "bootstrap";
-import popup from "./popup";
-import asyncLoader from "./async-loader";
-import expanderForm from "./expander-form";
-import { httpRequest } from "./utility";
-
-require("./scss/index.scss");
+import 'babel-polyfill';
+import Tagify from '@yaireo/tagify';
+import Vue from "vue";
+import Components from "./components";
+import VueAxios from "vue-axios";
+import Axios from "axios";
 
 $(() => {
-    $('[data-toggle="tooltip"]').tooltip();
+    
+    const vue = new Vue({
+        el: "#app",
+        data:  { value: "hello world" },
+        components: Components
+    });
 
-    const expander = new expanderForm()
-        .init();
-
-    const modalPopup = new popup("#popup", "#dialogModeDataHiddenField");
-        modalPopup
-            .configureMode("modal", "#modalDialog", "#content")
-            .init()
-            .then(() => { 
-                const $estimatedCostPanel = $("#estimatedCost"); 
-                const $costDetailsPanel = $("#costDetails");
-                const $tagsField = $("#tagsField");
-
-                $tagsField.tagsinput("build");
-
-                const sourceUrl = $estimatedCostPanel.data("src");
-                const dataParams = $estimatedCostPanel.data("parameters");
-
-                const getBalancehttpService = new httpRequest(sourceUrl);
-
-                var decodedParams = atob(dataParams);
-
-                var params = JSON.parse(decodedParams);
-
-                if(!$estimatedCostPanel)
-                    return;
-
-                if(!$costDetailsPanel)
-                    return;
-
-                $costDetailsPanel.find("input[type='number']")
-                    .keyup((e) => { 
-                        var amount = $(e.target).val();
-
-                        if(!amount)
-                            return;
-
-                        params["amount"] = amount;
-
-                        params["transactionTypeId"] = $("#transactionDropDown").val();
-                        getBalancehttpService.get(params)
-                            .then((e) => { $estimatedCostPanel.removeClass("d-none"); $estimatedCostPanel.html(e); }); 
-                    });
-            });
-
-    const loader = new asyncLoader("data-src","data-parameters")
-        .init()
-        .then(() => {
-            modalPopup.init();
-            expander.init(true);
-        });
+    Vue.use(VueAxios, Axios);
 });

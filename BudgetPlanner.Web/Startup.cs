@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authorization;
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains;
+using System.IO;
 
 namespace BudgetPlanner.Web
 {
@@ -28,6 +29,8 @@ namespace BudgetPlanner.Web
     {
         private AuthorizationPolicyBuilder Policies => new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser();
+
+        private IWebHostEnvironment _webHostEnvironment;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
@@ -45,7 +48,7 @@ namespace BudgetPlanner.Web
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
                 }, out var serviceBroker);
-            
+
             ServiceBroker.ConfigureIdentity(services
                 .AddIdentity<Domains.Dto.Account, Role>());
 
@@ -98,6 +101,7 @@ namespace BudgetPlanner.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationSettings applicationSettings)
         {
+            _webHostEnvironment = env;
             ApplicationSettings = applicationSettings;
             if (env.IsDevelopment())
             {
@@ -111,11 +115,29 @@ namespace BudgetPlanner.Web
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet("/{fileName}",GetScripts);
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
 
             });
         }
 
+        private async Task GetScripts(HttpContext context)
+        {
+            if(!context.Request.RouteValues.TryGetValue("fileName", out var fileName))
+                return;
+
+            var strFileName = fileName.ToString();
+
+            if(!strFileName.EndsWith(".js"))
+                return;
+
+            var requestFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "content", strFileName);
+            context.Response.ContentType = "application/javascript";
+            if (!File.Exists(requestFilePath))
+                return;
+
+            await context.Response.SendFileAsync(requestFilePath);
+        }
     }
 }
