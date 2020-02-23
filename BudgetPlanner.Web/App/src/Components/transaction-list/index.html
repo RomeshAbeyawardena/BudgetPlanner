@@ -2,11 +2,11 @@
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">@Model.CreatedHeading</th>
-            <th scope="col">@Model.DescriptionHeading</th>
-            <th scope="col">@Model.AmountHeading</th>
-            <th scope="col">@Model.OldBalanceHeading</th>
-            <th scope="col">@Model.NewBalanceHeading</th>
+            <th scope="col">Created</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Old Balance</th>
+            <th scope="col">New Balance</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +23,7 @@
                         .Add("class", "btn btn-primary")
                         .Add("popup", "modal")
                         .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())-->
+                    <a href="#" class="btn btn-primary">Edit</a>
                 </span>
             </th>
             <td>
@@ -36,16 +37,25 @@
             </td>
             <td>
                 <span>
-                    {{ item.previousBalance | currency }}
+                    {{ getLedger(item).previousBalance | currency }}
                 </span>
             </td>
             <td>
                 <span>
-                    <!--@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
-                    transledger?.NewBalance)-->
+                    {{ getLedger(item).newBalance | currency }}
                 </span>
             </td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <data-pager :total-pages="20"
+                            :items-per-page="10"
+                            :page-number="1">
+                </data-pager>
+            </td>
+        </tr>
+    </tfoot>
 </table>
 <!--@await Html.PartialAsync("Partials/_pager", Model)-->

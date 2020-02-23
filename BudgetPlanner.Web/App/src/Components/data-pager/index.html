@@ -1,0 +1,9 @@
+﻿<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li v-if="showPrevious()" class="page-item"><a class="page-link" href="@previousPageUrl">Previous</a></li>
+        <li v-for="pageIndex in pageItems" :class="getPageClass(pageIndex)">
+            <a class="page-link" href="#">{{ pageIndex }}</a>
+        </li>
+        <li v-if="showNext()" class="page-item"><a class="page-link" href="@nextPageUrl">Next</a></li>
+    </ul>
+</nav>

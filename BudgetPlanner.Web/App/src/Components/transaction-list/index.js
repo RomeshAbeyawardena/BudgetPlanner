@@ -1,8 +1,12 @@
 ﻿import Axios from "axios";
+import Components from "../.././components";
 const template = require("./index.html");
+
+console.log(Components);
 
 const defaultComponent = {
     template: template,
+    components: Components,
     props: {
         requestUrl: String,
         reference: String,
@@ -64,6 +68,15 @@ const defaultComponent = {
                     pageSize: this.pageSize,
                     pageNumber: this.currentPageNumber }})
                 .then((e) => context.items = e.data);
+        },
+        getLedger(item) {
+            if(!item)
+                return;
+
+            if(!item.transactionLedgers.length)
+                return;
+            
+            return item.transactionLedgers[0];
         },
         getTransactionTypeClass(item) {
             if(item.type === 2)
