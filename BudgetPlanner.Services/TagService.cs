@@ -73,6 +73,17 @@ namespace BudgetPlanner.Services
             return query.SingleOrDefault();
         }
 
+        public IEnumerable<Tag> SearchTags(IEnumerable<Tag> tags, string searchTerm)
+        {
+            var query = from tag in tags
+                        where tag.Name
+                            .ToLower()
+                            .Contains(searchTerm.ToLower())
+                        select tag;
+
+            return tags;
+        }
+
         public TagService(IRepository<Tag> tagRepository, IRepository<TransactionTag> budgetTagRepository)
         {
             _tagRepository = tagRepository;
