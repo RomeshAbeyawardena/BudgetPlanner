@@ -30,11 +30,13 @@
     <div class="card-header">
         Spending Summary
     </div>
-    <div class="card-body" data-src="@Url.Action("BudgetStatistics", "ViewComponent")"
-         data-parameters="@budgetPlannerStatsData">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+    <div class="card-body">
+        <budget-statistics request-url="@Url.Action("BudgetStatistics","Budget")"
+                           reference="@Model.Reference"
+                           :fromDate="new Date(@Model.FromDate.Ticks)"
+                           :toDate="new Date(@Model.ToDate.Ticks)">
+        </budget-statistics>
+
     </div>
 </section>
 
@@ -45,8 +47,8 @@
                            reference="@Model.Reference"
                            :page-number="1"
                            :items-per-page="10"
-                           :from-date="new Date('2020-01-23')"
-                           :to-date="new Date('2020-02-23')">
+                           :from-date="new Date(@Model.FromDate.Ticks)"
+                           :to-date="new Date(@Model.ToDate.Ticks)">
 
          </transaction-list>
     </div>
