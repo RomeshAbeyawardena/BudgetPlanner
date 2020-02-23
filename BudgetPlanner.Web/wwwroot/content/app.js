@@ -4271,7 +4271,7 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nvar componentConstants = {\n  DashboardComponent: \"budget-dashboard\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (componentConstants);\n\n//# sourceURL=webpack:///./src/components/constants.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nvar componentConstants = {\n  DashboardComponent: \"budget-dashboard\",\n  TransactionList: \"transaction-list\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (componentConstants);\n\n//# sourceURL=webpack:///./src/components/constants.js?");
 
 /***/ }),
 
@@ -4306,7 +4306,30 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axio
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ \"./src/components/constants.js\");\n/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dashboard */ \"./src/components/dashboard/index.js\");\n\n\nvar components = {};\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DashboardComponent] = _dashboard__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (components);\n\n//# sourceURL=webpack:///./src/components/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ \"./src/components/constants.js\");\n/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dashboard */ \"./src/components/dashboard/index.js\");\n/* harmony import */ var _transaction_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transaction-list */ \"./src/components/transaction-list/index.js\");\n\n\n\nvar components = {};\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DashboardComponent] = _dashboard__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].TransactionList] = _transaction_list__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (components);\n\n//# sourceURL=webpack:///./src/components/index.js?");
+
+/***/ }),
+
+/***/ "./src/components/transaction-list/index.html":
+/*!****************************************************!*\
+  !*** ./src/components/transaction-list/index.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = \"<table class=\\\"table\\\">\\r\\n    <thead>\\r\\n        <tr>\\r\\n            <th scope=\\\"col\\\">#</th>\\r\\n            <th scope=\\\"col\\\">@Model.CreatedHeading</th>\\r\\n            <th scope=\\\"col\\\">@Model.DescriptionHeading</th>\\r\\n            <th scope=\\\"col\\\">@Model.AmountHeading</th>\\r\\n            <th scope=\\\"col\\\">@Model.OldBalanceHeading</th>\\r\\n            <th scope=\\\"col\\\">@Model.NewBalanceHeading</th>\\r\\n        </tr>\\r\\n    </thead>\\r\\n    <tbody>\\r\\n        <!--@foreach (var transaction in Model.Transactions)\\r\\n        {\\r\\n        var transledger = transaction.TransactionLedgers?.FirstOrDefault();-->\\r\\n\\r\\n        <tr v-for=\\\"item of items\\\">\\r\\n            <th scope=\\\"row\\\">\\r\\n                <span>\\r\\n                    <!--@Html.ActionLink(\\\"Edit\\\", \\\"EditTransaction\\\", \\\"Budget\\\", new { id = transaction.Id }, DictionaryBuilder\\r\\n                    .Create<string, object>\\r\\n                        (dictionaryBuilder => dictionaryBuilder\\r\\n                        .Add(\\\"class\\\", \\\"btn btn-primary\\\")\\r\\n                        .Add(\\\"popup\\\", \\\"modal\\\")\\r\\n                        .Add(\\\"data-args\\\", Json.Serialize(new { IsModal = true }))).ToDictionary())-->\\r\\n                </span>\\r\\n            </th>\\r\\n            <td>\\r\\n                <span>{{item.Created}}</span>\\r\\n            </td>\\r\\n            <td>\\r\\n                <span>{{item.Description}}</span>\\r\\n            </td>\\r\\n            <td :class=\\\"GetTransactionTypeClass(item)\\\">\\r\\n                <span>{{transaction.Amount | currency }}</span>\\r\\n            </td>\\r\\n            <td>\\r\\n                <span>\\r\\n                    {{ item.PreviousBalance | currency }}\\r\\n                </span>\\r\\n            </td>\\r\\n            <td>\\r\\n                <span>\\r\\n                    <!--@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),\\r\\n                    transledger?.NewBalance)-->\\r\\n                </span>\\r\\n            </td>\\r\\n        </tr>\\r\\n        }\\r\\n    </tbody>\\r\\n</table>\\r\\n<!--@await Html.PartialAsync(\\\"Partials/_pager\\\", Model)-->\\r\\n\";\n\n//# sourceURL=webpack:///./src/components/transaction-list/index.html?");
+
+/***/ }),
+
+/***/ "./src/components/transaction-list/index.js":
+/*!**************************************************!*\
+  !*** ./src/components/transaction-list/index.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar template = __webpack_require__(/*! ./index.html */ \"./src/components/transaction-list/index.html\");\n\nvar defaultComponent = {\n  template: template,\n  props: {\n    requestUrl: String,\n    reference: String,\n    fromDate: Date,\n    toDate: Date,\n    pageNumber: Number\n  },\n  data: function data() {\n    return {\n      currentPageNumber: this.pageNumber,\n      from: this.fromDate,\n      to: this.toDate,\n      items: []\n    };\n  },\n  //watch: {\n  //    //fromDate(newValue) {\n  //    //    this.from = newValue;\n  //    //    this.getTransactions();\n  //    //},\n  //    //toDate(newValue) {\n  //    //    this.to = newValue;\n  //    //    this.getTransactions();\n  //    //},\n  //    //pageNumber(newValue) {\n  //    //    this.currentPageNumber = newValue;\n  //    //    this.getTransactions();\n  //    //}\n  //},\n  methods: {\n    setPageNumber: function setPageNumber(pageNumber) {\n      this.currentPageNumber = pageNumber;\n    },\n    getPreviousPage: function getPreviousPage() {\n      if (this.currentPageNumber - 1 < 0) return this.currentPageNumber;\n      return this.currentPageNumber - 1;\n    },\n    getNextPage: function getNextPage() {\n      if (this.currentPageNumber + 1 > this.items.length) return this.currentPageNumber;\n      return this.currentPageNumber + 1;\n    },\n    getTransactions: function getTransactions() {\n      var context = this;\n      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.requestUrl, {\n        params: {\n          reference: this.reference,\n          fromDate: this.from,\n          toDate: this.to,\n          pageNumber: this.currentPageNumber\n        }\n      }).then(function (e) {\n        return context.items = e.data;\n      });\n    },\n    getTransactionTypeClass: function getTransactionTypeClass(item) {\n      if (item.transactionType === 2) return \"text-number-negate\";\n      return \"\";\n    }\n  },\n  created: function created() {\n    this.getTransactions();\n  }\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (defaultComponent);\n\n//# sourceURL=webpack:///./src/components/transaction-list/index.js?");
 
 /***/ }),
 

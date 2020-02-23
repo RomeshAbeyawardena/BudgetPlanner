@@ -1,6 +1,4 @@
-﻿@model TransactionListViewModel
-
-<table class="table">
+﻿<table class="table">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -12,19 +10,19 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var transaction in Model.Transactions)
+        <!--@foreach (var transaction in Model.Transactions)
         {
-        var transledger = transaction.TransactionLedgers?.FirstOrDefault();
+        var transledger = transaction.TransactionLedgers?.FirstOrDefault();-->
 
-        <tr  v-for="item of item">
+        <tr v-for="item of items">
             <th scope="row">
                 <span>
-                    @Html.ActionLink("Edit", "EditTransaction", "Budget", new { id = transaction.Id }, DictionaryBuilder
+                    <!--@Html.ActionLink("Edit", "EditTransaction", "Budget", new { id = transaction.Id }, DictionaryBuilder
                     .Create<string, object>
                         (dictionaryBuilder => dictionaryBuilder
                         .Add("class", "btn btn-primary")
                         .Add("popup", "modal")
-                        .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())
+                        .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())-->
                 </span>
             </th>
             <td>
@@ -43,12 +41,11 @@
             </td>
             <td>
                 <span>
-                    @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
-                    transledger?.NewBalance)
+                    <!--@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
+                    transledger?.NewBalance)-->
                 </span>
             </td>
         </tr>
-        }
     </tbody>
 </table>
-@await Html.PartialAsync("Partials/_pager", Model)
+<!--@await Html.PartialAsync("Partials/_pager", Model)-->

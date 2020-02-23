@@ -18,20 +18,20 @@ const defaultComponent = {
             items: []
         };
     },
-    watch: {
-        fromDate(newValue) {
-            this.from = newValue;
-            this.getTransactions();
-        },
-        toDate(newValue) {
-            this.to = newValue;
-            this.getTransactions();
-        },
-        pageNumber(newValue) {
-            this.currentPageNumber = newValue;
-            this.getTransactions();
-        }
-    },
+    //watch: {
+    //    //fromDate(newValue) {
+    //    //    this.from = newValue;
+    //    //    this.getTransactions();
+    //    //},
+    //    //toDate(newValue) {
+    //    //    this.to = newValue;
+    //    //    this.getTransactions();
+    //    //},
+    //    //pageNumber(newValue) {
+    //    //    this.currentPageNumber = newValue;
+    //    //    this.getTransactions();
+    //    //}
+    //},
     methods: {
         setPageNumber(pageNumber) {
             this.currentPageNumber = pageNumber;
@@ -49,8 +49,8 @@ const defaultComponent = {
             return this.currentPageNumber + 1;
         },
         getTransactions() {
-            constcontext = this;
-            return Axios.get(this.requestUrl, 
+            const context = this;
+            Axios.get(this.requestUrl, 
                 { params: { 
                     reference: this.reference, 
                     fromDate: this.from, 
@@ -62,7 +62,7 @@ const defaultComponent = {
             if(item.transactionType === 2)
                 return "text-number-negate";
 
-            return null;
+            return "";
         }
     },
     created() {

@@ -47,6 +47,7 @@ namespace BudgetPlanner.Domains
 
             CreateMap<Dto.RequestToken, RequestToken>()
                 .ForMember(member => member.Key, options => options.Ignore());
+
         }
 
         class BytesValueConverter : IValueConverter<string, IEnumerable<byte>>

@@ -25,9 +25,7 @@ namespace BudgetPlanner.Web.Controllers
                         ToDate = model.ToDate 
                     });
 
-            response.Select()
-            
-            return Json();
+            return Json(response);
         }
     }
 }
