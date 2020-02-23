@@ -26,17 +26,17 @@
                 </span>
             </th>
             <td>
-                <span>{{item.Created}}</span>
+                <span>{{item.created | date }}</span>
             </td>
             <td>
-                <span>{{item.Description}}</span>
+                <span>{{item.description}}</span>
             </td>
-            <td :class="GetTransactionTypeClass(item)">
-                <span>{{transaction.Amount | currency }}</span>
+            <td :class="getTransactionTypeClass(item)">
+                <span>{{item.amount | currency }}</span>
             </td>
             <td>
                 <span>
-                    {{ item.PreviousBalance | currency }}
+                    {{ item.previousBalance | currency }}
                 </span>
             </td>
             <td>

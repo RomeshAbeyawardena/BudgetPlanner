@@ -22,7 +22,7 @@ using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains;
 using System.IO;
-
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 namespace BudgetPlanner.Web
 {
     public class Startup
@@ -67,6 +67,7 @@ namespace BudgetPlanner.Web
 
             services
                 .AddMvc(options => options.Filters.Add(new AuthorizeFilter(Policies.Build())))
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddSessionStateTempDataProvider()
                 .AddFluentValidation(configuration => configuration
                 .RegisterValidatorsFromAssemblies(serviceBroker.Assemblies));

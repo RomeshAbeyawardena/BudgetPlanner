@@ -29,6 +29,7 @@
     "axios": "0.19.2",
     "vue-axios": "2.1.5",
     "html-loader": "0.5.5",
+    "moment": "2.24.0",
     "vue-template-compiler": "2.6.11"
   }
 }

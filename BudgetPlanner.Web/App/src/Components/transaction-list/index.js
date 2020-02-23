@@ -8,30 +8,36 @@ const defaultComponent = {
         reference: String,
         fromDate: Date,
         toDate: Date, 
+        itemsPerPage: Number,
         pageNumber: Number
     },
     data() {
         return {
+            pageSize: this.itemsPerPage,
             currentPageNumber: this.pageNumber,
             from: this.fromDate,
             to: this.toDate,
             items: []
         };
     },
-    //watch: {
-    //    //fromDate(newValue) {
-    //    //    this.from = newValue;
-    //    //    this.getTransactions();
-    //    //},
-    //    //toDate(newValue) {
-    //    //    this.to = newValue;
-    //    //    this.getTransactions();
-    //    //},
-    //    //pageNumber(newValue) {
-    //    //    this.currentPageNumber = newValue;
-    //    //    this.getTransactions();
-    //    //}
-    //},
+    watch: {
+        fromDate(newValue) {
+            this.from = newValue;
+            this.getTransactions();
+        },
+        toDate(newValue) {
+            this.to = newValue;
+            this.getTransactions();
+        },
+        pageSize(newValue) {
+            this.pageSize = newValue;
+            this.getTransactions();
+        },
+        pageNumber(newValue) {
+            this.currentPageNumber = newValue;
+            this.getTransactions();
+        }
+    },
     methods: {
         setPageNumber(pageNumber) {
             this.currentPageNumber = pageNumber;
@@ -55,11 +61,12 @@ const defaultComponent = {
                     reference: this.reference, 
                     fromDate: this.from, 
                     toDate: this.to,
+                    pageSize: this.pageSize,
                     pageNumber: this.currentPageNumber }})
                 .then((e) => context.items = e.data);
         },
         getTransactionTypeClass(item) {
-            if(item.transactionType === 2)
+            if(item.type === 2)
                 return "text-number-negate";
 
             return "";

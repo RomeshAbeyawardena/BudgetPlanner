@@ -42,7 +42,9 @@
     <div class="card-header">Details</div>
     <div class="card-body">
          <transaction-list request-url="@Url.Action("GetTransactions", "Transaction")" 
-                           reference="@Model.Reference" 
+                           reference="@Model.Reference"
+                           :page-number="1"
+                           :items-per-page="10"
                            :from-date="new Date('2020-01-23')"
                            :to-date="new Date('2020-02-23')">
 
