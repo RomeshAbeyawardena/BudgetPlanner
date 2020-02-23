@@ -1,5 +1,4 @@
 ﻿<div class="card" v-if="isVisible">
-    <div class="card-body" v-html="content">
-
+    <div class="card-body" :is="content && {template:content}">
     </div>
 </div>

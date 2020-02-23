@@ -15,7 +15,8 @@
 @Html.Raw(Model.Content)
 
 <ajax-dialog request-url="@Url.Action("CreateTransaction", "Budget", new { reference = Model.Reference })"
-             parameter="1">
+             parameter="1"
+             :panel-is-visible="false">
 
 </ajax-dialog>
 

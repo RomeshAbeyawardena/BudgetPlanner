@@ -3,7 +3,8 @@
     DashboardComponent: "budget-dashboard",
     TransactionList: "transaction-list",
     DataPager: "data-pager",
-    BudgetStatistics: "budget-statistics"
+    BudgetStatistics: "budget-statistics",
+    TagsInput: "tags-input"
 };
 
 export default componentConstants; 

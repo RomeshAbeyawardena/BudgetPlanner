@@ -1,4 +1,5 @@
-﻿import Axios from "axios";
+﻿import Vue from "vue";
+import Axios from "axios";
 import Components from "../.././components";
 const template = require("./index.html");
 
@@ -35,7 +36,9 @@ const defaultComponent = {
         getRequestUrl() {
             const context = this;
             Axios.get(this.url, { params: { isModal: true, id: this.param } })
-                .then(e => context.content = e.data);
+                .then(e => { 
+                    context.content = e.data;
+                });
         }
     },
     created() {
