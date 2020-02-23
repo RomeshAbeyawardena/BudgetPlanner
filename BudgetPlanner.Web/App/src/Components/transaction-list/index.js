@@ -7,10 +7,12 @@ const defaultComponent = {
         requestUrl: String,
         reference: String,
         fromDate: Date,
-        toDate: Date
+        toDate: Date, 
+        pageNumber: Number
     },
     data() {
         return {
+            currentPageNumber: this.pageNumber,
             from: this.fromDate,
             to: this.toDate,
             items: []
@@ -19,17 +21,42 @@ const defaultComponent = {
     watch: {
         fromDate(newValue) {
             this.from = newValue;
-            getTransactions();
+            this.getTransactions();
         },
         toDate(newValue) {
             this.to = newValue;
-            getTransactions();
+            this.getTransactions();
+        },
+        pageNumber(newValue) {
+            this.currentPageNumber = newValue;
+            this.getTransactions();
         }
     },
     methods: {
+        setPageNumber(pageNumber) {
+            this.currentPageNumber = pageNumber;
+        },
+        getPreviousPage() {
+            if(this.currentPageNumber - 1 < 0)
+                return this.currentPageNumber;
+
+            return this.currentPageNumber -1;
+        },
+        getNextPage() {
+            if(this.currentPageNumber + 1 > this.items.length)
+                return this.currentPageNumber;
+
+            return this.currentPageNumber + 1;
+        },
         getTransactions() {
             constcontext = this;
-            return Axios.get(this.requestUrl, { params: { reference: this.reference, fromDate: this.from, toDate: this.to }}).then((e) => context,items);
+            return Axios.get(this.requestUrl, 
+                { params: { 
+                    reference: this.reference, 
+                    fromDate: this.from, 
+                    toDate: this.to,
+                    pageNumber: this.currentPageNumber }})
+                .then((e) => context.items = e.data);
         }
     },
     created() {
