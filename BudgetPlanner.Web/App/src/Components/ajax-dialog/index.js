@@ -7,13 +7,15 @@ const defaultComponent = {
     components: Components,
     props: {
         requestUrl: String,
-        parameter: String
+        parameter: String,
+        panelIsVisible: Boolean
     },
     data() {
         return {
             url: this.requestUrl,
             param: this.parameter,
-            content: null
+            content: null,
+            isVisible: this.panelIsVisible
         };
     },
     watch: {
@@ -24,6 +26,9 @@ const defaultComponent = {
         parameter(newValue) {
             this.param = newValue;
             this.requestUrl();
+        },
+        panelIsVisible(newValue) {
+            this.isVisible = newValue;
         }
     },
     methods: {
