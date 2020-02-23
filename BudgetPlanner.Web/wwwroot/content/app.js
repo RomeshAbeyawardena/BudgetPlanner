@@ -5693,6 +5693,29 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 
 /***/ }),
 
+/***/ "./src/components/ajax-dialog/index.html":
+/*!***********************************************!*\
+  !*** ./src/components/ajax-dialog/index.html ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = \"<div v-html=\\\"content\\\">\\r\\n\\r\\n</div>\";\n\n//# sourceURL=webpack:///./src/components/ajax-dialog/index.html?");
+
+/***/ }),
+
+/***/ "./src/components/ajax-dialog/index.js":
+/*!*********************************************!*\
+  !*** ./src/components/ajax-dialog/index.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../.././components */ \"./src/components/index.js\");\n\n\n\nvar template = __webpack_require__(/*! ./index.html */ \"./src/components/ajax-dialog/index.html\");\n\nvar defaultComponent = {\n  template: template,\n  components: _components__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  props: {\n    requestUrl: String,\n    parameter: String\n  },\n  data: function data() {\n    return {\n      url: this.requestUrl,\n      param: this.parameter,\n      content: null\n    };\n  },\n  watch: {\n    requestUrl: function requestUrl(newValue) {\n      this.url = newValue;\n      this.getRequestUrl();\n    },\n    parameter: function parameter(newValue) {\n      this.param = newValue;\n      this.requestUrl();\n    }\n  },\n  methods: {\n    getRequestUrl: function getRequestUrl() {\n      var context = this;\n      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.url, {\n        params: {\n          isModal: true,\n          id: this.param\n        }\n      }).then(function (e) {\n        return context.content = e.data;\n      });\n    }\n  },\n  created: function created() {\n    this.getRequestUrl();\n  }\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (defaultComponent);\n\n//# sourceURL=webpack:///./src/components/ajax-dialog/index.js?");
+
+/***/ }),
+
 /***/ "./src/components/budget-statistics/index.html":
 /*!*****************************************************!*\
   !*** ./src/components/budget-statistics/index.html ***!
@@ -5724,7 +5747,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axio
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nvar componentConstants = {\n  DashboardComponent: \"budget-dashboard\",\n  TransactionList: \"transaction-list\",\n  DataPager: \"data-pager\",\n  BudgetStatistics: \"budget-statistics\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (componentConstants);\n\n//# sourceURL=webpack:///./src/components/constants.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nvar componentConstants = {\n  AjaxDialog: \"ajax-dialog\",\n  DashboardComponent: \"budget-dashboard\",\n  TransactionList: \"transaction-list\",\n  DataPager: \"data-pager\",\n  BudgetStatistics: \"budget-statistics\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (componentConstants);\n\n//# sourceURL=webpack:///./src/components/constants.js?");
 
 /***/ }),
 
@@ -5782,7 +5805,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue_
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ \"./src/components/constants.js\");\n/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dashboard */ \"./src/components/dashboard/index.js\");\n/* harmony import */ var _transaction_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transaction-list */ \"./src/components/transaction-list/index.js\");\n/* harmony import */ var _data_pager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./data-pager */ \"./src/components/data-pager/index.js\");\n/* harmony import */ var _budget_statistics__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./budget-statistics */ \"./src/components/budget-statistics/index.js\");\n\n\n\n\n\nvar components = {};\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DashboardComponent] = _dashboard__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].TransactionList] = _transaction_list__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DataPager] = _data_pager__WEBPACK_IMPORTED_MODULE_3__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].BudgetStatistics] = _budget_statistics__WEBPACK_IMPORTED_MODULE_4__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (components);\n\n//# sourceURL=webpack:///./src/components/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ \"./src/components/constants.js\");\n/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dashboard */ \"./src/components/dashboard/index.js\");\n/* harmony import */ var _transaction_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transaction-list */ \"./src/components/transaction-list/index.js\");\n/* harmony import */ var _data_pager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./data-pager */ \"./src/components/data-pager/index.js\");\n/* harmony import */ var _budget_statistics__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./budget-statistics */ \"./src/components/budget-statistics/index.js\");\n/* harmony import */ var _ajax_dialog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ajax-dialog */ \"./src/components/ajax-dialog/index.js\");\n\n\n\n\n\n\nvar components = {};\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DashboardComponent] = _dashboard__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].TransactionList] = _transaction_list__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DataPager] = _data_pager__WEBPACK_IMPORTED_MODULE_3__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].BudgetStatistics] = _budget_statistics__WEBPACK_IMPORTED_MODULE_4__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].AjaxDialog] = _ajax_dialog__WEBPACK_IMPORTED_MODULE_5__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (components);\n\n//# sourceURL=webpack:///./src/components/index.js?");
 
 /***/ }),
 

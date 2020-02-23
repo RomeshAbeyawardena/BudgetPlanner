@@ -14,6 +14,11 @@
 
 @Html.Raw(Model.Content)
 
+<ajax-dialog request-url="@Url.Action("CreateTransaction", "Budget", new { reference = Model.Reference })"
+             parameter="1">
+
+</ajax-dialog>
+
 <section class="card">
     <div class="card-header">
         Spending Summary
