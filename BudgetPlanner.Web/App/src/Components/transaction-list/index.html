@@ -23,7 +23,7 @@
                         .Add("class", "btn btn-primary")
                         .Add("popup", "modal")
                         .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())-->
-                    <a href="#" class="btn btn-primary">Edit</a>
+                    <a href="javascript:void(0)" class="btn btn-primary">Edit</a>
                 </span>
             </th>
             <td>
@@ -50,7 +50,8 @@
     <tfoot>
         <tr>
             <td colspan="6">
-                <data-pager :total-pages="20"
+                <data-pager v-on:page-number:changed="setPageNumber"
+                            :total-pages="totalPages"
                             :items-per-page="10"
                             :page-number="1">
                 </data-pager>

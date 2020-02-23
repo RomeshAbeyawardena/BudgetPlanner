@@ -32,7 +32,7 @@ const defaultComponent = Vue.component("data-pager", {
     methods: {
         setPage(pageIndex) {
             this.currentPageNumber = pageIndex;
-            this.$emit("page-number:changed", newValue);
+            this.$emit("page-number:changed", pageIndex);
         },
         previous() {
             if(this.currentPageNumber - 1 < 0)

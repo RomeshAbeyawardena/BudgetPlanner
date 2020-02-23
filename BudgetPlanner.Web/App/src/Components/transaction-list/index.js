@@ -17,6 +17,7 @@ const defaultComponent = {
     },
     data() {
         return {
+            totalPages: 0,
             pageSize: this.itemsPerPage,
             currentPageNumber: this.pageNumber,
             from: this.fromDate,
@@ -45,6 +46,7 @@ const defaultComponent = {
     methods: {
         setPageNumber(pageNumber) {
             this.currentPageNumber = pageNumber;
+            this.getTransactions();
         },
         getPreviousPage() {
             if(this.currentPageNumber - 1 < 0)
@@ -67,7 +69,10 @@ const defaultComponent = {
                     toDate: this.to,
                     pageSize: this.pageSize,
                     pageNumber: this.currentPageNumber }})
-                .then((e) => context.items = e.data);
+                .then((e) => { 
+                    context.totalPages = e.data.totalPages;    
+                    context.items = e.data.result; 
+                });
         },
         getLedger(item) {
             if(!item)

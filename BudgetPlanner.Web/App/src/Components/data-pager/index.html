@@ -1,9 +1,19 @@
 ﻿<nav aria-label="Page navigation example">
     <ul class="pagination">
-        <li v-if="showPrevious()" class="page-item"><a class="page-link" href="@previousPageUrl">Previous</a></li>
-        <li v-for="pageIndex in pageItems" :class="getPageClass(pageIndex)">
-            <a class="page-link" href="#">{{ pageIndex }}</a>
+        <li v-if="showPrevious()" class="page-item">
+            <a class="page-link"
+               v-on:click="previous" 
+               href="javascript:void(0)">Previous</a>
         </li>
-        <li v-if="showNext()" class="page-item"><a class="page-link" href="@nextPageUrl">Next</a></li>
+        <li v-for="pageIndex in pageItems" :class="getPageClass(pageIndex)">
+            <a v-on:click="setPage(pageIndex)" 
+               class="page-link" 
+               href="javascript:void(0)">{{ pageIndex }}</a>
+        </li>
+        <li v-if="showNext()" class="page-item">
+            <a v-on:click="next" 
+               href="javascript:void(0)" 
+               class="page-link">Next</a>
+        </li>
     </ul>
 </nav>
