@@ -193,6 +193,20 @@ namespace BudgetPlanner.Web.Controllers
             return Json(budgetPlanners);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetBudgetStatistics(
+            BudgetStatisticRequestViewModel model)
+        {
+            var response = await MediatorService.Send(Map<BudgetStatisticRequestViewModel, BudgetPlannerStatsRequest>(model));
+
+            if(!DomainResponse.IsSuccessful(response))
+                throw new InvalidOperationException();
+
+            var budgetPlannerStatsViewModel = new BudgetPlannerStatsViewModel { Statistics = response.Result };
+           
+            return Json(budgetPlannerStatsViewModel);
+        }
+
         private async Task<SelectList> GetTransactionTypes()
         {
             var response = await MediatorService

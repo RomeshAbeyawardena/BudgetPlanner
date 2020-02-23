@@ -2,19 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
-    var pageQuery = string.Concat("?pageSize=", Model.PageSize, "&pageNumber={0}");
-    var transactionRequestData = Html.Base64Encode(Json.Serialize(new TransactionListRequestViewModel
-    {
-        Reference = Model.Reference,
-        FromDate = Model.FromDate,
-        ToDate = Model.ToDate,
-        PageSize = Model.PageSize,
-        PageNumber = Model.PageNumber,
-        PreviousPageUrl = pageQuery,
-        NextPageUrl = pageQuery,
-        SelectPageUrl = pageQuery
-    }), Encoding.UTF8);
-
+    
     var budgetPlannerStatsData = Html.Base64Encode(Json.Serialize(Model.BudgetStatisticsRequest), Encoding.UTF8);
 }
 
@@ -33,8 +21,8 @@
     <div class="card-body">
         <budget-statistics request-url="@Url.Action("BudgetStatistics","Budget")"
                            reference="@Model.Reference"
-                           :fromDate="new Date(@Model.FromDate.Ticks)"
-                           :toDate="new Date(@Model.ToDate.Ticks)">
+                           :from-date="new Date(@Model.BudgetStatisticsRequest.FromDate.Ticks)"
+                           :to-date="new Date(@Model.BudgetStatisticsRequest.ToDate.Ticks)">
         </budget-statistics>
 
     </div>
@@ -45,10 +33,10 @@
     <div class="card-body">
          <transaction-list request-url="@Url.Action("GetTransactions", "Transaction")" 
                            reference="@Model.Reference"
-                           :page-number="1"
-                           :items-per-page="10"
-                           :from-date="new Date(@Model.FromDate.Ticks)"
-                           :to-date="new Date(@Model.ToDate.Ticks)">
+                           :page-number="@Model.PageNumber"
+                           :items-per-page="@Model.PageSize"
+                           :from-date="new Date(@Model.FromDate)"
+                           :to-date="new Date(@Model.ToDate)">
 
          </transaction-list>
     </div>

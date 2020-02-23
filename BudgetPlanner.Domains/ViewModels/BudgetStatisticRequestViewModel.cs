@@ -8,6 +8,7 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class BudgetStatisticRequestViewModel
     {
+        public string Reference { get; set; }
         public int BudgetId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }

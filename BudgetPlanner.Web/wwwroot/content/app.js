@@ -5693,6 +5693,29 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 
 /***/ }),
 
+/***/ "./src/components/budget-statistics/index.html":
+/*!*****************************************************!*\
+  !*** ./src/components/budget-statistics/index.html ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = \"\\r\\n<table class=\\\"table\\\">\\r\\n    <thead>\\r\\n        <tr>\\r\\n            <th>Date</th>\\r\\n            <th>Closing Balance</th>\\r\\n            <th>Total Expenses</th>\\r\\n            <th>Total Income</th>\\r\\n        </tr>\\r\\n    </thead>\\r\\n    <tbody>\\r\\n        @foreach (var statistic in Model.Statistics)\\r\\n        {\\r\\n        <tr>\\r\\n            <td>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.ShortDateFormat), statistic.Date)</td>\\r\\n            <td>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), statistic.ClosingBalance)</td>\\r\\n            <td>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), statistic.TotalExpenses)</td>\\r\\n            <td>@Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat), statistic.TotalIncome)</td>\\r\\n        </tr>\\r\\n        }\\r\\n    </tbody>\\r\\n</table>\";\n\n//# sourceURL=webpack:///./src/components/budget-statistics/index.html?");
+
+/***/ }),
+
+/***/ "./src/components/budget-statistics/index.js":
+/*!***************************************************!*\
+  !*** ./src/components/budget-statistics/index.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\nvar template = __webpack_require__(/*! ./index.html */ \"./src/components/budget-statistics/index.html\");\n\n\nvar defaultComponent = {\n  template: template,\n  props: {\n    requestUrl: String,\n    reference: String,\n    fromDate: Date,\n    toDate: Date\n  },\n  data: function data() {\n    return {\n      from: this.fromDate,\n      to: this.toDate,\n      items: []\n    };\n  },\n  watch: {\n    fromDate: function fromDate(newValue) {\n      this.from = newValue;\n      this.getBudgetStatistics();\n    },\n    toDate: function toDate(newValue) {\n      this.to = newValue;\n      this.getBudgetStatistics();\n    }\n  },\n  methods: {\n    getBudgetStatistics: function getBudgetStatistics() {\n      var _this = this;\n\n      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.requestUrl, {\n        params: {\n          reference: this.reference,\n          fromDate: this.from,\n          toDate: this.to\n        }\n      }).then(function (e) {\n        return _this.items = e.data;\n      });\n    }\n  },\n  created: function created() {\n    this.getBudgetStatistics();\n  }\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (defaultComponent);\n\n//# sourceURL=webpack:///./src/components/budget-statistics/index.js?");
+
+/***/ }),
+
 /***/ "./src/components/constants.js":
 /*!*************************************!*\
   !*** ./src/components/constants.js ***!
@@ -5701,7 +5724,7 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nvar componentConstants = {\n  DashboardComponent: \"budget-dashboard\",\n  TransactionList: \"transaction-list\",\n  DataPager: \"data-pager\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (componentConstants);\n\n//# sourceURL=webpack:///./src/components/constants.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nvar componentConstants = {\n  DashboardComponent: \"budget-dashboard\",\n  TransactionList: \"transaction-list\",\n  DataPager: \"data-pager\",\n  BudgetStatistics: \"budget-statistics\"\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (componentConstants);\n\n//# sourceURL=webpack:///./src/components/constants.js?");
 
 /***/ }),
 
@@ -5759,7 +5782,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue_
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ \"./src/components/constants.js\");\n/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dashboard */ \"./src/components/dashboard/index.js\");\n/* harmony import */ var _transaction_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transaction-list */ \"./src/components/transaction-list/index.js\");\n/* harmony import */ var _data_pager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./data-pager */ \"./src/components/data-pager/index.js\");\n\n\n\n\nvar components = {};\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DashboardComponent] = _dashboard__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].TransactionList] = _transaction_list__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DataPager] = _data_pager__WEBPACK_IMPORTED_MODULE_3__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (components);\n\n//# sourceURL=webpack:///./src/components/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ \"./src/components/constants.js\");\n/* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dashboard */ \"./src/components/dashboard/index.js\");\n/* harmony import */ var _transaction_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transaction-list */ \"./src/components/transaction-list/index.js\");\n/* harmony import */ var _data_pager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./data-pager */ \"./src/components/data-pager/index.js\");\n/* harmony import */ var _budget_statistics__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./budget-statistics */ \"./src/components/budget-statistics/index.js\");\n\n\n\n\n\nvar components = {};\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DashboardComponent] = _dashboard__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].TransactionList] = _transaction_list__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DataPager] = _data_pager__WEBPACK_IMPORTED_MODULE_3__[\"default\"];\ncomponents[_constants__WEBPACK_IMPORTED_MODULE_0__[\"default\"].BudgetStatistics] = _budget_statistics__WEBPACK_IMPORTED_MODULE_4__[\"default\"];\n/* harmony default export */ __webpack_exports__[\"default\"] = (components);\n\n//# sourceURL=webpack:///./src/components/index.js?");
 
 /***/ }),
 

@@ -13,5 +13,6 @@ namespace BudgetPlanner.Domains.Requests
         public int BudgetId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public string Reference { get; set; }
     }
 }
