@@ -22,8 +22,10 @@ namespace BudgetPlanner.Services.RequestHandlers
             if(!string.IsNullOrEmpty(request.Reference)){
                 var budgetId = (await _budgetPlannerService.GetBudgetPlanner(request.Reference))?.Id;
 
-                if(budgetId.HasValue)
+                if(!budgetId.HasValue)
                     return Response.Failed<BudgetPlannerStatsResponse>(new ValidationFailure(nameof(request.Reference), "Reference not found"));
+
+                request.BudgetId = budgetId.Value;
             }
 
             var budgetPlannerStats = await _budgetPlannerService

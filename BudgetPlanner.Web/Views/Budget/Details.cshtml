@@ -19,10 +19,10 @@
         Spending Summary
     </div>
     <div class="card-body">
-        <budget-statistics request-url="@Url.Action("BudgetStatistics","Budget")"
+        <budget-statistics request-url="@Url.Action("GetBudgetStatistics","Budget")"
                            reference="@Model.Reference"
-                           :from-date="new Date(@Model.BudgetStatisticsRequest.FromDate.Ticks)"
-                           :to-date="new Date(@Model.BudgetStatisticsRequest.ToDate.Ticks)">
+                           :from-date="new Date(@Model.BudgetStatisticsRequest.FromDate.MillisecondsSinceUnixEpoch())"
+                           :to-date="new Date(@Model.BudgetStatisticsRequest.ToDate.MillisecondsSinceUnixEpoch())">
         </budget-statistics>
 
     </div>
@@ -35,8 +35,8 @@
                            reference="@Model.Reference"
                            :page-number="@Model.PageNumber"
                            :items-per-page="@Model.PageSize"
-                           :from-date="new Date(@Model.FromDate)"
-                           :to-date="new Date(@Model.ToDate)">
+                           :from-date="new Date(@Model.FromDate.MillisecondsSinceUnixEpoch())"
+                           :to-date="new Date(@Model.ToDate.MillisecondsSinceUnixEpoch())">
 
          </transaction-list>
     </div>

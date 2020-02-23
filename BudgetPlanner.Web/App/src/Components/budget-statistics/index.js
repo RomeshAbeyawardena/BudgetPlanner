@@ -32,7 +32,7 @@ const defaultComponent = {
                 reference: this.reference, 
                 fromDate: this.from, 
                 toDate: this.to }
-            }).then(e => this.items = e.data);
+            }).then(e => this.items = e.data.statistics);
         }
     },
     created() {
