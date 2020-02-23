@@ -57,6 +57,12 @@ const defaultComponent = {
                     toDate: this.to,
                     pageNumber: this.currentPageNumber }})
                 .then((e) => context.items = e.data);
+        },
+        getTransactionTypeClass(item) {
+            if(item.transactionType === 2)
+                return "text-number-negate";
+
+            return null;
         }
     },
     created() {

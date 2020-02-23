@@ -1,0 +1,54 @@
+﻿@model TransactionListViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">@Model.CreatedHeading</th>
+            <th scope="col">@Model.DescriptionHeading</th>
+            <th scope="col">@Model.AmountHeading</th>
+            <th scope="col">@Model.OldBalanceHeading</th>
+            <th scope="col">@Model.NewBalanceHeading</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.Transactions)
+        {
+        var transledger = transaction.TransactionLedgers?.FirstOrDefault();
+
+        <tr  v-for="item of item">
+            <th scope="row">
+                <span>
+                    @Html.ActionLink("Edit", "EditTransaction", "Budget", new { id = transaction.Id }, DictionaryBuilder
+                    .Create<string, object>
+                        (dictionaryBuilder => dictionaryBuilder
+                        .Add("class", "btn btn-primary")
+                        .Add("popup", "modal")
+                        .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())
+                </span>
+            </th>
+            <td>
+                <span>{{item.Created}}</span>
+            </td>
+            <td>
+                <span>{{item.Description}}</span>
+            </td>
+            <td :class="GetTransactionTypeClass(item)">
+                <span>{{transaction.Amount | currency }}</span>
+            </td>
+            <td>
+                <span>
+                    {{ item.PreviousBalance | currency }}
+                </span>
+            </td>
+            <td>
+                <span>
+                    @Html.FormatContent(FormatConstants.SetFormat(FormatConstants.CurrencyFormat),
+                    transledger?.NewBalance)
+                </span>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("Partials/_pager", Model)

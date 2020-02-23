@@ -40,11 +40,13 @@
 
 <section class="card">
     <div class="card-header">Details</div>
-    <div class="card-body" data-src="@Url.Action("TransactionList","ViewComponent")"
-         data-parameters="@transactionRequestData">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+    <div class="card-body">
+         <transaction-list request-url="@Url.Action("GetTransactions", "Transaction")" 
+                           reference="@Model.Reference" 
+                           :from-date="new Date('2020-01-23')"
+                           :to-date="new Date('2020-02-23')">
+
+         </transaction-list>
     </div>
 </section>
 
