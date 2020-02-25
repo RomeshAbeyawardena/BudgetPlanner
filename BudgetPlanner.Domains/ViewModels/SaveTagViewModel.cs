@@ -9,8 +9,8 @@ namespace BudgetPlanner.Domains.ViewModels
 {
     public class SaveTagViewModel
     {
-        [Required]
+        [Required, MinLength(3)]
         public string Name { get; set; }
-        public int Id { get; set; }
+        public int? Id { get; set; }
     }
 }

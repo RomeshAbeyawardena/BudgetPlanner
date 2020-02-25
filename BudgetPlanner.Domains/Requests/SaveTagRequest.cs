@@ -11,6 +11,6 @@ namespace BudgetPlanner.Domains.Requests
     public class SaveTagRequest : IRequest<SaveTagResponse>
     {
         public string Name { get; set; }
-        public int Id { get; set; 
+        public int Id { get; set; }
     }
 }

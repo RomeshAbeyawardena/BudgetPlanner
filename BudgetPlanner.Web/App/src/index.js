@@ -11,7 +11,7 @@ $(() => {
     
     const vue = new Vue({
         el: "#app",
-        data:  { value: "hello world" },
+        data:  { value: "hello world", showModal: false },
         components: Components
     });
 

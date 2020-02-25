@@ -40,7 +40,8 @@
     <tags-input input-text-id="@Html.IdFor(model => model.Tags)"
                 input-text-name="@Html.NameFor(model => model.Tags)"
                 input text-value="@Html.ValueFor(model => model.Tags)"
-                input-tag-white-list-request-url="@Url.Action("GetTags","Tag")">
+                input-tag-white-list-request-url="@Url.Action("GetTags","Tag")"
+                input-tag-white-list-save-request-url="@Url.Action("SaveTag","Tag")">
 
     </tags-input>
     @*@Html.TextBoxFor(model => model.Tags, null, DictionaryBuilder.Create<string, object>(builder => builder

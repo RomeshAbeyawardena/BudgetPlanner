@@ -27,7 +27,7 @@ namespace BudgetPlanner.Services.RequestHandlers
                 return Response.Success<SaveTagResponse>(foundTag);
 
             foundTag = await _tagService
-                .SaveTag(new Tag { Id = request.Id, Name = request.Name }, true);
+                .SaveTag(new Tag { Id = request.Id, Name = request.Name, Active = true }, true);
 
             return Response.Success<SaveTagResponse>(foundTag, config => config.Created = true);
         }

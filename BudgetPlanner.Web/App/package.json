@@ -10,6 +10,7 @@
     "build": "webpack"
   },
   "devDependencies": {
+    "querystring": "0.2.0",
     "babel-polyfill": "6.26.0",
     "node-sass": "4.13.1",
     "style-loader": "1.1.3",
