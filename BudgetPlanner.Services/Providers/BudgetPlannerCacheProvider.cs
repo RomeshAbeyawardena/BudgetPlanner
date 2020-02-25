@@ -114,8 +114,9 @@ namespace BudgetPlanner.Services.Providers
 
         public async Task<IEnumerable<Tag>> GetTags()
         {
-            return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache, 
-                CacheConstants.Tags, async() => await _tagService.GetTags());
+            return await _cacheProvider.GetOrSet<Tag>(CacheType.DistributedMemoryCache, 
+                CacheConstants.Tags, async() => await _tagService.GetTags(), tag => tag.Id, 
+                async() => await _tagService.GetMax());
         }
 
         public BudgetPlannerCacheProvider(ICacheProvider cacheProvider, 

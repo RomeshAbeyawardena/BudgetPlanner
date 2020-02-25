@@ -84,6 +84,14 @@ namespace BudgetPlanner.Services
             return tags;
         }
 
+        public async Task<int> GetMax()
+        {
+            if(DefaultTagQuery.Any())
+                return await DefaultTagQuery.MaxAsync(tag => tag.Id);
+
+            return 0;
+        }
+
         public TagService(IRepository<Tag> tagRepository, IRepository<TransactionTag> budgetTagRepository)
         {
             _tagRepository = tagRepository;

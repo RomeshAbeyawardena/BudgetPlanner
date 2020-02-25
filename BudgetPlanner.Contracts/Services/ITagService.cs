@@ -18,5 +18,6 @@ namespace BudgetPlanner.Contracts.Services
         Tag GetTag(IEnumerable<Tag> tags, int tagId);
         IEnumerable<Tag> ParseTags(IEnumerable<Tag> tags, IEnumerable<string> delimitedTags);
         IEnumerable<Tag> SearchTags(IEnumerable<Tag> tags, string searchTerm);
+        Task<int> GetMax();
     }
 }

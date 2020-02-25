@@ -10,6 +10,7 @@
   "profiles": {
     "BudgetPlanner.Web": {
       "commandName": "Project",
+      "commandLineArgs": "watch",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

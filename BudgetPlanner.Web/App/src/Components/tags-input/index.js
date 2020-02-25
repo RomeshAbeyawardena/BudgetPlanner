@@ -36,32 +36,35 @@ const defaultComponent = Vue.component("tags-input", {
             return Axios.get(this.inputTagWhiteListRequestUrl, { params: { searchTerm: value } });
         },
         updateWhiteList(whiteList) {
-            if(!whiteList || !whiteList.length)
+            if (!whiteList || !whiteList.length)
                 return;
 
             this.tagifyInstance.settings.whitelist.length = 0;
 
-            for(var whiteListItem of whiteList)
+            for (var whiteListItem of whiteList)
                 this.tagifyInstance.settings.whitelist.push(whiteListItem);
-
+            this.tagifyInstance.loading(false).dropdown.show.call(this.tagifyInstance, value);
             this.tags = whiteList;
         },
         onTagInput(e) {
             var value = e.detail.value;
-            
-            this.tagifyInstance.loading(true).dropdown.hide.call(tagify);
+
+            this.tagifyInstance.loading(true).dropdown.hide.call(this.tagifyInstance);
             const context = this;
 
-            if(!this.tags.length || !lastUpdated || lastUpdated > )
-                this.getTags(value)
-                    .then(e => { context.updateWhiteList(e.data); lastUpdated = new Date(); });
+            this.getTags(value)
+                .then(e => { 
+                    context.updateWhiteList(e.data.result); 
+                    context.lastUpdated = e.data.requested; 
+                });
+
             
-            tagify.loading(false).dropdown.show.call(tagify, value);
         }
     },
     mounted() {
         this.tagifyInstance = new Tagify(this.$el)
-            .on('add', this.tagsUpdated);
+            .on('add', this.tagsUpdated)
+            .on('input', this.onTagInput);
     }
 });
 
