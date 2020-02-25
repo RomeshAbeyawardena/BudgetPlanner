@@ -2,8 +2,6 @@
 import Components from "../.././components";
 const template = require("./index.html");
 
-console.log(Components);
-
 const defaultComponent = {
     template: template,
     components: Components,

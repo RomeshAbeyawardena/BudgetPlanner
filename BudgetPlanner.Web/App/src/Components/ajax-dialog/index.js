@@ -13,6 +13,7 @@ const defaultComponent = {
     },
     data() {
         return {
+            capturedForm: null,
             url: this.requestUrl,
             param: this.parameter,
             content: null,
