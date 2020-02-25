@@ -15,6 +15,7 @@ namespace BudgetPlanner.Domains
     {
         public DomainProfile()
         {
+            CreateMap<SaveTagViewModel, SaveTagRequest>();
             CreateMap<Dto.Budget, BudgetPanelDashboardItemViewModel>();
             CreateMap<BudgetPanelDashboardListViewModel, RetrieveBudgetPlannersRequest>();
             CreateMap<CreateBudgetPlannerViewModel,CreateBudgetPlannerRequest>();
