@@ -151,14 +151,10 @@ namespace BudgetPlanner.Web.Controllers
                     AccountId = (await CurrentAccount).Id, 
                     Reference = reference });
 
-            if(!DomainResponse.IsSuccessful(budgetResponse))
-                return RedirectToAction("Index","Home");
+            if(DomainResponse.IsSuccessful(budgetResponse))
+                return StatusCode(202, budgetResponse);
 
-            return await ViewWithContent(ContentConstants.TransactionEditorPath, new AddBudgetTransactionViewModel { 
-                IsModal = isModal,
-                BudgetId = budgetResponse.Result.Id,
-                Active = true,
-                TransactionTypes = await GetTransactionTypes() });
+            return BadRequest(budgetResponse.Errors);
         }
 
         [HttpPost, ValidateAntiForgeryToken]

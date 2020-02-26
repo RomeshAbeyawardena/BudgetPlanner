@@ -20,7 +20,7 @@
 <div class="form-group" id="costDetails">
     @Html.LabelFor(model => model.Amount, Model.AmountLabel)
     @Html.DisplayIf(Model.Id == default, 
-        Html.TextBoxFor(model => model.Amount, "{0:0.00}", new { @class = "form-control", type = "number" }),
+        Html.TextBoxFor(model => model.Amount, "{0:0.00}", new { @class = "form-control", type = "number", step = "0.05" }),
         Html.HiddenFor(model => model.Amount))
 
     @if(Model.Id != default)
@@ -44,13 +44,14 @@
                 input-tag-white-list-save-request-url="@Url.Action("SaveTag","Tag")">
 
     </tags-input>
-    @*@Html.TextBoxFor(model => model.Tags, null, DictionaryBuilder.Create<string, object>(builder => builder
-        .Add("id", "tagsField")
-        .Add("class", "form-control")
-        .Add("data-role", "tagsinput"))
-    .ToDictionary())*@
+    
 </div>
 <div class="form-group form-check">
-    @Html.CheckBoxFor(model => model.Active, new { @class = "form-check-input" })
+    <input type="checkbox" 
+           id="@Html.IdFor(model => model.Active)" 
+           name="@Html.NameFor(model => model.Active)" 
+           value="@Html.ValueFor(model => model.Active)"
+           class="form-check-input"
+           @Html.DisplayIf(Model.Active, "checked='checked'")/>
     @Html.LabelFor(model => model.Active, Model.ActiveLabel)
 </div>

@@ -14,13 +14,13 @@
 
 @Html.Raw(Model.Content)
 
-<ajax-dialog request-url="@Url.Action("CreateTransaction", "Budget", new { reference = Model.Reference })"
-             parameter="1"
-             :panel-is-visible="showModal">
+<ajax-dialog :request-url="modal.url"
+             :parameter="modal.parameter"
+             :panel-is-visible="modal.visible">
 
 </ajax-dialog>
 
-<section class="card">
+<section class="card" v-if="!modal.visible">
     <div class="card-header">
         Spending Summary
     </div>
@@ -34,7 +34,7 @@
     </div>
 </section>
 
-<section class="card">
+<section class="card" v-if="!modal.visible">
     <div class="card-header">Details</div>
     <div class="card-body">
          <transaction-list request-url="@Url.Action("GetTransactions", "Transaction")" 
@@ -48,8 +48,6 @@
     </div>
 </section>
 
-@Html.ActionLink("Add Transaction", "CreateTransaction", "Budget", new { reference = Model.Reference }, DictionaryBuilder
-                .Create<string, object>(dictionaryBuilder => dictionaryBuilder
-                    .Add("class", "btn btn-primary")
-                    .Add("popup", "modal")
-                    .Add("data-args", Json.Serialize(new { IsModal = true }))).ToDictionary())
+<a href="#" 
+   v-on:click="setModal('@Url.Action("CreateTransaction", "Budget", new { reference = Model.Reference })', 1)" 
+   class="btn btn-primary">Add Transaction</a>

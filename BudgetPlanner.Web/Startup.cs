@@ -23,6 +23,8 @@ using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using BudgetPlanner.Web.Attributes;
+
 namespace BudgetPlanner.Web
 {
     public class Startup
@@ -108,6 +110,7 @@ namespace BudgetPlanner.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMiddleware<SantizeInputMiddleware>();
             app.UseSession();
             app.UseRouting();
             app.UseStaticFiles();

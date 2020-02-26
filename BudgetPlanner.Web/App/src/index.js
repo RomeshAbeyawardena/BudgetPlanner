@@ -1,7 +1,6 @@
 ﻿require("./scss/index.scss");
 import $ from "jquery";
 import 'babel-polyfill';
-import Tagify from '@yaireo/tagify';
 import Vue from "vue";
 import Components from "./components";
 import VueAxios from "vue-axios";
@@ -11,7 +10,17 @@ $(() => {
     
     const vue = new Vue({
         el: "#app",
-        data:  { value: "hello world", showModal: false },
+        data: {
+            value: "hello world", 
+            modal: { visible: false, url:null, parameter:null }
+        },
+        methods: {
+            setModal(url, a) {
+                this.modal.url = url;
+                this.modal.parameter = a;
+                this.modal.visible = true;
+            }
+        },
         components: Components
     });
 
