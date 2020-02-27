@@ -66,7 +66,7 @@ namespace BudgetPlanner.Web.Controllers
         public async Task<ActionResult> Register([FromForm]RegisterAccountViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return await ViewWithContent(ContentConstants.RegisterContentPath, model);
 
             model.Password = Convert.ToBase64String(model.Password
                 .GetBytes(Encoding.UTF8)
@@ -76,7 +76,7 @@ namespace BudgetPlanner.Web.Controllers
             var result = await AccountManager.CreateAsync(mappedAccount);
 
             if (result.Succeeded)
-                return RedirectToAction("Login", "Account", new LoginViewModel { EmailAddress = model.EmailAddress });
+                return StatusCode(202, model);
 
             AddModelStateErrors(result.Errors);
             //AddErrorsToModelState(response);

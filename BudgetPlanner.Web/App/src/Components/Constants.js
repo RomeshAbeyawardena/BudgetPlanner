@@ -4,6 +4,7 @@
     TransactionList: "transaction-list",
     DataPager: "data-pager",
     BudgetStatistics: "budget-statistics",
+    NotificationBar: "notification-bar",
     TagsInput: "tags-input"
 };
 

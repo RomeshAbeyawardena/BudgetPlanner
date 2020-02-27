@@ -6,7 +6,7 @@
 
 <budget-dashboard request-url="@Url.Action("GetBudgetPlanners","Budget")"
                   details-url="@Url.Action("Details", "Budget", new { reference = "!ref" })"
-                  :last-updated='new Date("@Model.LastUpdated.MillisecondsSinceUnixEpoch()")'
+                  :last-updated="new Date(@Model.LastUpdated.MillisecondsSinceUnixEpoch())"
                   v-on:item:save="setModal">
 
 </budget-dashboard>

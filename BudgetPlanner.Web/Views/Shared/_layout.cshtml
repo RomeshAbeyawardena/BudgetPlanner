@@ -14,12 +14,16 @@
         @await Html.PartialAsync("Partials/_currentAccountNav")
     </section>
     <section class="container" id="app">
-        <section id="popup"></section>
+        <notification-bar :notification-visible="notification.visible"
+                          :notification-type="notification.type"
+                          :notification-content="notification.content">
+        </notification-bar>
 
         <ajax-dialog :title="modal.title"
                      :request-url="modal.url"
                      :parameter="modal.parameter"
                      :panel-is-visible="modal.visible"
+                     :form-entity-type="modal.entityType"
                      v-on:dialog:dismiss="dismissModal"
                      v-on:form:submit:successful="onModalSubmit">
         </ajax-dialog>

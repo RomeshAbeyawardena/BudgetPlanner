@@ -8,5 +8,7 @@
 {
     @await Html.PartialAsync("Partials/Editors/_loginEditor")
     <button type="submit" class="btn btn-primary">Login</button>
-    <a href="#" v-on:click="setModal('@Url.Action("Register", "Account")', 'Register Account')" class="btn btn-primary">Register Account</a>
+    <a href="#" 
+       v-on:click="setModal('Account', '@Url.Action("Register", "Account")', 'Register Account')" 
+       class="btn btn-primary">Register Account</a>
 }

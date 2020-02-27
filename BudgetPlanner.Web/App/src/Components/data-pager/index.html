@@ -3,16 +3,16 @@
         <li v-if="showPrevious()" class="page-item">
             <a class="page-link"
                v-on:click="previous" 
-               href="javascript:void(0)">Previous</a>
+               href="#">Previous</a>
         </li>
         <li v-for="pageIndex in pageItems" :class="getPageClass(pageIndex)">
             <a v-on:click="setPage(pageIndex)" 
                class="page-link" 
-               href="javascript:void(0)">{{ pageIndex }}</a>
+               href="#">{{ pageIndex }}</a>
         </li>
         <li v-if="showNext()" class="page-item">
             <a v-on:click="next" 
-               href="javascript:void(0)" 
+               href="#" 
                class="page-link">Next</a>
         </li>
     </ul>

@@ -8,11 +8,13 @@ const defaultComponent = {
     props: {
         title: String,
         requestUrl: String,
+        formEntityType: String,
         parameter: null,
         panelIsVisible: Boolean
     },
     data() {
         return {
+            entityType: this.formEntityType,
             dialogTitle: this.title,
             capturedForm: null,
             url: this.requestUrl,
@@ -22,6 +24,9 @@ const defaultComponent = {
         };
     },
     watch: {
+        formEntityType(newValue) {
+            this.entityType = newValue;
+        },
         title(newValue) {
             this.dialogTitle = newValue;
         },
@@ -66,18 +71,24 @@ const defaultComponent = {
         handleResponse(e) {
             if (e.status === 202) {
                 this.$emit("form:submit:successful", e.data);
+                this.$emit("form:submit:notify", [ "success", this.entityType + " saved successfully"]);
                 return;
             }
 
-            if(e.status === 200)
+            if (e.status === 200) {
                 this.content = e.data;
+                this.captureForm();
+            }
+        },
+        captureForm() {
+            window.setTimeout(() => this.capturedForm = this.$el.parentElement.querySelector("form"), 1000);
         },
         getRequestUrl() {
             const context = this;
             Axios.get(this.url, { params: { isModal: true, id: this.param } })
                 .then(e => { 
                     context.content = e.data;
-                    window.setTimeout(() => this.capturedForm = this.$el.parentElement.querySelector("form"), 1000);
+                    this.captureForm();
                 });
         }
     }
