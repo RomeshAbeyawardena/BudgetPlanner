@@ -15,7 +15,17 @@
     </section>
     <section class="container" id="app">
         <section id="popup"></section>
-        @RenderBody()
+
+        <ajax-dialog :title="modal.title"
+                     :request-url="modal.url"
+                     :parameter="modal.parameter"
+                     :panel-is-visible="modal.visible"
+                     v-on:dialog:dismiss="dismissModal"
+                     v-on:form:submit:successful="onModalSubmit">
+        </ajax-dialog>
+        <section v-if="!modal.visible">
+            @RenderBody()
+        </section>
     </section>
 </body>
 </html>

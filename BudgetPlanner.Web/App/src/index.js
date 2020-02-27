@@ -12,13 +12,27 @@ $(() => {
         el: "#app",
         data: {
             value: "hello world", 
-            modal: { visible: false, url:null, parameter:null }
+            modal: { 
+                title: null,
+                visible: false, 
+                url: null, 
+                parameter:null 
+            },
+            lastSavedValue: null
         },
         methods: {
-            setModal(url, a) {
+            dismissModal() {
+                this.modal.visible = false;
+            },
+            setModal(url, title, a) {
+                this.modal.title = title;
                 this.modal.url = url;
                 this.modal.parameter = a;
                 this.modal.visible = true;
+            },
+            onModalSubmit(e) {
+                this.lastSavedValue = e;
+                this.dismissModal();
             }
         },
         components: Components

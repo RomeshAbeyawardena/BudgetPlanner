@@ -3,6 +3,8 @@ const template = require("./index.html");
 
 const defaultComponent = {
     props: {
+        createRequestUrl: String,
+        editRequestUrl: String,
         requestUrl: String,
         detailsUrl: String,
         dashboardMode: Number,
@@ -34,6 +36,12 @@ const defaultComponent = {
                 .replace("!ref", item.reference);
 
             return url;
+        },
+        add() {
+            this.$emit("item:save", this.createRequestUrl);
+        },
+        edit() {
+            this.$emit("item:save", this.editRequestUrl);
         }
     },
     created() {

@@ -14,7 +14,8 @@
                             <span>Balance</span>
                             {{ item.balance | currency }}
                         </p>
-                        <a class="class-link" :href="getDetailsUrl(item)">View Details</a>
+                        <a class="class-link" :href="getDetailsUrl(item)">View Details</a> |
+                        <a class="class-link" v-on:click="edit()">Edit</a>
                     </div>
                 </div>
             </div>
@@ -24,7 +25,7 @@
         
     </div>
     <div class="card-footer">
-
+        <a class="btn btn-primary" v-on:click="add()">Create</a>
     </div>
 
 

@@ -7,7 +7,8 @@
     "ie >= 11"
   ],
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "devDependencies": {
     "querystring": "0.2.0",

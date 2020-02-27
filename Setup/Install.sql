@@ -258,7 +258,7 @@ CREATE TABLE [dbo].[AccountAccess]
         CONSTRAINT FK_TransactionTag_Tag
         REFERENCES [dbo].[Tag]
     ,[Created] DATETIMEOFFSET NOT NULL
-    ,CONSTRAINT IQ_TransactionTag UNIQUE ([BudgetId], [TagId])
+    ,CONSTRAINT IQ_TransactionTag UNIQUE ([TransactionId], [TagId])
  )
 
  GO
@@ -313,5 +313,3 @@ AS BEGIN
 	RETURN
 END
 GO
-
-DELETE FROM Tag

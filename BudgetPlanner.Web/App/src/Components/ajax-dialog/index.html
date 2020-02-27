@@ -1,4 +1,10 @@
 ﻿<div class="card" v-if="isVisible">
+    <div class="card-header">
+        {{ dialogTitle }}
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true" v-on:click="dismissModal()">&times;</span>
+        </button>
+    </div>
     <div class="card-body" :is="content && {template:content}">
     </div>
 </div>

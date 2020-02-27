@@ -151,10 +151,14 @@ namespace BudgetPlanner.Web.Controllers
                     AccountId = (await CurrentAccount).Id, 
                     Reference = reference });
 
-            if(DomainResponse.IsSuccessful(budgetResponse))
-                return StatusCode(202, budgetResponse);
+            if(!DomainResponse.IsSuccessful(budgetResponse))
+                return BadRequest(budgetResponse.Errors);
 
-            return BadRequest(budgetResponse.Errors);
+            return await ViewWithContent(ContentConstants.TransactionEditorPath, new AddBudgetTransactionViewModel { 
+                IsModal = isModal,
+                Active = true,
+                TransactionTypes = await GetTransactionTypes(),
+                BudgetId = budgetResponse.Result.Id });;
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -170,9 +174,9 @@ namespace BudgetPlanner.Web.Controllers
             var response = await MediatorService.Send(createTransactionRequest);
             
             if(response.IsSuccessful)
-                return RedirectToAction("Details", "Budget", new { reference = response.Reference });
+                return StatusCode(202, response.Result);
 
-            return await ViewWithContent(ContentConstants.TransactionEditorPath, model);
+            return View("CreateTransaction", model);
         }
 
         [HttpGet]

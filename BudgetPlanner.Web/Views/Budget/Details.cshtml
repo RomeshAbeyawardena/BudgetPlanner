@@ -14,13 +14,7 @@
 
 @Html.Raw(Model.Content)
 
-<ajax-dialog :request-url="modal.url"
-             :parameter="modal.parameter"
-             :panel-is-visible="modal.visible">
-
-</ajax-dialog>
-
-<section class="card" v-if="!modal.visible">
+<section class="card">
     <div class="card-header">
         Spending Summary
     </div>
@@ -34,7 +28,7 @@
     </div>
 </section>
 
-<section class="card" v-if="!modal.visible">
+<section class="card">
     <div class="card-header">Details</div>
     <div class="card-body">
          <transaction-list request-url="@Url.Action("GetTransactions", "Transaction")" 

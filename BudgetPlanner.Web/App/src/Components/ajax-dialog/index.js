@@ -6,12 +6,14 @@ const defaultComponent = {
     template: template,
     components: Components,
     props: {
+        title: String,
         requestUrl: String,
         parameter: null,
         panelIsVisible: Boolean
     },
     data() {
         return {
+            dialogTitle: this.title,
             capturedForm: null,
             url: this.requestUrl,
             param: this.parameter,
@@ -20,6 +22,9 @@ const defaultComponent = {
         };
     },
     watch: {
+        title(newValue) {
+            this.dialogTitle = newValue;
+        },
         requestUrl(newValue) {
             this.url = newValue;
             this.getRequestUrl();
@@ -38,6 +43,9 @@ const defaultComponent = {
         }
     },
     methods: {
+        dismissModal() {
+            this.$emit("dialog:dismiss");
+        },
         onSubmit(e) {
             const formAction = this.capturedForm.action;
             const formMethod = this.capturedForm.method;
@@ -56,8 +64,8 @@ const defaultComponent = {
             return false;
         },
         handleResponse(e) {
-            if (e.status === 302) {
-                this.$emit("form:submit:successful");
+            if (e.status === 202) {
+                this.$emit("form:submit:successful", e.data);
                 return;
             }
 
