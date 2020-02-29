@@ -506,6 +506,9 @@
     <Content Include="Views\Partials\Grid\Editors\Base.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
+    <None Include="Properties\PublishProfiles\budgetplanner-cms - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\budgetplanner-cms - ReadOnly - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\budgetplanner-cms - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
