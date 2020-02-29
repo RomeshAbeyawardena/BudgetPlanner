@@ -313,3 +313,5 @@ AS BEGIN
 	RETURN
 END
 GO
+
+SELECT @@version

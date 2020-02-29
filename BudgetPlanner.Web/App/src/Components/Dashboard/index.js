@@ -38,10 +38,10 @@ const defaultComponent = {
             return url;
         },
         add() {
-            this.$emit("item:save", this.createRequestUrl);
+            this.$emit("item:save", ["Budget Planner", this.createRequestUrl, "Create Budget"]);
         },
         edit() {
-            this.$emit("item:save", this.editRequestUrl);
+            this.$emit("item:save", ["Budget Planner", this.editRequestUrl, "Edit Budget"]);
         }
     },
     created() {
