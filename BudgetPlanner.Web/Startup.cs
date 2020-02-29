@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authorization;
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace BudgetPlanner.Web
 {
@@ -45,7 +46,7 @@ namespace BudgetPlanner.Web
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
                 }, out var serviceBroker);
-            
+
             ServiceBroker.ConfigureIdentity(services
                 .AddIdentity<Domains.Dto.Account, Role>());
 
@@ -107,6 +108,12 @@ namespace BudgetPlanner.Web
             app.UseRouting();
             app.UseStaticFiles();
             app.UseStatusCodePagesWithRedirects("/Default/Error/{0}");
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
