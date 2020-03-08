@@ -7,20 +7,20 @@ using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Services.Claims;
-using DNI.Shared.Contracts;
-using DNI.Shared.Contracts.Providers;
-using DNI.Shared.Contracts.Services;
-using DNI.Shared.Domains;
-using DNI.Shared.Services;
-using DNI.Shared.Services.Abstraction;
-using DNI.Shared.Shared.Extensions;
+using DNI.Core.Contracts;
+using DNI.Core.Contracts.Providers;
+using DNI.Core.Contracts.Services;
+using DNI.Core.Domains;
+using DNI.Core.Services;
+using DNI.Core.Services.Abstraction;
+using DNI.Core.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BudgetPlanner.Web.Controllers.Api
 {
     [Route("/api/{controller}/{action}")]
-    [ApiController, DNI.Shared.Services.Attributes.HandleException]
+    [ApiController, DNI.Core.Services.Attributes.HandleException]
     public abstract class DefaultApiController : DefaultApiControllerBase
     {
         protected ApplicationSettings ApplicationSettings => GetService<ApplicationSettings>();

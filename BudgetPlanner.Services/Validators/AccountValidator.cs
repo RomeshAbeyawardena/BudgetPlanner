@@ -1,7 +1,7 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Requests;
-using DNI.Shared.Contracts.Providers;
+using DNI.Core.Contracts.Providers;
 using FluentValidation;
 using System;
 using System.Collections.Generic;

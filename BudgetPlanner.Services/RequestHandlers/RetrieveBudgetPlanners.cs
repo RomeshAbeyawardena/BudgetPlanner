@@ -1,7 +1,7 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
-using DNI.Shared.Contracts;
+using DNI.Core.Contracts;
 using MediatR;
 using BudgetPlanner.Domains;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DNI.Shared.Domains;
+using DNI.Core.Domains;
 
 namespace BudgetPlanner.Services.RequestHandlers
 {

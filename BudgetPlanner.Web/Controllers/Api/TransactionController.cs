@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BudgetPlanner.Services.Claims;
 using BudgetPlanner.Domains.Requests;
-using DNI.Shared.Services.Abstraction;
+using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using BudgetPlanner.Domains.ViewModels;
 

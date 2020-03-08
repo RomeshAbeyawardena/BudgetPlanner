@@ -10,14 +10,15 @@ namespace BudgetPlanner.Contracts.Services
 {
     public interface IAccountAccessService
     {
-        Task<IEnumerable<AccessType>> GetAccessTypes();
+        Task<IEnumerable<AccessType>> GetAccessTypes(CancellationToken cancellationToken);
         Task<IEnumerable<AccountAccess>> GetAccountAccess(int accountId, 
             int accessTypeId, 
             DateTime fromDate, 
+            CancellationToken cancellationToken,
             bool? succeeded = null);
         Task<AccountAccess> SaveAccountAccess(AccountAccess accountAccess, 
-            bool saveChanges = true, 
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken,
+            bool saveChanges = true);
         AccessType GetAccessType(IEnumerable<AccessType> accessTypes, string name);
         AccessType GetAccessType(IEnumerable<AccessType> accessTypes, int id);
     }

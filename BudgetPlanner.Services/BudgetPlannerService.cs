@@ -1,13 +1,14 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Enumerations;
-using DNI.Shared.Contracts;
+using DNI.Core.Contracts;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services
@@ -25,13 +26,15 @@ namespace BudgetPlanner.Services
                                                                   where budget.Reference == reference
                                                                   select budget;
 
-        public async Task<Budget> GetBudgetPlanner(string reference)
+        public async Task<Budget> GetBudgetPlanner(string reference, CancellationToken cancellationToken)
         {
-            return await GetBudgetReferenceQuery(reference)
-                .SingleOrDefaultAsync();
+            return await _budgetRepository.For(GetBudgetReferenceQuery(reference))
+                .ToSingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Budget>> GetBudgetPlanners(int accountId, DateTime lastUpdated, OrderBy orderBy = OrderBy.Descending)
+        public async Task<IEnumerable<Budget>> GetBudgetPlanners(int accountId, DateTime lastUpdated, 
+            CancellationToken cancellationToken,
+            OrderBy orderBy = OrderBy.Descending)
         {
             var budgetQuery = from budget in DefaultAccountBudgetQuery(accountId)
                               where budget.LastUpdated >= lastUpdated
@@ -47,34 +50,36 @@ namespace BudgetPlanner.Services
                               orderby budget.LastUpdated ascending
                               select budget;
 
-            return await budgetQuery.ToArrayAsync();
+            return await _budgetRepository.For(budgetQuery)
+                .ToArrayAsync(cancellationToken);
         }
 
-        public async Task<bool> IsReferenceUnique(string uniqueReference)
+        public async Task<bool> IsReferenceUnique(string uniqueReference, CancellationToken cancellationToken)
         {
-            return !await GetBudgetReferenceQuery(uniqueReference)
-                .AnyAsync();
+            return !await _budgetRepository.For(GetBudgetReferenceQuery(uniqueReference))
+                .AnyAsync(cancellationToken);
         }
 
-        public async Task<Budget> Save(Budget budgetPlanner)
+        public async Task<Budget> Save(Budget budgetPlanner, CancellationToken cancellationToken)
         {
-            return await _budgetRepository.SaveChanges(budgetPlanner);
+            return await _budgetRepository.SaveChanges(budgetPlanner, cancellationToken: cancellationToken);
         }
 
-        public async Task<Budget> GetBudgetPlanner(int id)
+        public async Task<Budget> GetBudgetPlanner(int id, CancellationToken cancellationToken)
         {
-            return await _budgetRepository.Find(keys: id);
+            return await _budgetRepository.Find(keys: id, cancellationToken: cancellationToken);
         }
 
-        public async Task<IEnumerable<BudgetPlannerStat>> GetBudgetPlannerStats(int budgetId, DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<BudgetPlannerStat>> GetBudgetPlannerStats(int budgetId, DateTime fromDate, DateTime toDate,
+            CancellationToken cancellationToken)
         {
-            return await _budgetRepository
+            return await _budgetRepository.For(_budgetRepository
                 .FromQuery<BudgetPlannerStat>("SELECT * FROM [dbo].[fn_GetBudgetStats] (@budgetId, @fromDate, @toDate)",
                 new SqlParameter(nameof(budgetId), budgetId),
                 new SqlParameter(nameof(fromDate), fromDate),
                 new SqlParameter(nameof(toDate), toDate))
-                .OrderByDescending(budgetStat => budgetStat.Date)
-                .ToArrayAsync();
+                .OrderByDescending(budgetStat => budgetStat.Date))
+                .ToArrayAsync(cancellationToken);
         }
 
         public BudgetPlannerService(IRepository<Budget> budgetRepository)

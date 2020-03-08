@@ -2,7 +2,7 @@
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.ViewModels;
-using DNI.Shared.Domains;
+using DNI.Core.Domains;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

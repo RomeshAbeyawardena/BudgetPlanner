@@ -2,8 +2,8 @@
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
-using DNI.Shared.Contracts;
-using DNI.Shared.Domains;
+using DNI.Core.Contracts;
+using DNI.Core.Domains;
 using MediatR;
 using System;
 using System.Collections.Generic;

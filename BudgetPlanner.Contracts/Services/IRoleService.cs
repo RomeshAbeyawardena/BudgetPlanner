@@ -10,14 +10,14 @@ namespace BudgetPlanner.Contracts.Services
 {
     public interface IRoleService
     {
-        Task<IEnumerable<Role>> GetRoles();
+        Task<IEnumerable<Role>> GetRoles(CancellationToken cancellationToken);
         IEnumerable<Role> GetRoles(IEnumerable<AccountRole> accountRoles);
         IEnumerable<Role> GetRoles(IEnumerable<Role> roles, IEnumerable<string> roleNames);
-        Task<Role> SaveRole(Role role);
-        Task<AccountRole> SaveAccountRole(AccountRole accountRole);
-        Task<IEnumerable<AccountRole>> GetAccountRoles(int accountId);
-        Task<IEnumerable<AccountRole>> GetAccountRoles(IEnumerable<Role> roles);
+        Task<Role> SaveRole(Role role, CancellationToken cancellationToken);
+        Task<AccountRole> SaveAccountRole(AccountRole accountRole, CancellationToken cancellationToken);
+        Task<IEnumerable<AccountRole>> GetAccountRoles(int accountId, CancellationToken cancellationToken);
+        Task<IEnumerable<AccountRole>> GetAccountRoles(IEnumerable<Role> roles, CancellationToken cancellationToken);
         Task<Role> GetRole(int id, CancellationToken cancellationToken = default);
-        Task<Role> GetRole(string normalizedRoleName);
+        Task<Role> GetRole(string normalizedRoleName, CancellationToken cancellationToken);
     }
 }

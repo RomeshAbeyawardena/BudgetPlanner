@@ -1,6 +1,6 @@
 ﻿using BudgetPlanner.Domains.Dto;
-using DNI.Shared.Contracts.Providers;
-using DNI.Shared.Shared.Extensions;
+using DNI.Core.Contracts.Providers;
+using DNI.Core.Shared.Extensions;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

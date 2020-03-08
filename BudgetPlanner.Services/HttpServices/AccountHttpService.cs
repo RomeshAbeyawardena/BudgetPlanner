@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DNI.Shared.Contracts.Services;
+using DNI.Core.Contracts.Services;
 using BudgetPlanner.Domains;
 using System.Net.Http;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Constants;
-using DNI.Shared.Services;
-using DNI.Shared.Shared.Extensions;
+using DNI.Core.Services;
+using DNI.Core.Shared.Extensions;
 
 namespace BudgetPlanner.Services.HttpServices
 {

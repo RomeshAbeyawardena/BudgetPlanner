@@ -1,10 +1,11 @@
 ﻿using BudgetPlanner.Domains.Data;
-using DNI.Shared.Contracts;
-using Microsoft.EntityFrameworkCore;
+using DNI.Core.Contracts;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Contracts.Services
@@ -13,12 +14,14 @@ namespace BudgetPlanner.Contracts.Services
     {
         private readonly IRepository<TransactionType> _transactionTypeRepository;
 
-        public async Task<IEnumerable<TransactionType>> GetTransactionTypes()
+        public async Task<IEnumerable<TransactionType>> GetTransactionTypes(CancellationToken cancellationToken)
         {
             var transactionTypeQuery = from transactionType in _transactionTypeRepository.Query()
                                        select transactionType;
 
-            return await transactionTypeQuery.ToArrayAsync();
+            return await _transactionTypeRepository
+                .For(transactionTypeQuery)
+                .ToArrayAsync(cancellationToken);
         }
 
         public TransactionTypeService(IRepository<TransactionType> transactionTypeRepository)

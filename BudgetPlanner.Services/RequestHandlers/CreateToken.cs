@@ -2,11 +2,11 @@
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
-using DNI.Shared.Contracts.Enumerations;
-using DNI.Shared.Contracts.Generators;
-using DNI.Shared.Contracts.Providers;
-using DNI.Shared.Domains;
-using DNI.Shared.Shared.Extensions;
+using DNI.Core.Contracts.Enumerations;
+using DNI.Core.Contracts.Generators;
+using DNI.Core.Contracts.Providers;
+using DNI.Core.Domains;
+using DNI.Core.Shared.Extensions;
 using MediatR;
 using System;
 using System.Collections.Generic;

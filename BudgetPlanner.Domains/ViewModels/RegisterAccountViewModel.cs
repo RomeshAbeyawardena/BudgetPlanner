@@ -1,6 +1,6 @@
 ﻿using BudgetPlanner.Domains.Attributes;
 using BudgetPlanner.Domains.Constants;
-using DNI.Shared.Services.Attributes;
+using DNI.Core.Services.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

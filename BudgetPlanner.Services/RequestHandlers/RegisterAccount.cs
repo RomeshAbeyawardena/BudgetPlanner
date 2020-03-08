@@ -3,8 +3,8 @@ using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
-using DNI.Shared.Contracts.Providers;
-using DNI.Shared.Shared.Extensions;
+using DNI.Core.Contracts.Providers;
+using DNI.Core.Shared.Extensions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using BudgetPlanner.Domains.Constants;
-using DNI.Shared.Domains;
+using DNI.Core.Domains;
 
 namespace BudgetPlanner.Services.RequestHandlers
 {

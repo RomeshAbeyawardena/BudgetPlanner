@@ -1,6 +1,6 @@
 ﻿using BudgetPlanner.Contracts.Claims;
 using BudgetPlanner.Domains.Constants;
-using DNI.Shared.Shared.Attributes;
+using DNI.Core.Shared.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

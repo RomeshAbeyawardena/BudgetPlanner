@@ -2,7 +2,7 @@
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Web.Attributes;
 using BudgetPlanner.Web.ViewComponents;
-using DNI.Shared.Services.Abstraction;
+using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

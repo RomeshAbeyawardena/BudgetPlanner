@@ -1,15 +1,17 @@
 ﻿using BudgetPlanner.Domains;
-using DNI.Shared.Contracts;
-using Microsoft.EntityFrameworkCore;
+using DNI.Core.Contracts;
+
 using Microsoft.Extensions.DependencyInjection;
-using DNI.Shared.Services.Extensions;
+using DNI.Core.Services.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BudgetPlanner.Domains.Data;
-using DNI.Shared.Contracts.Options;
+using DNI.Core.Contracts.Options;
+using DNI.Core.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace BudgetPlanner.Data
 {
@@ -18,15 +20,32 @@ namespace BudgetPlanner.Data
         public void RegisterServices(IServiceCollection services, IServiceRegistrationOptions serviceRegistrationOptions)
         {
             services
-                .AddDbContextPool<BudgetPlannerDbContext>((serviceProvider, setup) => { 
-                var applicationSettings = serviceProvider.GetRequiredService<ApplicationSettings>();
-                setup
-                    .EnableSensitiveDataLogging()
-                    .UseSqlServer(applicationSettings.DefaultConnectionString); 
-            }).RegisterDbContentRepositories<BudgetPlannerDbContext>(ServiceLifetime.Transient, 
-                typeof(Account), typeof(Role), typeof(AccountRole), typeof(Claim),
-                typeof(AccountClaim), typeof(Budget), typeof(Transaction), typeof(TransactionType),
-                typeof(TransactionLedger), typeof(RequestToken), typeof(AccessType), typeof(AccountAccess));
+                .RegisterDbContextRepositories<BudgetPlannerDbContext>(
+                configure =>
+                {
+                    configure.ServiceLifetime = ServiceLifetime.Transient;
+                    configure.UseDbContextPool = true;
+                    configure.DbContextServiceProviderOptions = (serviceProvider, setup) =>
+                    {
+                        var applicationSettings = serviceProvider.GetRequiredService<ApplicationSettings>();
+                        setup
+                            .EnableSensitiveDataLogging()
+                            .UseSqlServer(applicationSettings.DefaultConnectionString);
+                    };
+                    configure.DescribedEntityTypes = TypesDescriptor
+                        .Describe<Account>()
+                        .Describe<AccountClaim>()
+                        .Describe<Role>()
+                        .Describe<AccountRole>()
+                        .Describe<AccountAccess>()
+                        .Describe<Transaction>()
+                        .Describe<TransactionType>()
+                        .Describe<TransactionLedger>()
+                        .Describe<Claim>()
+                        .Describe<AccessType>()
+                        .Describe<RequestToken>()
+                        .Describe<Budget>();
+                });
         }
     }
 }

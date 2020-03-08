@@ -1,4 +1,4 @@
-﻿using DNI.Shared.Services.Abstraction;
+﻿using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

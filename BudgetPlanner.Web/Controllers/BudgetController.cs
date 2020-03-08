@@ -4,8 +4,8 @@ using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Web.Attributes;
-using DNI.Shared.Services;
-using DNI.Shared.Services.Abstraction;
+using DNI.Core.Services;
+using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DomainResponse = DNI.Shared.Domains.Response;
+using DomainResponse = DNI.Core.Domains.Response;
 
 namespace BudgetPlanner.Web.Controllers
 {

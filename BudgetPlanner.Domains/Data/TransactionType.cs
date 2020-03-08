@@ -1,5 +1,5 @@
-﻿using DNI.Shared.Contracts.Enumerations;
-using DNI.Shared.Services.Attributes;
+﻿using DNI.Core.Contracts.Enumerations;
+using DNI.Core.Services.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

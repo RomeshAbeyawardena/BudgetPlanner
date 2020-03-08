@@ -1,8 +1,8 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
-using DNI.Shared.Contracts;
-using DNI.Shared.Contracts.Providers;
-using Microsoft.EntityFrameworkCore;
+using DNI.Core.Contracts;
+using DNI.Core.Contracts.Providers;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

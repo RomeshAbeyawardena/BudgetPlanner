@@ -3,7 +3,7 @@ using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.ViewModels;
 using BudgetPlanner.Services.Claims;
 using BudgetPlanner.Web.Attributes;
-using DNI.Shared.Shared.Extensions;
+using DNI.Core.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

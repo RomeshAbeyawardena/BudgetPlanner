@@ -1,7 +1,7 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
-using DNI.Shared.Contracts;
-using Microsoft.EntityFrameworkCore;
+using DNI.Core.Contracts;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +24,16 @@ namespace BudgetPlanner.Services
             return accessTypes.FirstOrDefault(accessType => accessType.Name == name);
         }
 
-        public async Task<IEnumerable<AccessType>> GetAccessTypes()
+        public async Task<IEnumerable<AccessType>> GetAccessTypes(CancellationToken cancellationToken)
         {
-            return await DefaultAccessTypeQuery.ToArrayAsync();
+            return await _accessTypeRepository
+                .For(DefaultAccessTypeQuery)
+                .ToArrayAsync(cancellationToken);
                    
         }
 
-        public async Task<IEnumerable<AccountAccess>> GetAccountAccess(int accountId, int accessTypeId, DateTime fromDate, bool? succeeded = null)
+        public async Task<IEnumerable<AccountAccess>> GetAccountAccess(int accountId, int accessTypeId, 
+            DateTime fromDate, CancellationToken cancellationToken, bool? succeeded = null)
         {
             var accountAccessQuery = from accountAccess in DefaultAccountAccessQuery
                                      where accountAccess.Created > fromDate
@@ -41,10 +44,12 @@ namespace BudgetPlanner.Services
                                      where accountAccess.Succeeded == succeeded.Value
                                      select accountAccess;
 
-            return await accountAccessQuery.ToArrayAsync();
+            return await _accountAccessRepository
+                .For(accountAccessQuery)
+                .ToArrayAsync(cancellationToken);
         }
 
-        public async Task<AccountAccess> SaveAccountAccess(AccountAccess accountAccess, bool saveChanges = true, CancellationToken cancellationToken = default)
+        public async Task<AccountAccess> SaveAccountAccess(AccountAccess accountAccess, CancellationToken cancellationToken, bool saveChanges = true)
         {
             return await _accountAccessRepository.SaveChanges(accountAccess, saveChanges, cancellationToken: cancellationToken);
         }

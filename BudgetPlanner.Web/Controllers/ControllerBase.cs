@@ -2,7 +2,7 @@
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Constants;
 using BudgetPlanner.Domains.Dto;
-using DNI.Shared.Services.Abstraction;
+using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;

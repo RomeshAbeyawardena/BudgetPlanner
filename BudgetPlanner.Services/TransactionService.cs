@@ -1,9 +1,9 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
 using BudgetPlanner.Domains.Enumerations;
-using DNI.Shared.Contracts;
-using DNI.Shared.Contracts.Options;
-using Microsoft.EntityFrameworkCore;
+using DNI.Core.Contracts;
+using DNI.Core.Contracts.Options;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

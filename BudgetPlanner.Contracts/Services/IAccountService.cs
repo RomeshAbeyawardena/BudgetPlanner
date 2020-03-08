@@ -12,7 +12,7 @@ namespace BudgetPlanner.Contracts.Services
     public interface IAccountService
     {
         Task<Account> SaveAccount(Account account, CancellationToken cancellationToken = default);
-        Task<Account> GetAccount(IEnumerable<byte> encryptedEmailAddress);
-        Task<Account> GetAccount(int accountId, EntityUsage findUsage);
+        Task<Account> GetAccount(IEnumerable<byte> encryptedEmailAddress, CancellationToken cancellationToken);
+        Task<Account> GetAccount(int accountId, EntityUsage findUsage, CancellationToken cancellationToken);
     }
 }

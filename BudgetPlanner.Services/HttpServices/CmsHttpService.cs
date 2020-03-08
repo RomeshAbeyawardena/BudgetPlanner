@@ -1,7 +1,7 @@
 ﻿using BudgetPlanner.Contracts.HttpServices;
 using BudgetPlanner.Domains;
 using BudgetPlanner.Domains.Constants;
-using DNI.Shared.Contracts.Services;
+using DNI.Core.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

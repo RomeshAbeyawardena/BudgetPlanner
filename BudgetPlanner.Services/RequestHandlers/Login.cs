@@ -2,10 +2,10 @@
 using BudgetPlanner.Domains.Dto;
 using BudgetPlanner.Domains.Requests;
 using BudgetPlanner.Domains.Responses;
-using DNI.Shared.Contracts;
-using DNI.Shared.Contracts.Providers;
-using DNI.Shared.Domains;
-using DNI.Shared.Shared.Extensions;
+using DNI.Core.Contracts;
+using DNI.Core.Contracts.Providers;
+using DNI.Core.Domains;
+using DNI.Core.Shared.Extensions;
 using FluentValidation.Results;
 using MediatR;
 using System;
