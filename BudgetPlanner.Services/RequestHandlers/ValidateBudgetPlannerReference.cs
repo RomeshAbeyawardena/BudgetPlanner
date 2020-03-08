@@ -17,7 +17,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<ValidateBudgetPlannerReferenceResponse> Handle(ValidateBudgetPlannerReferenceRequest request, CancellationToken cancellationToken)
         {
-            return new ValidateBudgetPlannerReferenceResponse { IsUnique = await _budgetPlannerService.IsReferenceUnique(request.UniqueReference) };
+            return new ValidateBudgetPlannerReferenceResponse { IsUnique = await _budgetPlannerService.IsReferenceUnique(request.UniqueReference, cancellationToken) };
         }
 
         public ValidateBudgetPlannerReference(IBudgetPlannerService budgetPlannerService)

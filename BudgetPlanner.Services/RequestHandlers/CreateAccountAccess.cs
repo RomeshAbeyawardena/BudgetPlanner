@@ -18,7 +18,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<CreateAccountAccessResponse> Handle(CreateAccountAccessRequest request, CancellationToken cancellationToken)
         {
-           var savedAccountAccess = await _accountAccessService.SaveAccountAccess(request.AccountAccessModel);
+           var savedAccountAccess = await _accountAccessService.SaveAccountAccess(request.AccountAccessModel, cancellationToken);
 
             return Response.Success<CreateAccountAccessResponse>(savedAccountAccess);
         }

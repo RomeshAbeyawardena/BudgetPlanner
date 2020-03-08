@@ -13,27 +13,28 @@ namespace BudgetPlanner.Services.Stores
     {
         public async Task AddToRoleAsync(Account user, string roleName, CancellationToken cancellationToken)
         {
-            var roles = await _roleService.GetRoles();
-            var accountRoles = await _roleService.GetAccountRoles(user.Id);
+            var roles = await _roleService.GetRoles(cancellationToken);
+            var accountRoles = await _roleService.GetAccountRoles(user.Id, cancellationToken);
             var foundRole = roles.FirstOrDefault(role => role.Name == roleName);
 
             if(foundRole == null || accountRoles.Any(accountRole => accountRole.RoleId == foundRole.Id))
                 return;
 
-            await _roleService.SaveAccountRole(new Domains.Data.AccountRole { AccountId = user.Id, RoleId = foundRole.Id });
+            await _roleService.SaveAccountRole(new Domains.Data.AccountRole { AccountId = user.Id, RoleId = foundRole.Id }, cancellationToken);
         }
 
         public async Task<IList<string>> GetRolesAsync(Account user, CancellationToken cancellationToken)
         {
-            var roles = await _roleService.GetAccountRoles(user.Id);
+            var roles = await _roleService.GetAccountRoles(user.Id, cancellationToken);
                 
             return roles.Select(role => role.Role.Name).ToList();
         }
 
         public async Task<IList<Account>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
         {
-            var roles = await _roleService.GetRoles();
-            var accountRoles = await _roleService.GetAccountRoles(roles.Where(role => role.Name == roleName));
+            var roles = await _roleService.GetRoles(cancellationToken);
+            var accountRoles = await _roleService.GetAccountRoles(roles.Where(role => role.Name == roleName),
+                    cancellationToken);
 
             var accounts = accountRoles.Select(accountRole => accountRole.Account);
 

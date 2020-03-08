@@ -22,9 +22,9 @@ namespace BudgetPlanner.Services.RequestHandlers
             Budget budget;
 
             if(request.BudgetPlannerId.HasValue)
-                budget = await _budgetPlannerService.GetBudgetPlanner(request.BudgetPlannerId.Value);
+                budget = await _budgetPlannerService.GetBudgetPlanner(request.BudgetPlannerId.Value, cancellationToken);
             else
-                budget = await _budgetPlannerService.GetBudgetPlanner(request.Reference);
+                budget = await _budgetPlannerService.GetBudgetPlanner(request.Reference, cancellationToken);
 
             if(budget.AccountId == request.AccountId)
                 return Response.Success<RetrieveBudgetPlannerResponse>(budget);

@@ -32,6 +32,7 @@ namespace BudgetPlanner.WebApp
             services
                 .RegisterServiceBroker<ServiceBroker>(options => { 
                     options.RegisterCacheProviders = true; 
+                    options.RegisterCryptographicProviders = true;
                     options.RegisterAutoMappingProviders = true;
                     options.RegisterMessagePackSerialisers = true;
                     options.RegisterAutoMappingProviders = true;

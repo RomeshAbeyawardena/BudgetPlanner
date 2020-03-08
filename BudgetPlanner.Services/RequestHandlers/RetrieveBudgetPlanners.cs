@@ -20,7 +20,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<RetrieveBudgetPlannersResponse> Handle(RetrieveBudgetPlannersRequest request, CancellationToken cancellationToken)
         {
-            var budgetPlanners = await _budgetPlannerService.GetBudgetPlanners(request.AccountId, request.LastUpdated);
+            var budgetPlanners = await _budgetPlannerService.GetBudgetPlanners(request.AccountId, request.LastUpdated, cancellationToken);
             var budgets = _mapperProvider.Map<Domains.Data.Budget, Domains.Dto.Budget>(budgetPlanners);
 
             return Response.Success<RetrieveBudgetPlannersResponse>(budgets);

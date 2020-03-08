@@ -34,7 +34,7 @@ namespace BudgetPlanner.Services.Validators
 
         private async Task<bool> BudgetPlannerExists(int budgetPlannerId, CancellationToken cancellationToken)
         {
-            var budgetPlanner = await _budgetPlannerService.GetBudgetPlanner(budgetPlannerId);
+            var budgetPlanner = await _budgetPlannerService.GetBudgetPlanner(budgetPlannerId, cancellationToken);
             return budgetPlanner != null;
         }
     }

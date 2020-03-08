@@ -19,7 +19,7 @@ namespace BudgetPlanner.Services.RequestHandlers
         public async Task<BudgetPlannerStatsResponse> Handle(BudgetPlannerStatsRequest request, CancellationToken cancellationToken)
         {
             var budgetPlannerStats = await _budgetPlannerService
-                .GetBudgetPlannerStats(request.BudgetId, request.FromDate, request.ToDate);
+                .GetBudgetPlannerStats(request.BudgetId, request.FromDate, request.ToDate, cancellationToken);
             return Response.Success<BudgetPlannerStatsResponse>(budgetPlannerStats);
         }
 

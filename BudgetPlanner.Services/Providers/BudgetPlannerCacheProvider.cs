@@ -65,7 +65,7 @@ namespace BudgetPlanner.Services.Providers
             return await _cacheProvider
                 .Set(CacheType.SessionCache,
                 CacheConstants.CurrentAccount,
-                async (cancellationToken) => await _accountService.GetAccount(id, EntityUsage.UseLocally), cancellationToken);
+                async (cancellationToken) => await _accountService.GetAccount(id, EntityUsage.UseLocally, cancellationToken), cancellationToken);
         }
 
         private async Task<Account> SetAccount(IEnumerable<byte> emailAddress, CancellationToken cancellationToken)
@@ -73,13 +73,13 @@ namespace BudgetPlanner.Services.Providers
             return await _cacheProvider
                 .Set(CacheType.SessionCache,
                 CacheConstants.CurrentAccount,
-                async (cancellationToken) => await _accountService.GetAccount(emailAddress), cancellationToken);
+                async (cancellationToken) => await _accountService.GetAccount(emailAddress, cancellationToken), cancellationToken);
         }
 
         public async Task<IEnumerable<Role>> GetRoles(CancellationToken cancellationToken)
         {
             return await _cacheProvider
-                .GetOrSet(CacheType.DistributedMemoryCache, CacheConstants.Roles, async(cancellationToken) => await _roleService.GetRoles());
+                .GetOrSet(CacheType.DistributedMemoryCache, CacheConstants.Roles, async(cancellationToken) => await _roleService.GetRoles(cancellationToken));
         }
 
         public async Task<Role> GetRole(int id, CancellationToken cancellationToken)
@@ -98,7 +98,7 @@ namespace BudgetPlanner.Services.Providers
         {
             return await _cacheProvider
                 .GetOrSet(CacheType.DistributedMemoryCache, CacheConstants.AccessTypes, 
-                async(cancellationToken) => await _accountAccessService.GetAccessTypes());
+                async(cancellationToken) => await _accountAccessService.GetAccessTypes(cancellationToken));
         }
 
         public async Task<AccessType> GetAccessType(string name, CancellationToken cancellationToken)

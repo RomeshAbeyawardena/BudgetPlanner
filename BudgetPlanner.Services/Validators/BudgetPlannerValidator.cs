@@ -40,7 +40,7 @@ namespace BudgetPlanner.Services.Validators
 
         private async Task<bool> BeUnique(string reference, CancellationToken cancellationToken)
         {
-            return await _budgetPlannerService.IsReferenceUnique(reference);
+            return await _budgetPlannerService.IsReferenceUnique(reference, cancellationToken);
         }
     }
 }

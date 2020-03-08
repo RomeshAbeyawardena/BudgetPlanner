@@ -36,7 +36,7 @@ namespace BudgetPlanner.Services.RequestHandlers
             };
 
             var savedRequestToken = await _requestTokenService.SaveRequestToken(await _encryptionProvider
-                .Encrypt<Domains.Dto.RequestToken, RequestToken>(requestToken));
+                .Encrypt<Domains.Dto.RequestToken, RequestToken>(requestToken), cancellationToken);
 
             return Response.Success<CreateTokenResponse>(await _encryptionProvider
                 .Decrypt<RequestToken, Domains.Dto.RequestToken>(savedRequestToken));

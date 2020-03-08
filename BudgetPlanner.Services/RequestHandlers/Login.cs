@@ -33,7 +33,7 @@ namespace BudgetPlanner.Services.RequestHandlers
                 var account = _mapperProvider.Map<LoginRequest, Account>(request);
                 var encryptedAccount = await _encryptionProvider.Encrypt<Account, Domains.Data.Account>(account);
 
-                var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress);
+                var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress, cancellationToken);
 
                 if(foundAccount == null)
                     throw new NullReferenceException();

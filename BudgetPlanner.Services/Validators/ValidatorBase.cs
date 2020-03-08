@@ -16,7 +16,7 @@ namespace BudgetPlanner.Services.Validators
 
         protected async Task<bool> BeAValidAccount(int accountId, CancellationToken cancellationToken)
         {
-            return await _accountService.GetAccount(accountId, EntityUsage.UseLocally) != null;
+            return await _accountService.GetAccount(accountId, EntityUsage.UseLocally, cancellationToken) != null;
         }
 
         protected ValidatorBase(IAccountService accountService)

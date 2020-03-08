@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace BudgetPlanner.Services
 {
@@ -36,7 +37,8 @@ namespace BudgetPlanner.Services
 
             return null;
         }
-        public async Task<Account> ValidateCookieToken(Action<TokenValidationParameters> tokenValidationParameters, string cookieToken)
+        public async Task<Account> ValidateCookieToken(Action<TokenValidationParameters> tokenValidationParameters, 
+            string cookieToken, CancellationToken cancellationToken)
         {
             var claims = ValidateToken(tokenValidationParameters, EncryptionKeyConstants.Default, cookieToken);
 
@@ -45,7 +47,7 @@ namespace BudgetPlanner.Services
 
             var defaultClaim = claims.ToClaimObject<DefaultClaim>();
 
-            var account = await _accountService.GetAccount(defaultClaim.AccountId, EntityUsage.UseLocally);
+            var account = await _accountService.GetAccount(defaultClaim.AccountId, EntityUsage.UseLocally, cancellationToken);
 
             if (account == null)
                 throw new UnauthorizedAccessException();
@@ -53,7 +55,7 @@ namespace BudgetPlanner.Services
             return await _encryptionProvider.Decrypt<Domains.Data.Account, Account>(account);
         }
 
-        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, string encryptionKey, IDictionary<string, string> claims, int expiryPeriodInMinutes)
+        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, string encryptionKey, IDictionary<string, string> claims, int expiryPeriodInMinutes, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             var defaultEncryptionKey = _cryptographySwitch.Case(encryptionKey);
@@ -62,10 +64,11 @@ namespace BudgetPlanner.Services
                 defaultEncryptionKey.Password, Encoding.UTF8);
         }
 
-        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, Account account, int expiryPeriodInMinutes)
+        public async Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor,
+            Account account, int expiryPeriodInMinutes, CancellationToken cancellationToken)
         {
             return await CreateCookieToken(setupSecurityTokenDescriptor, EncryptionKeyConstants.Default, DictionaryBuilder.Create<string, string>(builder => builder
-                .Add(ClaimConstants.AccountIdClaim, account.Id.ToString())).ToDictionary(), expiryPeriodInMinutes);
+                .Add(ClaimConstants.AccountIdClaim, account.Id.ToString())).ToDictionary(), expiryPeriodInMinutes, cancellationToken);
         }
 
         public void AppendSessionCookie(IResponseCookies responseCookies, string cookieName, string value, Action<CookieOptions> cookieOptionsAction = null)

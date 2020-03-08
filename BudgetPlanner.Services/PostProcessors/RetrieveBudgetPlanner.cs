@@ -21,7 +21,7 @@ namespace BudgetPlanner.Services.PostProcessors
             if(!Response.IsSuccessful(response))
                 return;
 
-            response.Amount = await _transactionProvider.GetBalance(response.Result.Id);
+            response.Amount = await _transactionProvider.GetBalance(response.Result.Id, cancellationToken);
             response.IsSuccessful = true;
         }
 

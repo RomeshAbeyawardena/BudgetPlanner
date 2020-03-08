@@ -12,6 +12,7 @@ using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Constants;
 using DNI.Core.Services;
 using DNI.Core.Shared.Extensions;
+using System.Threading;
 
 namespace BudgetPlanner.Services.HttpServices
 {
@@ -29,13 +30,13 @@ namespace BudgetPlanner.Services.HttpServices
             _accountHttpClient = GetHttpClient(nameof(AccountHttpService), configure => { });
         }
 
-        public async Task<LoginResponse> Login(string emailAddress, string password)
+        public async Task<LoginResponse> Login(string emailAddress, string password, CancellationToken cancellationToken)
         {
             var requestToken = await GetRequestToken();
 
             var token = await _cookieValidationService.CreateCookieToken(configure => { }, EncryptionKeyConstants.Api, 
                 DictionaryBuilder.Create<string, string>().Add(ClaimConstants.RequestTokenClaim, requestToken).ToDictionary(),
-                _applicationSettings.SessionExpiryInMinutes);
+                _applicationSettings.SessionExpiryInMinutes, cancellationToken);
 
             _accountHttpClient.DefaultRequestHeaders.Add("payload", token);
 

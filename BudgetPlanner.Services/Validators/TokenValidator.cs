@@ -48,7 +48,7 @@ namespace BudgetPlanner.Services.Validators
 
             var encryptedToken = await _encryptionProvider.Encrypt<RequestToken, Domains.Data.RequestToken>(requestToken);
 
-            encryptedToken = await _requestTokenService.GetRequestToken(encryptedToken.Key);
+            encryptedToken = await _requestTokenService.GetRequestToken(encryptedToken.Key, cancellationToken);
 
             return encryptedToken != null;
         }

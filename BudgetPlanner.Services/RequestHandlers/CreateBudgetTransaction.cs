@@ -30,19 +30,19 @@ namespace BudgetPlanner.Services.RequestHandlers
         {
             var transaction = _mapperProvider.Map<CreateTransactionRequest, Transaction>(request);
 
-            var budgetPlanner = await _budgetPlannerService.GetBudgetPlanner(transaction.BudgetId);
+            var budgetPlanner = await _budgetPlannerService.GetBudgetPlanner(transaction.BudgetId, cancellationToken);
             
             budgetPlanner.LastUpdated = SqlDateTime.MinValue.Value;
             
-            var previousBalance = await _transactionProvider.GetBalance(transaction.BudgetId, true);
+            var previousBalance = await _transactionProvider.GetBalance(transaction.BudgetId, cancellationToken, true);
 
             if(transaction.Id != default)
             {
-                transaction = await _transactionService.SaveTransaction(transaction);
+                transaction = await _transactionService.SaveTransaction(transaction, cancellationToken);
                 return Response.Success<CreateTransactionResponse>(transaction);
             }
 
-            transaction = await _transactionService.SaveTransaction(transaction, false);
+            transaction = await _transactionService.SaveTransaction(transaction, cancellationToken, false);
 
             var transactionLedger = new TransactionLedger
             {
@@ -57,7 +57,7 @@ namespace BudgetPlanner.Services.RequestHandlers
             };
 
             await _transactionLedgerService
-                .SaveTransactionLedger(transactionLedger, true);
+                .SaveTransactionLedger(transactionLedger, true, cancellationToken);
 
             return Response.Success<CreateTransactionResponse>(transaction);
         }

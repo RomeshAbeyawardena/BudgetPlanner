@@ -17,10 +17,10 @@ namespace BudgetPlanner.Services.PostProcessors
 
         public async Task Process(CreateTransactionRequest request, CreateTransactionResponse response, CancellationToken cancellationToken)
         {
-            var budget = await _budgetPlannerService.GetBudgetPlanner(request.BudgetId);
+            var budget = await _budgetPlannerService.GetBudgetPlanner(request.BudgetId, cancellationToken);
             response.Reference = budget.Reference;
             budget.LastTransactionId = response.Result.Id;
-            await _budgetPlannerService.Save(budget);
+            await _budgetPlannerService.Save(budget, cancellationToken);
         }
 
         public CreateBudgetTransaction(IBudgetPlannerService budgetPlannerService)

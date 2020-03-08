@@ -22,7 +22,7 @@ namespace BudgetPlanner.Services.RequestHandlers
         public async Task<CreateBudgetPlannerResponse> Handle(CreateBudgetPlannerRequest request, CancellationToken cancellationToken)
         {
             var budgetPlanner = _mapperProvider.Map<CreateBudgetPlannerRequest, Budget>(request);
-            budgetPlanner = await _budgetPlannerService.Save(budgetPlanner);
+            budgetPlanner = await _budgetPlannerService.Save(budgetPlanner, cancellationToken);
 
             return Response.Success<CreateBudgetPlannerResponse>(budgetPlanner);
         }

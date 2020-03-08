@@ -48,7 +48,7 @@ namespace BudgetPlanner.Services.Validators
             var encryptedAccount = await _encryptionProvider
                 .Encrypt<Account, Domains.Data.Account>(account);
 
-            var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress);
+            var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress, cancellationToken);
 
             return foundAccount == null;
         }

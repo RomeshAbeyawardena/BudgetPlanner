@@ -45,6 +45,7 @@ namespace BudgetPlanner.Web
                     options.RegisterMessagePackSerialisers = true;
                     options.RegisterMediatorServices = true;
                     options.RegisterExceptionHandlers = true;
+                    options.RegisterCryptographicProviders = true;
                 }, out var serviceBroker);
 
             ServiceBroker.ConfigureIdentity(services

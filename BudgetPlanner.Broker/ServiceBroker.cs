@@ -16,10 +16,9 @@ namespace BudgetPlanner.Broker
     {
         public ServiceBroker()
         {
-            Assemblies = new [] { 
-                DefaultAssembly, 
-                GetAssembly<ServiceRegistration>(), 
-                GetAssembly<DataServiceRegistratration>() };    
+            DescribeAssemblies = describe => describe
+                .GetAssembly<ServiceRegistration>()
+                .GetAssembly<DataServiceRegistratration>();
         }
 
         public static IdentityBuilder ConfigureIdentity(IdentityBuilder identityBuilder)

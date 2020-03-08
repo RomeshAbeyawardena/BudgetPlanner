@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains;
@@ -40,14 +41,14 @@ namespace BudgetPlanner.Web.Controllers.Api
             return tokenClaims;
         }
 
-        protected async Task<string> GenerateToken(string issuer, string audience, IDictionary<string, string> claims)
+        protected async Task<string> GenerateToken(string issuer, string audience, IDictionary<string, string> claims, CancellationToken cancellationToken)
         {
             return await CookieValidationService.CreateCookieToken(configure => { 
                 configure.Issuer = issuer; 
                 configure.Audience = audience; 
             }, 
                 EncryptionKeyConstants.Api, claims, 
-                ApplicationSettings.SessionExpiryInMinutes);
+                ApplicationSettings.SessionExpiryInMinutes, cancellationToken);
         }
 
         protected TClaim GetClaim<TClaim>(string token)

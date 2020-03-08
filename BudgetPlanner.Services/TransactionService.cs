@@ -94,19 +94,20 @@ namespace BudgetPlanner.Services
                         orderby transaction.Created descending
                         select transaction;
 
-            return _transactionRepository.For(transactionQuery)
-                .AsPager(transactionQuery);
+            return _transactionRepository
+                .For(transactionQuery)
+                .AsPager();
         }
 
         public IPagerResult<Transaction> GetPagedTransactionsWithLedgers(string reference, DateTime fromDate, DateTime toDate)
         {
-            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(fromDate, toDate, 
-                BudgetReferenceTransactionQuery(reference, DefaultTransactionQuery))
+            var transactionQuery = from transaction in _transactionRepository.For(BudgetTransactionDateRangeQuery(fromDate, toDate, 
+                BudgetReferenceTransactionQuery(reference, DefaultTransactionQuery)))
                                    .Include(transaction => transaction.TransactionLedgers)
-                                   orderby transaction.Created descending
-                                   select transaction;
+                                        orderby transaction.Created descending
+                                        select transaction;
 
-            return _transactionRepository.GetPager(transactionQuery);
+            return _transactionRepository.For(transactionQuery).AsPager();
         }
 
         public async Task<Transaction> GetTransaction(int transactionId, CancellationToken cancellationToken)

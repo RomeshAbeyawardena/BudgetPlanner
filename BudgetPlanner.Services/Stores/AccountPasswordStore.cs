@@ -19,7 +19,7 @@ namespace BudgetPlanner.Services.Stores
                 .ToBase64String(Encoding.UTF8)
                 .GetBytes(Encoding.UTF8);
 
-            var account = await GetAccountByEmailAddress(user.EmailAddress);
+            var account = await GetAccountByEmailAddress(user.EmailAddress, cancellationToken);
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(user);
             account.Password = encryptedAccount.Password;
             await _accountService.SaveAccount(account);
@@ -27,7 +27,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<string> GetPasswordHashAsync(Account user, CancellationToken cancellationToken)
         {
-            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
+            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress, cancellationToken);
             if (foundAccount == null)
                 return default;
             user.Id = foundAccount.Id;

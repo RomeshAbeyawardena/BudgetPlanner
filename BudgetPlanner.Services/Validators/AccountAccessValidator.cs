@@ -31,9 +31,9 @@ namespace BudgetPlanner.Services.Validators
 
         }
 
-        private async Task<bool> AccountAccessExists(int accountAccessId, CancellationToken arg2)
+        private async Task<bool> AccountAccessExists(int accountAccessId, CancellationToken cancellationToken)
         {
-            var accountAccess = await _budgetPlannerCacheProvider.GetAccessType(accountAccessId);
+            var accountAccess = await _budgetPlannerCacheProvider.GetAccessType(accountAccessId, cancellationToken);
 
             return accountAccess != null;
         }

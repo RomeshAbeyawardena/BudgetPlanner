@@ -29,11 +29,11 @@ namespace BudgetPlanner.Services.RequestHandlers
 
             var encryptedToken = await _encryptionProvider.Encrypt<RequestToken, Domains.Data.RequestToken>(requestToken);
 
-            encryptedToken = await _requestTokenService.GetRequestToken(encryptedToken.Key);
+            encryptedToken = await _requestTokenService.GetRequestToken(encryptedToken.Key, cancellationToken);
 
             encryptedToken.Expires = _clockProvider.DateTimeOffset;
 
-            await _requestTokenService.SaveRequestToken(encryptedToken);
+            await _requestTokenService.SaveRequestToken(encryptedToken, cancellationToken);
 
             return new ValidateTokenResponse { IsSuccessful = true };
         }

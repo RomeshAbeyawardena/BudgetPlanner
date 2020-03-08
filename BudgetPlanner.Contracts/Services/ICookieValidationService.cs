@@ -17,7 +17,7 @@ namespace BudgetPlanner.Contracts.Services
         Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor, string encryptionKey, IDictionary<string, string> claims, int expiryPeriodInMinutes, CancellationToken cancellationToken);
         Task<string> CreateCookieToken(Action<SecurityTokenDescriptor> setupSecurityTokenDescriptor,
             Account account, int expiryPeriodInMinutes, CancellationToken cancellationToken);
-        void AppendSessionCookie(IResponseCookies responseCookies, string cookieName, string value, CancellationToken cancellationToken, Action<CookieOptions> cookieOptionsBuilder = null);
-        void ConfigureCookieOptions(CookieOptions cookieOptions, int expiryPeriodInMinutes, CancellationToken cancellationToken);
+        void AppendSessionCookie(IResponseCookies responseCookies, string cookieName, string value, Action<CookieOptions> cookieOptionsBuilder = null);
+        void ConfigureCookieOptions(CookieOptions cookieOptions, int expiryPeriodInMinutes);
     }
 }

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers
@@ -26,12 +27,12 @@ namespace BudgetPlanner.Web.Controllers
     {
         private readonly SignInManager<Account> _signInManager;
 
-        private async Task AuditAccountAccess(Account account, Microsoft.AspNetCore.Identity.SignInResult identityResult)
+        private async Task AuditAccountAccess(Account account, Microsoft.AspNetCore.Identity.SignInResult identityResult, CancellationToken cancellationToken)
         {
             if (account == null)
                 return;
 
-            var loginAccessType = await BudgetPlannerCacheProvider.GetAccessType(DataConstants.LoginAccess);
+            var loginAccessType = await BudgetPlannerCacheProvider.GetAccessType(DataConstants.LoginAccess, cancellationToken);
 
             await MediatorService.Send(new CreateAccountAccessRequest
             {
@@ -95,7 +96,7 @@ namespace BudgetPlanner.Web.Controllers
 
         [HttpPost, AllowAnonymous, Route("/login")]
         [HeaderValue(HeaderConstants.DismissModalHeaderKey, "true")]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model, CancellationToken cancellationToken)
         {
             try
             {
@@ -118,7 +119,7 @@ namespace BudgetPlanner.Web.Controllers
                         model.RememberMe,
                         false);
 
-                await AuditAccountAccess(account, result);
+                await AuditAccountAccess(account, result, cancellationToken);
 
                 if (result.Succeeded)
                     return RedirectToAction("Index", "Home");

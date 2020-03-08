@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Web.Controllers.Api
@@ -15,7 +16,7 @@ namespace BudgetPlanner.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<ActionResult> GenerateToken()
+        public async Task<ActionResult> GenerateToken(CancellationToken cancellationToken)
         {
             #if !DEBUG
                 return NotFound();
@@ -27,7 +28,7 @@ namespace BudgetPlanner.Web.Controllers.Api
 
             var issuer = string.Format("{0}://{1}", Request.Scheme, Request.Host.Value);
 
-            return Ok(await GenerateToken(issuer, issuer, queryValues));
+            return Ok(await GenerateToken(issuer, issuer, queryValues, cancellationToken));
         }
     }
 }
