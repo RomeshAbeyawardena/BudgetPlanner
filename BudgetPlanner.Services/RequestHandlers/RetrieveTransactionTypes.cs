@@ -19,7 +19,7 @@ namespace BudgetPlanner.Services.RequestHandlers
 
         public async Task<RetrieveTransactionTypesResponse> Handle(RetrieveTransactionTypesRequest request, CancellationToken cancellationToken)
         {
-            var transactionTypes = await _budgetPlannerCacheProvider.GetTransactionTypes();
+            var transactionTypes = await _budgetPlannerCacheProvider.GetTransactionTypes(cancellationToken);
 
             return Response.Success<RetrieveTransactionTypesResponse>(transactionTypes);
         }

@@ -13,9 +13,9 @@ namespace BudgetPlanner.Services.Stores
 {
     public partial class AccountStore : IUserLockoutStore<Domains.Dto.Account>
     {
-        private async Task<AccessType> GetAccessType(string name)
+        private async Task<AccessType> GetAccessType(string name, CancellationToken cancellationToken)
         {
-            return await _budgetPlannerCacheProvider.GetAccessType(name);
+            return await _budgetPlannerCacheProvider.GetAccessType(name, cancellationToken);
         }
         private async Task <IEnumerable<AccountAccess>> GetLoginAccessFailed(int accountId)
         {

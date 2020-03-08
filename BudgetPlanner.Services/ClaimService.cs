@@ -1,11 +1,12 @@
 ﻿using BudgetPlanner.Contracts.Services;
 using BudgetPlanner.Domains.Data;
 using DNI.Core.Contracts;
-
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services
@@ -18,25 +19,25 @@ namespace BudgetPlanner.Services
         private IQueryable<Claim> DefaultClaimQuery => _claimRepository.Query(claim => claim.Active, false);
         private IQueryable<AccountClaim> DefaultAccountClaimQuery => _accountClaimRepository.Query(accountClaim => accountClaim.Active, false);
 
-        public async Task<IEnumerable<AccountClaim>> GetAccountClaims(Claim claim)
+        public async Task<IEnumerable<AccountClaim>> GetAccountClaims(Claim claim, CancellationToken cancellationToken)
         {
             var accountClaimQuery = from accountClaim in DefaultAccountClaimQuery
                                     where accountClaim.ClaimId == claim.Id
                                     select accountClaim;
 
-            return await accountClaimQuery
+            return await _accountClaimRepository.For(accountClaimQuery
                 .Include(accountClaim => accountClaim.Account)
-                .Include(accountClaim => accountClaim.Claim)
-                .ToArrayAsync();
+                .Include(accountClaim => accountClaim.Claim))
+                .ToArrayAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<AccountClaim>> GetAccountClaims(int accountId)
+        public async Task<IEnumerable<AccountClaim>> GetAccountClaims(int accountId, CancellationToken cancellationToken)
         {
             var accountClaimQuery = from accountClaim in DefaultAccountClaimQuery
                                     where accountClaim.AccountId == accountId
                                     select accountClaim;
 
-            return await accountClaimQuery
+            return await _accountClaimRepository.For(accountClaimQuery) 
                 .Include(accountClaim => accountClaim.Claim)
                 .ToArrayAsync();
         }
@@ -46,13 +47,14 @@ namespace BudgetPlanner.Services
             return accountClaims.Select(accountClaim => accountClaim.Account);
         }
 
-        public async Task<Claim> GetClaim(string claimType)
+        public async Task<Claim> GetClaim(string claimType, CancellationToken cancellationToken)
         {
             var claimQuery = from claim in DefaultClaimQuery
                              where claim.Name == claimType
                              select claim;
 
-            return await claimQuery.FirstOrDefaultAsync();
+            return await _claimRepository.For(claimQuery)
+                .ToFirstOrDefaultAsync(cancellationToken);
         }
 
         public Claim GetClaim(IEnumerable<Claim> claims, string claimType)
@@ -69,17 +71,19 @@ namespace BudgetPlanner.Services
             return claimsQuery.ToArray();
         }
 
-        public async Task<IEnumerable<Claim>> GetClaims()
+        public async Task<IEnumerable<Claim>> GetClaims(CancellationToken cancellationToken)
         {
-            return await DefaultClaimQuery.ToArrayAsync();
+            return await _claimRepository
+                .For(DefaultClaimQuery)
+                .ToArrayAsync(cancellationToken);
         }
 
-        public async Task<AccountClaim> SaveAccountClaim(AccountClaim accountClaim, bool saveChanges = true)
+        public async Task<AccountClaim> SaveAccountClaim(AccountClaim accountClaim, CancellationToken cancellationToken, bool saveChanges = true)
         {
             return await _accountClaimRepository.SaveChanges(accountClaim, saveChanges);
         }
 
-        public async Task<Claim> SaveClaim(Claim claim, bool saveChanges = true)
+        public async Task<Claim> SaveClaim(Claim claim, CancellationToken cancellationToken, bool saveChanges = true)
         {
             return await _claimRepository.SaveChanges(claim, saveChanges);
         }

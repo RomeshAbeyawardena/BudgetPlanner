@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services
@@ -19,20 +20,20 @@ namespace BudgetPlanner.Services
         private IQueryable<RequestToken> DefaultQuery => _requestTokenRepository
             .Query(requestToken => requestToken.Expires > _clockProvider.DateTimeOffset, false);
 
-        public async Task<RequestToken> GetRequestToken(IEnumerable<byte> tokenKey)
+        public async Task<RequestToken> GetRequestToken(IEnumerable<byte> tokenKey, CancellationToken cancellationToken)
         {
             var tokenKeyArray = tokenKey.ToArray();
             var query = from requestToken in DefaultQuery 
                         where requestToken.Key == tokenKeyArray
                         select requestToken;
 
-            return await query.SingleOrDefaultAsync();
+            return await _requestTokenRepository.For(query).ToSingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<RequestToken> SaveRequestToken(RequestToken requestToken)
+        public async Task<RequestToken> SaveRequestToken(RequestToken requestToken, CancellationToken cancellationToken)
         {
             return await _requestTokenRepository
-                .SaveChanges(requestToken);
+                .SaveChanges(requestToken, cancellationToken : cancellationToken);
         }
 
         public RequestTokenService(IRepository<RequestToken> requestTokenRepository, IClockProvider clockProvider)
