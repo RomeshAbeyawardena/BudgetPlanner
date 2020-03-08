@@ -27,17 +27,17 @@ namespace BudgetPlanner.Services.Stores
         private readonly IClaimService _claimService;
         private readonly IAccountAccessService _accountAccessService;
 
-        private async Task<Domains.Data.Account> GetAccount(int userId)
+        private async Task<Domains.Data.Account> GetAccount(int userId, CancellationToken cancellationToken)
         {
-            var foundAccount = await _budgetPlannerCacheProvider.GetAccount(userId);
+            var foundAccount = await _budgetPlannerCacheProvider.GetAccount(userId, cancellationToken);
             return foundAccount;
         }
 
-        private async Task<Domains.Data.Account> GetAccountByEmailAddress(string emailAddress)
+        private async Task<Domains.Data.Account> GetAccountByEmailAddress(string emailAddress, CancellationToken cancellationToken)
         {
             var account = new Account { EmailAddress = emailAddress };
             var encryptedAccount = await _encryptionHelper.Encrypt<Account, Domains.Data.Account>(account);
-            var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress);
+            var foundAccount = await _accountService.GetAccount(encryptedAccount.EmailAddress, cancellationToken);
             return foundAccount;
         }
 
@@ -55,7 +55,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<IdentityResult> DeleteAsync(Account user, CancellationToken cancellationToken)
         {
-            var foundUser = await GetAccount(user.Id);
+            var foundUser = await GetAccount(user.Id, cancellationToken);
             if(foundUser == null)
                 return IdentityResult.Failed(IdentityErrors.AccountNotFound);
 
@@ -79,7 +79,7 @@ namespace BudgetPlanner.Services.Stores
             if(!int.TryParse(userId, out var id))
                 return default;
 
-            var foundAccount = await GetAccount(id);
+            var foundAccount = await GetAccount(id, cancellationToken);
 
             if(foundAccount == null)
                 return default;
@@ -89,7 +89,7 @@ namespace BudgetPlanner.Services.Stores
 
         public async Task<Account> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            var account = await GetAccountByEmailAddress(normalizedUserName);
+            var account = await GetAccountByEmailAddress(normalizedUserName, cancellationToken);
 
             if(account == null)
                 return default;
@@ -119,7 +119,7 @@ namespace BudgetPlanner.Services.Stores
             if(splitName.Length != 2)
                 return;
 
-            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress);
+            var foundAccount = await GetAccountByEmailAddress(user.EmailAddress, cancellationToken);
 
             if(foundAccount == null)
                 return;

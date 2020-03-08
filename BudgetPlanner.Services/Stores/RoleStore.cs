@@ -25,7 +25,7 @@ namespace BudgetPlanner.Services.Stores
             
             role.Active = true;
             
-            var savedRole = await _roleService.SaveRole(role);
+            var savedRole = await _roleService.SaveRole(role, cancellationToken);
             return IdentityResult.Success;
 
         }
@@ -39,7 +39,7 @@ namespace BudgetPlanner.Services.Stores
 
             foundRole.Active = false;
             
-            var savedRole = await _roleService.SaveRole(role);
+            var savedRole = await _roleService.SaveRole(role, cancellationToken);
             return IdentityResult.Success;
         }
 
@@ -58,12 +58,12 @@ namespace BudgetPlanner.Services.Stores
             if(!int.TryParse(roleId, out var id))
                 return default;
 
-            return await _budgetPlannerCacheProvider.GetRole(id);
+            return await _budgetPlannerCacheProvider.GetRole(id, cancellationToken);
         }
 
         public async Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            return await _budgetPlannerCacheProvider.GetRole(normalizedRoleName);
+            return await _budgetPlannerCacheProvider.GetRole(normalizedRoleName, cancellationToken);
         }
 
         public async Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
@@ -91,7 +91,7 @@ namespace BudgetPlanner.Services.Stores
             var foundRole = await FindByNameAsync(role.Name, cancellationToken);
             foundRole.Name = roleName;
 
-            await _roleService.SaveRole(foundRole);
+            await _roleService.SaveRole(foundRole, cancellationToken);
         }
 
         public async Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancellationToken)
@@ -102,7 +102,7 @@ namespace BudgetPlanner.Services.Stores
                 return IdentityResult.Failed(IdentityErrors.RoleNotFound);
 
             role.Id = foundRole.Id;
-            await _roleService.SaveRole(role);
+            await _roleService.SaveRole(role, cancellationToken);
 
             return IdentityResult.Success;
         }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetPlanner.Services
@@ -14,18 +15,18 @@ namespace BudgetPlanner.Services
     {
         private readonly IRepository<TransactionLedger> _transactionLedgerRepository;
 
-        public async Task<TransactionLedger> SaveTransactionLedger(TransactionLedger transactionLedger, bool saveChanges = true)
+        public async Task<TransactionLedger> SaveTransactionLedger(TransactionLedger transactionLedger, bool saveChanges, CancellationToken cancellationToken)
         {
             return await _transactionLedgerRepository.SaveChanges(transactionLedger, saveChanges);
         }
 
-        public async Task<TransactionLedger> GetTransactionLedger(int transactionId)
+        public async Task<TransactionLedger> GetTransactionLedger(int transactionId, CancellationToken cancellationToken)
         {
             var transactionLedgerQuery = from transactionLedger in _transactionLedgerRepository.Query(enableTracking: false)
                                          where transactionLedger.TransactionId == transactionId
                                          select transactionLedger;
 
-            return await transactionLedgerQuery.SingleOrDefaultAsync();
+            return await _transactionLedgerRepository.For(transactionLedgerQuery).ToSingleOrDefaultAsync(cancellationToken);
         }
 
         public TransactionLedgerService(IRepository<TransactionLedger> transactionLedgerRepository)

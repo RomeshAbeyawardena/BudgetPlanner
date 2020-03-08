@@ -22,7 +22,7 @@ namespace BudgetPlanner.Services
         private IQueryable<Transaction> BudgetTransactionQuery(int budgetId, IQueryable<Transaction> transactionQuery) => transactionQuery
             .Where(transaction => transaction.BudgetId == budgetId);
         
-        private IQueryable<Transaction> BudgetReferenceTransactionQuery(string reference, IQueryable<Transaction> transactionQuery) => transactionQuery.Include(transaction => transaction.Budget)
+        private IQueryable<Transaction> BudgetReferenceTransactionQuery(string reference, IQueryable<Transaction> transactionQuery) => _transactionRepository.For(transactionQuery).Include(transaction => transaction.Budget)
             .Where(transaction => transaction.Budget.Reference == reference);
 
         private IQueryable<Transaction> BudgetTransactionDateRangeQuery(DateTime fromDate, DateTime toDate,
@@ -30,17 +30,17 @@ namespace BudgetPlanner.Services
             .Where(transaction => transaction.Created >= fromDate
                                         && transaction.Created <= toDate);
 
-        public async Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<Transaction>> GetTransactions(int budgetId, DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
         {
             var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(fromDate, toDate, 
                 BudgetTransactionQuery(budgetId, DefaultTransactionQuery))
                                    orderby transaction.Created descending
                                    select transaction;
             
-            return await transactionQuery.ToArrayAsync();
+            return await _transactionRepository.For(transactionQuery).ToArrayAsync(cancellationToken);
         }
 
-        public async Task<decimal> GetTotal(int budgetId, Domains.Enumerations.TransactionType transactionType)
+        public async Task<decimal> GetTotal(int budgetId, Domains.Enumerations.TransactionType transactionType, CancellationToken cancellationToken)
         {
             var transactionQuery = from transaction in BudgetTransactionQuery(budgetId, DefaultTransactionQuery)
                                    select transaction;
@@ -51,37 +51,40 @@ namespace BudgetPlanner.Services
                                       where transaction.TransactionTypeId == transactionTypeId
                                       select transaction;
 
-            return await transactionSumQuery.SumAsync(transaction => transaction.Amount);
+            return await _transactionRepository.For(transactionSumQuery)
+                .ToSumAsync(transaction => transaction.Amount, cancellationToken) ?? 0;
         }
 
-        public async Task<Transaction> SaveTransaction(Transaction transaction, bool saveChanges = true)
+        public async Task<Transaction> SaveTransaction(Transaction transaction, CancellationToken cancellationToken, bool saveChanges = true)
         {
             return await _transactionRepository.SaveChanges(transaction, saveChanges);
         }
 
-        public async Task<Transaction> GetLastTransaction(int budgetId, bool includeLedger = false)
+        public async Task<Transaction> GetLastTransaction(int budgetId, CancellationToken cancellationToken, bool includeLedger = false)
         {
             var transactionQuery = BudgetTransactionQuery(budgetId, DefaultTransactionQuery); 
 
             if(includeLedger)
-                transactionQuery = transactionQuery
+                transactionQuery = _transactionRepository.For(transactionQuery)
                     .Include(transaction => transaction.TransactionLedgers);
 
             transactionQuery = from transaction in transactionQuery
                                    orderby transaction.Created descending
                                    select transaction;
 
-            return await transactionQuery.FirstOrDefaultAsync();
+            return await _transactionRepository
+                .For(transactionQuery)
+                .ToFirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<Transaction>> GetTransactionsWithLedgers(int budgetId, DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
         {
-            var transactionQuery = from transaction in BudgetTransactionDateRangeQuery(fromDate, toDate, 
-                BudgetTransactionQuery(budgetId, DefaultTransactionQuery))
+            var transactionQuery = from transaction in _transactionRepository.For(BudgetTransactionDateRangeQuery(fromDate, toDate, 
+                BudgetTransactionQuery(budgetId, DefaultTransactionQuery)))
                                    .Include(transaction => transaction.TransactionLedgers)
                                    orderby transaction.Created descending
                                    select transaction;
-            return await transactionQuery.ToArrayAsync();
+            return await _transactionRepository.For(transactionQuery).ToArrayAsync(cancellationToken);
         }
 
         public IPagerResult<Transaction> GetPagedTransactions(int budgetId, DateTime fromDate, DateTime toDate)
@@ -91,7 +94,8 @@ namespace BudgetPlanner.Services
                         orderby transaction.Created descending
                         select transaction;
 
-            return _transactionRepository.GetPager(transactionQuery);
+            return _transactionRepository.For(transactionQuery)
+                .AsPager(transactionQuery);
         }
 
         public IPagerResult<Transaction> GetPagedTransactionsWithLedgers(string reference, DateTime fromDate, DateTime toDate)
