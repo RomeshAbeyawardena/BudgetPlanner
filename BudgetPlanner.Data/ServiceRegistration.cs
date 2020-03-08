@@ -1,15 +1,15 @@
 ﻿using BudgetPlanner.Domains;
-using DNI.Shared.Contracts;
+using DNI.Core.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using DNI.Shared.Services.Extensions;
+using DNI.Core.Services.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BudgetPlanner.Domains.Data;
-using DNI.Shared.Contracts.Options;
+using DNI.Core.Contracts.Options;
 
 namespace BudgetPlanner.Data
 {
